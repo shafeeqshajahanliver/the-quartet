@@ -397,11 +397,16 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
   const fmtDate = d => { try { return new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}); } catch(e){ return d; } };
   const short = d => { try { return new Date(d+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}); } catch(e){ return d; } };
   const pad = n => String(n).padStart(2,"0");
+  // Drafts, read marks and onboarding answers kept in this browser, filed per signed-in reader
+  // so two accounts on one device never see each other's.
+  const sk = k => "q:" + (S.uid || "anon") + ":" + k;
   const store = {
-    get(k){ try { return JSON.parse(localStorage.getItem(k) || "null"); } catch(e){ return null; } },
-    set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
-    del(k){ try { localStorage.removeItem(k); } catch(e){} }
+    get(k){ try { return JSON.parse(localStorage.getItem(sk(k)) || "null"); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(sk(k), JSON.stringify(v)); } catch(e){} },
+    del(k){ try { localStorage.removeItem(sk(k)); } catch(e){} }
   };
+  // One-off tidy-up: older versions filed these without a reader; remove them so they can't leak across accounts.
+  try { Object.keys(localStorage).forEach(k => { if (/^(draft:|read:|join:)/.test(k)) localStorage.removeItem(k); }); } catch(e){}
   const draft = id => store.get("draft:"+id) || {rating:0, comment:"", guess:"", response:"", pieces:{}};
   function keep(id, d){ if (S.editing[id]) S.editing[id] = d; else store.set("draft:"+id, d); }
 
