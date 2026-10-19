@@ -25,8 +25,8 @@ export async function readBody(req) {
 function sign(v) {
   return crypto.createHmac("sha256", process.env.SESSION_SECRET || "").update(v).digest("base64url");
 }
-export function makeSession(rid, days = 90) {
-  const v = Buffer.from(JSON.stringify({ rid, exp: Date.now() + days * 864e5 })).toString("base64url");
+export function makeSession(who, days = 90) {
+  const v = Buffer.from(JSON.stringify(Object.assign({}, who, { exp: Date.now() + days * 864e5 }))).toString("base64url");
   return v + "." + sign(v);
 }
 export function getSession(req) {
@@ -70,6 +70,7 @@ export async function db() {
     await q`create table if not exists feedback (
       reader_id text not null, drop_id text not null, body jsonb not null,
       submitted_at timestamptz, primary key (reader_id, drop_id))`;
+    await q`alter table readers add column if not exists name text`;
     await seedCurator(q);
   })().catch(e => { _ready = null; throw e; });
   await _ready;

@@ -293,6 +293,8 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
 .day.drop.small{min-height:0;padding:6px 8px}
 .day.drop.small .num{font-size:22px;margin-top:0}
 @media (max-width:720px){.day.drop.small{min-height:0;padding:4px}.day.drop.small .num{font-size:16px}}
+.pathopt:disabled{opacity:.55;cursor:not-allowed}
+.pathopt:disabled:hover{background:var(--sheet)}
 </style>
 
 <div class="wrap">
@@ -337,6 +339,12 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
     shared: {title:"Shaf's drops", line:"The same four pieces Shaf reads, on the same mornings. Your notes and your reveal stay your own."}
   };
   try { const hsh = (location.hash||"").replace("#",""); if (hsh === "own") S.joinPath = "own"; if (hsh === "with-shaf") S.joinPath = "shared"; } catch(e){}
+  // On the Vercel site the adapter sets __QUARTET_SITE__; readers there get Shaf's drops until their own are wired up.
+  const SITE = window.__QUARTET_SITE__ || null;
+  const OWN_OFF = !!(SITE && !SITE.ownDrops);
+  if (OWN_OFF) S.joinPath = "shared";
+  const INVITE_BASE = SITE ? location.origin + "/" : PAGE_URL;
+  const pathLine = k => (k === "own" && OWN_OFF) ? "Coming soon on this site. For now you'll read Shaf's drops." : PATHS[k].line;
   const nowIso = () => new Date().toISOString();
   const NOWRITE = "You can read this page but can't save to it from this account. Ask Shaf to invite you by email as an editor.";
   const main = document.getElementById("main");
@@ -703,9 +711,9 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
       const sw = h("section",{class:"block"}, h("h3",{text:"How you read"}));
       const opts = h("div",{class:"paths", role:"group", "aria-label":"How you read"});
       const msg = h("p",{class:"hint", text:"A change applies from your next drop."});
-      ["own","shared"].forEach(k => opts.append(h("button",{class:"pathopt", type:"button", "aria-pressed": cur===k ? "true" : "false",
+      ["own","shared"].forEach(k => opts.append(h("button",{class:"pathopt", type:"button", "aria-pressed": cur===k ? "true" : "false", disabled: k === "own" && OWN_OFF,
         onclick: async ()=>{ if (k === cur) return; try { await S.db.doc("readers/"+S.uid).update({path:k, lastActive: nowIso()}); } catch(e){ msg.className = "err"; msg.textContent = e && e.code === "invalid_argument" ? NOWRITE : "Couldn't switch just now. Try again in a moment."; } }},
-        h("span",{class:"pt", text:PATHS[k].title}), h("p",{text:PATHS[k].line}))));
+        h("span",{class:"pt", text:PATHS[k].title}), h("p",{text:pathLine(k)}))));
       sw.append(opts, msg);
       main.append(sw);
     }
@@ -727,12 +735,12 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
     if (!S.owner){
       const ch = h("section",{class:"block"}, h("h3",{text:"Choose how you'll read"}));
       const opts = h("div",{class:"paths", role:"group", "aria-label":"How you'll read"});
-      ["own","shared"].forEach(k => opts.append(h("button",{class:"pathopt", type:"button", "aria-pressed": S.joinPath===k ? "true" : "false",
+      ["own","shared"].forEach(k => opts.append(h("button",{class:"pathopt", type:"button", "aria-pressed": S.joinPath===k ? "true" : "false", disabled: k === "own" && OWN_OFF,
         onclick:()=>{ S.joinPath = k; render(); }},
         h("span",{class:"label", text: k==="own" ? "Pathway one" : "Pathway two"}),
         h("span",{class:"pt", text:PATHS[k].title}),
-        h("p",{text:PATHS[k].line}))));
-      ch.append(opts, h("p",{class:"hint", text:"You can switch later under About me."}));
+        h("p",{text:pathLine(k)}))));
+      ch.append(opts, h("p",{class:"hint", text: OWN_OFF ? "When your own drops arrive here, you can switch under About me." : "You can switch later under About me."}));
       main.append(ch);
     }
     const sec = h("section",{class:"block"}, h("h3",{text:"Before you join"}),
@@ -860,8 +868,8 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
         tbody)));
     }
     const links = h("div",{class:"invlinks"});
-    [["own","Their own drops","own"],["shared","Your drops","with-shaf"]].forEach(([k,label,tag]) => {
-      const url = PAGE_URL + "#" + tag;
+    [["own","Their own drops","own"],["shared","Your drops","with-shaf"]].filter(([k]) => !(k === "own" && OWN_OFF)).forEach(([k,label,tag]) => {
+      const url = INVITE_BASE + "#" + tag;
       const note = h("span",{class:"hint"});
       const code = h("code",{text:url});
       links.append(h("div",{class:"invlink"},
@@ -876,7 +884,7 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
     });
     main.append(h("div",{class:"howto"},
       h("span",{class:"label", text:"Inviting a reader"}),
-      h("p",{text:"Open Share and invite their email address as an editor, with the public link off. Then send them one of these links. It opens the join screen with that pathway already chosen, and they can still switch."}),
+      h("p",{text: SITE ? "Send them this link. They sign in with their Google account, fill in About me and join. Anyone with the link can join." : "Open Share and invite their email address as an editor, with the public link off. Then send them one of these links. It opens the join screen with that pathway already chosen, and they can still switch."}),
       links,
       h("p",{class:"hint", text:"Readers on their own drops each add a full curation run to every drop morning. Readers on your drops add almost nothing: they get a copy of yours."})));
   }

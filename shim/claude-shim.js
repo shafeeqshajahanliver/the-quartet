@@ -2,6 +2,8 @@
 // backed by this site's /api. On claude.ai the real window.claude exists and this file does nothing.
 (function () {
   if (window.claude) return;
+  // Tells the page it is running on the Vercel site (readers here get the curator's drops for now).
+  window.__QUARTET_SITE__ = { ownDrops: false };
 
   const listeners = new Map(); // key -> Set of refresh functions
   const never = new Promise(() => {});
@@ -94,7 +96,7 @@
 
   const ready = fetch("/api/session", { credentials: "same-origin" })
     .then(r => r.json().then(b => ({ ok: r.ok, b })))
-    .then(({ ok, b }) => { if (ok) { session = b; return true; } showSignIn(b && b.setup); return false; })
+    .then(({ ok, b }) => { if (ok) { session = b; try { if (/signin=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash); } catch (e) {} return true; } showSignIn(b && b.setup); return false; })
     .catch(() => { showSignIn(); return false; });
 
   window.claude = Object.freeze({
@@ -107,40 +109,41 @@
     },
   });
 
-  // ---------- sign-in screen
+  // ---------- sign-in screen and sign-out
   let shown = false;
   function showSignIn(setup) {
     if (shown) return; shown = true;
+    const failed = /[?&]signin=failed/.test(location.search);
     const mount = () => {
       const wrap = document.createElement("div");
       wrap.setAttribute("role", "dialog");
       wrap.setAttribute("aria-label", "Sign in to The Quartet");
       wrap.style.cssText = "position:fixed;inset:0;z-index:50;background:var(--paper,#f4ecdc);display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-left,0px));overflow:auto";
       wrap.innerHTML = `
-        <form style="width:min(100%,420px);display:grid;gap:14px">
+        <div style="width:min(100%,440px);display:grid;gap:16px">
           <div style="display:flex;align-items:center;gap:10px;font-family:var(--display,Georgia,serif);font-size:26px;line-height:1;color:var(--ink,#151a2c)">
             <span aria-hidden="true" style="display:inline-flex;gap:3px;align-items:end;height:22px"><b style="width:6px;height:18px;border-radius:2px;background:var(--ink,#151a2c)"></b><b style="width:6px;height:13px;border-radius:2px;background:var(--ink,#151a2c)"></b><b style="width:6px;height:22px;border-radius:2px;background:var(--violet,#3d2c7c)"></b><b style="width:6px;height:10px;border-radius:2px;background:var(--ink,#151a2c)"></b></span>The Quartet</div>
-          <p style="margin:0;font-family:var(--body,Georgia,serif);font-size:20px;line-height:1.5;font-style:italic;color:var(--ink-2,#4a5068)">An essay, a poem, a short story and a song every other morning, with one hidden thread between them.</p>
-          <label for="q-pass" style="font-family:var(--mono,monospace);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2,#4a5068)">Password</label>
-          <input id="q-pass" type="password" autocomplete="current-password" required style="font:inherit;font-size:16px;padding:12px;border:1px solid var(--line,#d7dbe3);border-radius:4px;background:var(--sheet,#fdf9f0);color:var(--ink,#151a2c)">
-          <button type="submit" style="justify-self:start;font-family:var(--mono,monospace);font-size:13px;letter-spacing:.06em;text-transform:uppercase;background:var(--wax,#b8411f);color:#fff;border:none;border-radius:4px;padding:13px 18px;cursor:pointer">Sign in</button>
-          <p id="q-msg" style="margin:0;font-family:var(--body,Georgia,serif);font-size:14px;color:var(--ink-2,#4a5068)"></p>
-        </form>`;
+          <p style="margin:0;font-family:var(--body,Georgia,serif);font-size:20px;line-height:1.5;font-style:italic;color:var(--ink-2,#4a5068)">An essay, a poem, a short story and a song every other morning, with one hidden thread between them that unseals once you've left your notes.</p>
+          <a id="q-google" href="/api/auth/google" style="justify-self:start;display:inline-flex;align-items:center;gap:10px;font-family:var(--mono,monospace);font-size:13px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;background:var(--ink,#151a2c);color:var(--sheet,#fdf9f0);border-radius:4px;padding:13px 18px">
+            <span aria-hidden="true" style="display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--sheet,#fdf9f0);color:var(--ink,#151a2c);font-family:var(--body,Georgia,serif);font-weight:600;font-size:13px;letter-spacing:0">G</span>Sign in with Google</a>
+          <p id="q-msg" style="margin:0;font-family:var(--body,Georgia,serif);font-size:14px;line-height:1.5;color:var(--ink-2,#4a5068)">Use any Google account. Your notes are kept under it, and Shaf, who curates The Quartet, can read them.</p>
+        </div>`;
       document.body.appendChild(wrap);
       const msg = wrap.querySelector("#q-msg");
-      if (setup && (!setup.password || !setup.secret)) msg.textContent = "Sign-in isn't switched on yet.";
-      wrap.querySelector("form").addEventListener("submit", async e => {
-        e.preventDefault();
-        msg.style.color = "var(--ink-2,#4a5068)"; msg.textContent = "Signing in…";
-        try {
-          const r = await fetch("/api/login", { method: "POST", credentials: "same-origin", headers: { "content-type": "application/json" }, body: JSON.stringify({ password: wrap.querySelector("#q-pass").value }) });
-          const b = await r.json().catch(() => ({}));
-          if (r.ok) { location.reload(); return; }
-          msg.style.color = "var(--wax,#b8411f)"; msg.textContent = b.message || "Couldn't sign in just now.";
-        } catch (x) { msg.style.color = "var(--wax,#b8411f)"; msg.textContent = "Couldn't reach the site. Try again in a moment."; }
-      });
-      wrap.querySelector("#q-pass").focus();
+      if (setup && (!setup.google || !setup.secret)) { msg.style.color = "var(--wax,#b8411f)"; msg.textContent = "Sign-in isn't switched on yet. Check back soon."; }
+      else if (failed) { msg.style.color = "var(--wax,#b8411f)"; msg.textContent = "That sign-in didn't go through. Try again, and choose an account with a verified email."; }
+      wrap.querySelector("#q-google").focus();
     };
     if (document.body) mount(); else document.addEventListener("DOMContentLoaded", mount);
   }
+  function addSignOut() {
+    const nav = document.querySelector("nav.sections");
+    if (!nav || document.getElementById("q-signout")) return;
+    const b = document.createElement("button");
+    b.id = "q-signout"; b.type = "button"; b.textContent = "Sign out";
+    b.title = session && session.email ? "Signed in as " + session.email : "";
+    b.addEventListener("click", async () => { try { await fetch("/api/logout", { method: "POST", credentials: "same-origin" }); } catch (e) {} location.href = "/"; });
+    nav.appendChild(b);
+  }
+  ready.then(ok => { if (!ok) return; const go = () => addSignOut(); if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", go); else go(); });
 })();

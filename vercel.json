@@ -2,6 +2,6 @@
   "buildCommand": "node build.mjs",
   "outputDirectory": "public",
   "functions": {
-    "api/*.js": { "includeFiles": "content/**" }
+    "api/**/*.js": { "includeFiles": "content/**" }
   }
 }

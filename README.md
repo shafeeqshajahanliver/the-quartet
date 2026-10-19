@@ -20,14 +20,17 @@ This repo is the master copy of how it works.
 
 | Setting | What it's for |
 | --- | --- |
-| `OWNER_PASSWORD` | The curator's sign-in password. |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | "Sign in with Google". From a Google Cloud OAuth client whose redirect URI is `https://<site>/api/auth/callback`. |
+| `CURATOR_EMAIL` | The Google account that signs in as the curator (sees the Readers desk). |
 | `SESSION_SECRET` | Signs sign-in cookies. Any long random string. |
 | `DATABASE_URL` | Added automatically when a Postgres database is connected (Storage tab). Without it, drops show but notes can't be saved. |
 | `SEED_CURATOR` | Optional, one-off: carries the curator's About me and notes over from claude.ai. |
 
 ## How it fits together
 
-- **The page** shows each reader their drops, collects their reactions and notes, and unseals the thread once they've rated the drop. Readers join by invitation (invited by email as editors) and pick one of two pathways: their own drops, or the curator's drops.
+- **The page** shows each reader their drops, collects their reactions and notes, and unseals the thread once they've rated the drop.
+- **On the Vercel site** anyone can sign in with a Google account. For now every reader there gets the curator's drops; their own curated drops are still only on claude.ai.
+- **On claude.ai** readers join by invitation (invited by email as editors) and pick one of two pathways: their own drops, or the curator's drops.
 - **Storage** lives in the artifact's own database, not in this repo:
   - `readers/<id>`: a reader's About me, pathway and join date.
   - `readers/<id>/drops`, `/reveals`, `/feedback`, `/texts`: their drops, sealed threads, notes and any public-domain texts for "Read here".

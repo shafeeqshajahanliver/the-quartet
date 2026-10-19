@@ -31,9 +31,9 @@ export default async function handler(req, res) {
   if (url.searchParams.has("profiles")) {
     if (!owner || !q) return json(res, 200, {});
     const ids = url.searchParams.get("profiles").split(",").filter(Boolean).slice(0, 64);
-    const rows = ids.length ? await q`select id, email, curator from readers where id = any(${ids})` : [];
+    const rows = ids.length ? await q`select id, email, name, curator from readers where id = any(${ids})` : [];
     const out = {};
-    for (const r of rows) out[r.id] = { name: r.curator ? "Shaf" : (r.email || "").split("@")[0] };
+    for (const r of rows) out[r.id] = { name: r.name || (r.email || "").split("@")[0] || (r.curator ? "Shaf" : ""), email: r.email || "" };
     return json(res, 200, out);
   }
 
@@ -92,14 +92,15 @@ export default async function handler(req, res) {
       const cur = await loadReader(q, target);
       if (req.method === "PATCH" && !cur) return json(res, 403, { error: "not_joined" });
       const fields = body.fields !== undefined ? body.fields : (cur ? cur.fields : {});
-      const pathway = body.path === "shared" ? "shared" : body.path === "own" ? "own" : (cur ? cur.path : "own");
+      // Own drops aren't curated for site readers yet, so everyone but the curator reads the curator's drops.
+      const pathway = owner ? "own" : "shared";
       const lastActive = body.lastActive || now;
       if (cur) {
         await q`update readers set fields = ${JSON.stringify(fields)}::jsonb, path = ${pathway},
                 last_active = ${lastActive}, updated_at = ${body.updatedAt || now} where id = ${target}`;
       } else {
-        await q`insert into readers (id, curator, path, fields, joined_at, last_active, updated_at)
-                values (${target}, ${owner}, ${owner ? "own" : pathway}, ${JSON.stringify(fields)}::jsonb, ${body.joinedAt || now}, ${lastActive}, ${now})`;
+        await q`insert into readers (id, email, name, curator, path, fields, joined_at, last_active, updated_at)
+                values (${target}, ${s.email || null}, ${s.name || null}, ${owner}, ${owner ? "own" : "shared"}, ${JSON.stringify(fields)}::jsonb, ${body.joinedAt || now}, ${lastActive}, ${now})`;
       }
       return json(res, 200, { ok: true });
     }
