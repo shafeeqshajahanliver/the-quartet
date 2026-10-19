@@ -295,6 +295,38 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
 @media (max-width:720px){.day.drop.small{min-height:0;padding:4px}.day.drop.small .num{font-size:16px}}
 .pathopt:disabled{opacity:.55;cursor:not-allowed}
 .pathopt:disabled:hover{background:var(--sheet)}
+
+/* onboarding */
+body.joining nav.sections button[data-view],body.joining footer{display:none}
+.onb{max-width:760px;margin:0 auto;min-height:calc(100vh - 140px);display:grid;grid-template-rows:auto 1fr auto;gap:28px;padding-block:32px 24px}
+.onb-top{display:grid;gap:10px}
+.onb-bars{display:flex;gap:4px;height:6px}
+.onb-bars i{flex:1;border-radius:2px;background:var(--line)}
+.onb-bars i.done{background:var(--violet)}
+.onb-bars i.cur{background:var(--ink)}
+.onb-body{display:grid;gap:16px;align-content:center}
+.onb-band{justify-self:start}
+.onb-lede{font-size:22px;line-height:1.5;font-style:italic;color:var(--ink-2);max-width:40ch;margin:0}
+.onb-points{margin:0;padding-left:1.1em;display:grid;gap:6px;max-width:60ch}
+.onb-num .stamp{width:52px;height:52px;font-size:22px;margin:0 0 6px 4px}
+.onb-q{font-size:clamp(36px,6vw,64px);line-height:1;letter-spacing:-.02em;max-width:16ch}
+.onb-hint{font-size:18px;color:var(--ink-2);margin:0;max-width:52ch}
+.onb-input{font-size:20px;line-height:1.5;min-height:150px;padding:16px 18px;border-radius:6px}
+.onb-keys{margin:0}
+.onb-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:16px;border-top:var(--hairline)}
+.onb-right{display:flex;gap:16px;align-items:center}
+.skipbtn{all:unset;cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);padding:8px 4px}
+.skipbtn:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.onb-paths{margin-top:6px}
+.onb-paths .pathopt{padding:22px 22px 24px}
+.onb-paths .pt{font-size:28px}
+@media (prefers-reduced-motion:no-preference){
+  .onb-body{animation:onbIn .38s cubic-bezier(.2,.7,.2,1) both}
+  .onb.back .onb-body{animation-name:onbBack}
+  @keyframes onbIn{from{opacity:.25;transform:translateX(18px)}to{opacity:1;transform:none}}
+  @keyframes onbBack{from{opacity:.25;transform:translateX(-18px)}to{opacity:1;transform:none}}
+}
+@media (max-width:600px){.onb{min-height:calc(100vh - 120px);padding-block:20px 16px}.onb-input{font-size:18px}.onb-keys{display:none}}
 </style>
 
 <div class="wrap">
@@ -384,6 +416,7 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
     if (S.db && S.joined === undefined){ main.append(h("div",{class:"empty"}, h("span",{class:"label",text:"Opening the programme"}), h("p",{text:"Finding your drops…"}))); return; }
     if (S.view === "readers"){ renderReaders(); renderFoot(); return; }
     if (S.db && S.joined === false){ renderJoin(); return; }
+    document.body.classList.remove("joining");
     if (S.view === "about") renderAbout();
     else if (S.view === "archive") renderArchive();
     else renderDrop();
@@ -725,43 +758,93 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
       h("p",{text:"The Quartet keeps your drops and notes under your Claude account. Open this page while signed in to Claude to join or carry on reading."})));
   }
 
-  // ---------- join (first visit)
+  // ---------- join (first visit): one question at a time, then choose how to read
+  const ONB_Q = [
+    ["who", "Who are you?", "A line or two is plenty: what you do, where you're from, what you make.", true],
+    ["making", "What are you making at the moment?", "A project, a draft, a half-formed idea. Drops will sometimes talk to it.", false],
+    ["moves", "What moves you?", "Writers, songs, forms, places, ideas you keep coming back to.", false],
+    ["grow", "Where do you want to grow?", "As a reader or a writer, a year from now.", false],
+    ["avoid", "Anything to keep away from?", "Subjects, forms or moods you'd rather not get. Leave it blank if nothing.", false],
+    ["notes", "Anything else the curator should know?", "How much time you have, how you like to read, a request.", false]
+  ];
   function renderJoin(){
+    document.body.classList.add("joining");
     const leg = S.owner && S.legacy && S.legacy.fields ? S.legacy.fields : {};
-    const vals = {}; ABOUT.forEach(([k]) => vals[k] = store.get("join:"+k) || leg[k] || "");
-    main.append(h("div",{class:"titleblock"},
-      h("div",{class:"band wax"}, h("span",{class:"label",text:"Join"}), h("h1",{text:"The Quartet"})),
-      h("p",{class:"invite", text:"An essay, a poem, a short story and a song every other morning, chosen for you, with one hidden thread between them that unseals once you've left your notes."})));
-    if (!S.owner){
-      const ch = h("section",{class:"block"}, h("h3",{text:"Choose how you'll read"}));
-      const opts = h("div",{class:"paths", role:"group", "aria-label":"How you'll read"});
+    if (!S.onb){
+      const vals = {}; ABOUT.forEach(([k]) => vals[k] = store.get("join:"+k) || leg[k] || "");
+      S.onb = {i: Math.min(+(store.get("join:step")||0), ONB_Q.length + (S.owner ? 0 : 1)), vals, dir: 1};
+    }
+    const o = S.onb, vals = o.vals;
+    const last = ONB_Q.length + 1;              // 0 = welcome, 1..n = questions, n+1 = final
+    const go = (i, dir) => { o.i = Math.max(0, Math.min(last, i)); o.dir = dir || 1; store.set("join:step", o.i); render(); window.scrollTo(0,0); };
+    const stage = h("section",{class:"onb"+(o.dir < 0 ? " back" : ""), "aria-live":"polite"});
+    const bars = h("div",{class:"onb-bars", "aria-hidden":"true"});
+    for (let k = 1; k <= last; k++) bars.append(h("i",{class: k < o.i ? "done" : k === o.i ? "cur" : ""}));
+    const top = h("div",{class:"onb-top"}, bars,
+      h("span",{class:"label", text: o.i === 0 ? "Welcome" : o.i <= ONB_Q.length ? "Question "+o.i+" of "+ONB_Q.length : (S.owner ? "Ready" : "Last step")}));
+
+    if (o.i === 0){
+      stage.append(top,
+        h("div",{class:"onb-body"},
+          h("div",{class:"band wax onb-band"}, h("span",{class:"label", text:"Join"}), h("h1",{text:"The Quartet"})),
+          h("p",{class:"onb-lede", text:"An essay, a poem, a short story and a song, every other morning. One hidden thread runs through all four, and it unseals once you've left your notes."}),
+          h("ul",{class:"onb-points"},
+            h("li",{text: ONB_Q.length+" short questions about you, so the drops fit."}),
+            S.owner ? h("li",{text:"Your answers fill your About me, which you can change any time."})
+                    : h("li",{text:"Shaf curates The Quartet and reads your answers, ratings and notes."}),
+            h("li",{text:"About two minutes. You can skip anything except the first."}))),
+        h("div",{class:"onb-actions"}, h("span"), h("button",{class:"primary", type:"button", text:"Begin", onclick:()=>go(1, 1)})));
+      main.append(stage); focusSoon(".onb .primary"); return;
+    }
+
+    if (o.i <= ONB_Q.length){
+      const [k, q, hint, required] = ONB_Q[o.i-1];
+      const ta = h("textarea",{id:"jn-"+k, class:"onb-input", rows:"4", placeholder:"Type here…", "aria-label":q,
+        oninput:e=>{ vals[k] = e.target.value; store.set("join:"+k, e.target.value); next.disabled = required && !vals[k].trim(); },
+        onkeydown:e=>{ if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && !next.disabled){ e.preventDefault(); go(o.i+1, 1); } }}, vals[k] || "");
+      const next = h("button",{class:"primary", type:"button", text: o.i === ONB_Q.length ? "Continue" : "Next", disabled: required && !(vals[k]||"").trim(), onclick:()=>go(o.i+1, 1)});
+      stage.append(top,
+        h("div",{class:"onb-body"},
+          h("div",{class:"onb-num", "aria-hidden":"true"}, h("span",{class:"stamp", text: ROMAN[o.i-1] || String(o.i)})),
+          h("h2",{class:"onb-q", text:q}),
+          h("p",{class:"onb-hint", text:hint + (required ? "" : " Optional.")}),
+          ta,
+          h("p",{class:"hint onb-keys", text:"Ctrl or ⌘ + Enter to go on."})),
+        h("div",{class:"onb-actions"},
+          h("button",{class:"linkbtn", type:"button", text:"← Back", onclick:()=>go(o.i-1, -1)}),
+          h("div",{class:"onb-right"},
+            required ? null : h("button",{class:"skipbtn", type:"button", text:"Skip", onclick:()=>go(o.i+1, 1)}),
+            next)));
+      main.append(stage); focusSoon("#jn-"+k); return;
+    }
+
+    // final step
+    const status = h("p",{class:"hint", text:""});
+    const enter = h("button",{class:"primary", type:"button", text:"Enter The Quartet",
+      disabled: !S.db || (!S.owner && !S.joinPath), onclick:()=>join(vals, enter, status)});
+    const body = h("div",{class:"onb-body"});
+    if (S.owner){
+      body.append(h("h2",{class:"onb-q", text:"You're the curator."}),
+        h("p",{class:"onb-hint", text:"Your drops, your notes and the Readers desk are waiting."}));
+    } else {
+      body.append(h("h2",{class:"onb-q", text:"How would you like to read?"}),
+        h("p",{class:"onb-hint", text: OWN_OFF ? "Your own drops are coming soon here." : "You can switch later under About me."}));
+      const opts = h("div",{class:"paths onb-paths", role:"group", "aria-label":"How you'll read"});
       ["own","shared"].forEach(k => opts.append(h("button",{class:"pathopt", type:"button", "aria-pressed": S.joinPath===k ? "true" : "false", disabled: k === "own" && OWN_OFF,
         onclick:()=>{ S.joinPath = k; render(); }},
         h("span",{class:"label", text: k==="own" ? "Pathway one" : "Pathway two"}),
         h("span",{class:"pt", text:PATHS[k].title}),
         h("p",{text:pathLine(k)}))));
-      ch.append(opts, h("p",{class:"hint", text: OWN_OFF ? "When your own drops arrive here, you can switch under About me." : "You can switch later under About me."}));
-      main.append(ch);
+      body.append(opts);
     }
-    const sec = h("section",{class:"block"}, h("h3",{text:"Before you join"}),
-      h("ul",{class:"joinlist"},
-        h("li",{text: S.owner || S.joinPath !== "shared" ? "Your drops are chosen from what you write below and, over time, from your notes." : "You'll read the same four pieces Shaf reads, on the same mornings."}),
-        S.owner ? h("li",{text:"Your first drop and your About me carry over from the page as it was."})
-                : h("li",{text:"Shaf curates The Quartet. He can read your About me, your ratings and your notes on every drop."}),
-        h("li",{text:"Your first drop arrives with the next morning drop, then every other morning after that."})));
-    main.append(sec);
-    const form = h("div",{class:"about"});
-    ABOUT.forEach(([k,label,ph]) => form.append(h("div",{class:"field"},
-      h("label",{class:"label", for:"jn-"+k, text:label}),
-      h("textarea",{id:"jn-"+k, placeholder:ph, oninput:e=>{ vals[k]=e.target.value; store.set("join:"+k, e.target.value); syncBtn(); }}, vals[k]))));
-    const needAbout = S.owner || S.joinPath === "own";
-    const status = h("p",{class:"hint", text: !S.owner && !S.joinPath ? "Choose a pathway above to join." : needAbout ? "Write a line or two in at least the first box. You can change all of it later under About me." : "About me is optional on Shaf's drops, but it helps Shaf see who's reading."});
-    const btn = h("button",{class:"primary", type:"button", text:"Join The Quartet", onclick: ()=>join(vals, btn, status)});
-    function syncBtn(){ btn.disabled = !S.db || (!S.owner && !S.joinPath) || (needAbout && !(vals.who||"").trim()); }
-    syncBtn();
-    form.append(h("div",{class:"sealrow"}, h("div",{class:"stamp", "aria-hidden":"true", text:"?"}), h("div",{style:"display:grid;gap:10px;min-width:0"}, status, btn)));
-    main.append(form);
+    body.append(status);
+    stage.append(top, body,
+      h("div",{class:"onb-actions"},
+        h("button",{class:"linkbtn", type:"button", text:"← Back", onclick:()=>go(o.i-1, -1)}),
+        enter));
+    main.append(stage);
   }
+  function focusSoon(sel){ requestAnimationFrame(()=>{ const el = document.querySelector(sel); if (el){ try { el.focus({preventScroll:true}); if (el.setSelectionRange) el.setSelectionRange(el.value.length, el.value.length); } catch(e){} } }); }
 
   async function join(vals, btn, status){
     btn.disabled = true; status.className = "hint"; status.textContent = "Joining…";
@@ -770,10 +853,11 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
       await S.db.doc("readers/"+S.uid).set({fields: vals, joinedAt: t, lastActive: t, updatedAt: t, curator: !!S.owner, path: S.owner ? "own" : S.joinPath});
     } catch(e){
       btn.disabled = false; status.className = "err";
-      status.textContent = e && e.code === "invalid_argument" ? "You can read this page but can't join it from this account. Ask Shaf to invite you by email as an editor." : "Couldn't join just now. Try again in a moment.";
+      status.textContent = e && e.code === "invalid_argument" ? (SITE ? "This account can't join just now. Try signing out and in again." : "You can read this page but can't join it from this account. Ask Shaf to invite you by email as an editor.") : "Couldn't join just now. Try again in a moment.";
       return;
     }
     ABOUT.forEach(([k]) => store.del("join:"+k));
+    store.del("join:step"); S.onb = null; document.body.classList.remove("joining");
     if (S.owner){
       status.textContent = "Moving your first drop across…";
       for (const c of ["drops","reveals","texts","feedback"]){

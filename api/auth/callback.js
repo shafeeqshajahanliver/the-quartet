@@ -44,7 +44,8 @@ export default async function handler(req, res) {
     return back(res, "/?signin=failed");
   }
   const email = String(claims.email).toLowerCase();
-  const curator = (process.env.CURATOR_EMAIL || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean).includes(email);
+  const curators = ["shafeeqshajahan@gmail.com"].concat((process.env.CURATOR_EMAIL || "").toLowerCase().split(",").map(s => s.trim().replace(/^["']|["']$/g, "")).filter(Boolean));
+  const curator = curators.includes(email);
   const rid = curator ? "curator" : "g_" + claims.sub;
   const session = makeSession({ rid, email, name: claims.name || "" });
   return back(res, "/", `q_session=${session}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${90 * 86400}`);

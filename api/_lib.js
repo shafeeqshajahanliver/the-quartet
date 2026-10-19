@@ -76,17 +76,32 @@ export async function db() {
   await _ready;
   return q;
 }
-// One-off: carry the curator's About me and notes over from claude.ai (set SEED_CURATOR in Vercel, private).
+// Carry the curator's About me and notes over from claude.ai. The data ships encrypted in
+// content/private/curator-seed.enc (key derived from SESSION_SECRET), or comes from SEED_CURATOR.
+// Safe to run repeatedly: it only fills what's missing.
+function loadSeed() {
+  if (process.env.SEED_CURATOR) { try { return JSON.parse(process.env.SEED_CURATOR); } catch { /* fall through */ } }
+  try {
+    const raw = fs.readFileSync(path.join(CONTENT, "private", "curator-seed.enc"), "utf8").trim();
+    const [iv, tag, ct] = raw.split(".").map(x => Buffer.from(x, "base64"));
+    const key = crypto.createHash("sha256").update("quartet-seed:" + (process.env.SESSION_SECRET || "")).digest();
+    const d = crypto.createDecipheriv("aes-256-gcm", key, iv);
+    d.setAuthTag(tag);
+    return JSON.parse(Buffer.concat([d.update(ct), d.final()]).toString("utf8"));
+  } catch { return null; }
+}
 async function seedCurator(q) {
-  const raw = process.env.SEED_CURATOR;
-  if (!raw) return;
-  const have = await q`select id from readers where id = 'curator'`;
-  if (have.length) return;
-  let s; try { s = JSON.parse(raw); } catch { return; }
+  const s = loadSeed();
+  if (!s) return;
   const now = new Date().toISOString();
-  await q`insert into readers (id, curator, path, fields, joined_at, last_active, updated_at)
-          values ('curator', true, 'own', ${JSON.stringify(s.fields || {})}::jsonb, ${s.joinedAt || now}, ${s.lastActive || now}, ${now})
-          on conflict (id) do nothing`;
+  const have = await q`select fields from readers where id = 'curator'`;
+  if (!have.length) {
+    await q`insert into readers (id, curator, path, fields, joined_at, last_active, updated_at)
+            values ('curator', true, 'own', ${JSON.stringify(s.fields || {})}::jsonb, ${s.joinedAt || now}, ${s.lastActive || now}, ${now})
+            on conflict (id) do nothing`;
+  } else if (!Object.values(have[0].fields || {}).some(v => String(v || "").trim())) {
+    await q`update readers set fields = ${JSON.stringify(s.fields || {})}::jsonb where id = 'curator'`;
+  }
   for (const [dropId, body] of Object.entries(s.feedback || {})) {
     await q`insert into feedback (reader_id, drop_id, body, submitted_at)
             values ('curator', ${dropId}, ${JSON.stringify(body)}::jsonb, ${body.submittedAt || now})

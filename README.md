@@ -21,10 +21,10 @@ This repo is the master copy of how it works.
 | Setting | What it's for |
 | --- | --- |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | "Sign in with Google". From a Google Cloud OAuth client whose redirect URI is `https://<site>/api/auth/callback`. |
-| `CURATOR_EMAIL` | The Google account that signs in as the curator (sees the Readers desk). |
+| `CURATOR_EMAIL` | Extra Google accounts that sign in as the curator. shafeeqshajahan@gmail.com always does. |
 | `SESSION_SECRET` | Signs sign-in cookies. Any long random string. |
 | `DATABASE_URL` | Added automatically when a Postgres database is connected (Storage tab). Without it, drops show but notes can't be saved. |
-| `SEED_CURATOR` | Optional, one-off: carries the curator's About me and notes over from claude.ai. |
+| `SEED_CURATOR` | Optional. The curator's claude.ai About me and notes also ship encrypted in `content/private/curator-seed.enc`, unlocked by `SESSION_SECRET`, and are loaded the first time the database is used. |
 
 ## How it fits together
 
