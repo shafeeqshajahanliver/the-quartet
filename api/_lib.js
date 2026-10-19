@@ -123,40 +123,25 @@ function readOne(dir, id) {
 }
 const pad = n => String(n).padStart(3, "0");
 
-// Which drops a reader sees. The curator and readers on the curator's pathway read content/curator;
-// "shared" readers get the curator's drops from the day they joined, numbered from their own 01.
+// Which drops a reader sees. The curator and readers on the curator's pathway ("shared") read
+// content/curator: every drop, with the curator's numbering, so the archive is complete.
 // Readers on their own pathway read content/readers/<id>.
 export function contentFor(reader) {
   if (!reader) return { drops: [], reveal: () => null, text: () => null };
-  const ownDir = reader.curator ? path.join(CONTENT, "curator")
-    : reader.path === "shared" ? null : path.join(CONTENT, "readers", SAFE.test(reader.id) ? reader.id : "_none");
-  if (ownDir) {
-    return {
-      drops: readDir(path.join(ownDir, "drops")),
-      reveal: id => readOne(path.join(ownDir, "reveals"), id),
-      text: key => readOne(path.join(ownDir, "texts"), key),
-    };
-  }
-  const base = path.join(CONTENT, "curator");
-  const since = String(reader.joinedAt || "").slice(0, 10);
-  const src = readDir(path.join(base, "drops"))
-    .filter(d => !since || String(d.data.date || "") >= since)
-    .sort((a, b) => (a.data.n || 0) - (b.data.n || 0));
-  const map = {};
-  const drops = src.map((d, i) => {
-    const id = "d" + pad(i + 1);
-    map[id] = d.id;
-    return { id, data: Object.assign({}, d.data, { n: i + 1, from: "curator" }) };
-  });
+  const shared = reader.curator || reader.path === "shared";
+  const dir = shared ? path.join(CONTENT, "curator") : path.join(CONTENT, "readers", SAFE.test(reader.id) ? reader.id : "_none");
   return {
-    drops,
+    drops: readDir(path.join(dir, "drops")),
     reveal: id => {
-      const r = map[id] ? readOne(path.join(base, "reveals"), map[id]) : null;
-      return r ? Object.assign({}, r, { forYou: undefined }) : null;
+      const r = readOne(path.join(dir, "reveals"), id);
+      // A reader on the curator's drops doesn't see the curator's personal "for your own work" line.
+      return r && !reader.curator ? Object.assign({}, r, { forYou: undefined }) : r;
     },
-    text: key => {
-      const [id, kind] = String(key).split("-");
-      return map[id] ? readOne(path.join(base, "texts"), map[id] + "-" + kind) : null;
-    },
+    text: key => readOne(path.join(dir, "texts"), key),
   };
+}
+
+// For /api/health: how many drops the deployment can see (no private data).
+export function contentStats() {
+  return { curatorDrops: readDir(path.join(CONTENT, "curator", "drops")).length, contentDir: fs.existsSync(CONTENT) };
 }
