@@ -1,0 +1,962 @@
+<title>The Quartet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: The Quartet. One reading column on warm paper. The pieces of a drop sit in a lilac programme panel on the left with the one in focus on the right; the archive is a vertical list. One tilted colour band per view, one pulled-out item; stamps stuck on. Light only. */
+:root{
+  --paper:#f4ecdc; --sheet:#fdf9f0; --ink:#151a2c; --ink-2:#4a5068; --ink-3:#7b8199; --line:#d7dbe3;
+  --violet:#3d2c7c; --violet-soft:#e7e3f4; --lilac:#c9bdf0; --on-violet:#ffffff;
+  --wax:#b8411f; --wax-light:#d9643f; --wax-deep:#7a2a12; --on-wax:#f6d7c9;
+  --gold:#b98a14; --gold-light:#f1cf5c; --gold-deep:#7d5c06; --on-gold:#fff8dc;
+  --display:"Gloock", "Iowan Old Style", Georgia, serif;
+  --body:"Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --measure:1240px; --column:860px;
+  --hairline:1px solid var(--line); --hairline-dashed:1px dashed var(--line);
+  --tilt-stamp:-6deg; --tilt-band:-1.5deg; --tilt-current:1.5deg;
+  --gutter:max(16px, env(safe-area-inset-left, 0px));
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{overflow-x:clip}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:var(--measure);margin:0 auto}
+:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding-block:18px 14px;border-bottom:var(--hairline)}
+.mark{font-family:var(--display);font-size:26px;letter-spacing:-.01em;line-height:1;display:flex;align-items:center;gap:10px}
+.mark i{display:inline-flex;gap:3px;align-items:end;height:22px}
+.mark i b{width:6px;border-radius:2px;background:var(--ink)}
+.mark i b:nth-child(1){height:18px}.mark i b:nth-child(2){height:13px}.mark i b:nth-child(3){height:22px;background:var(--violet)}.mark i b:nth-child(4){height:10px}
+nav.sections{display:flex;gap:4px;flex-wrap:wrap}
+nav.sections button{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1px solid transparent;background:none;color:var(--ink-2);padding:7px 11px;border-radius:999px;cursor:pointer}
+nav.sections button[aria-current="true"]{border-color:var(--ink);color:var(--ink)}
+
+/* type */
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+.label{font-family:var(--mono);font-size:11.5px;line-height:1.3;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.label.quiet{color:var(--ink-3)}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--violet-soft);color:var(--violet)}
+.invite{font-size:20px;line-height:1.5;color:var(--ink-2);font-style:italic;max-width:60ch;margin:0}
+.hint{font-size:14px;line-height:1.5;color:var(--ink-2);margin:0}
+.err{font-size:14px;line-height:1.5;color:var(--wax);margin:0}
+p{margin:0}
+
+/* title block + band */
+.titleblock{padding-top:36px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 56px;align-items:end}
+.titleblock .invite{font-size:22px;max-width:44ch;padding-bottom:10px}
+@media (max-width:900px){.titleblock{grid-template-columns:1fr;align-items:start}.titleblock .invite{padding-bottom:0}}
+.band{position:relative;isolation:isolate;padding:20px 22px 22px;display:grid;gap:10px;justify-self:start;min-width:min(100%,420px)}
+.band::before{content:"";position:absolute;inset:0;border-radius:6px;background:var(--band, var(--lilac));transform:rotate(var(--tilt-band));z-index:-1}
+.band .label{color:var(--ink)}
+.band h1{font-size:clamp(40px,8vw,64px);line-height:.95;letter-spacing:-.02em}
+.band .sub{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.band.wax{--band:var(--wax-light)} .band.gold{--band:var(--gold-light)} .band.lilac{--band:var(--lilac)}
+
+/* stage: programme panel + piece in focus */
+.stage{display:flex;flex-wrap:wrap;gap:28px 56px;margin-top:40px;align-items:stretch}
+.programme{flex:1 1 320px;max-width:400px;background:var(--lilac);border-radius:6px;padding:28px 22px 26px;display:grid;gap:10px;align-content:start;position:relative;overflow:hidden}
+.programme .backnum{position:absolute;right:-24px;bottom:-60px;font-family:var(--display);font-size:240px;line-height:1;color:var(--violet-soft);user-select:none;pointer-events:none}
+.programme > .label{position:relative;color:var(--ink);padding:0 4px 6px}
+.pitem{all:unset;position:relative;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start;padding:16px 18px;border-radius:6px;color:var(--ink);width:100%}
+.pitem:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.pitem:hover{background:var(--violet-soft)}
+.pitem.on,.pitem.on:hover{background:var(--sheet);transform:rotate(var(--tilt-current));padding:18px 18px 16px}
+.pitem .num{font-family:var(--display);font-size:34px;line-height:1}
+.pbody{display:grid;gap:4px;min-width:0}
+.pitem .mono{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.pitem.on .mono,.pitem.on .pauthor{color:var(--ink-2)}
+.ptitle{font-family:var(--display);font-size:24px;line-height:1.2}
+.pauthor{font-size:14.5px;line-height:1.4}
+.pstatus{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--wax-deep);margin-top:4px}
+.pitem.on .pstatus{color:var(--wax)}
+.pstatus.noted{color:var(--gold-deep)}
+.focus{flex:999 1 520px;min-width:0;display:grid;gap:12px;align-content:start;padding-top:8px}
+.posrow{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.strip{display:flex;gap:3px;height:8px}
+.strip i{border-radius:2px;background:var(--line)}
+.strip i.in{background:var(--gold)}
+.strip i.cur{background:var(--violet)}
+.focus h2{font-size:clamp(40px,5.6vw,80px);line-height:.96;letter-spacing:-.02em;margin-top:22px;max-width:16ch}
+.byline{color:var(--ink-2);font-size:15.5px;line-height:1.5}
+.fnote{margin-top:14px;font-size:22px;max-width:56ch}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.focus .links{margin-top:10px}
+.links a{font-family:var(--mono);font-size:12.5px;text-decoration:none;color:var(--sheet);background:var(--ink);padding:8px 13px;border-radius:4px}
+.links a.alt{background:none;color:var(--ink);border:var(--hairline)}
+.react{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.react button{font-family:var(--body);font-size:14px;border:var(--hairline);background:none;border-radius:999px;padding:5px 12px;cursor:pointer;color:var(--ink-2)}
+.react button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.react input{flex:1 1 100%;min-width:0;font:inherit;font-size:14.5px;border:none;border-bottom:var(--hairline);background:none;padding:6px 2px;color:var(--ink)}
+.react .ro{font-size:14.5px;color:var(--ink-2)}
+/* reader */
+.readbtn{font-family:var(--mono);font-size:12.5px;color:var(--sheet);background:var(--ink);border:none;padding:8px 13px;border-radius:4px;cursor:pointer}
+.rtop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:14px}
+.rtitle{font-size:clamp(32px,3.4vw,44px);line-height:1.05;letter-spacing:-.015em}
+.reader{display:grid;gap:1em;font-size:19px;line-height:1.65;max-width:62ch;margin-top:18px;padding-top:22px;border-top:var(--hairline)}
+.reader p{margin:0}
+.reader p:first-child::first-letter{font-family:var(--display);font-size:3.1em;line-height:.8;float:left;padding:6px 8px 0 0}
+.rsource{margin-top:14px;padding-top:12px;border-top:var(--hairline-dashed);max-width:62ch}
+.nextrow{display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px}
+.nextbtn{all:unset;cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);padding:8px 0}
+.nextbtn:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+@media (max-width:720px){.programme{max-width:none}.pitem.on,.pitem.on:hover{transform:none}}
+
+/* sections */
+section.block{margin-top:34px;padding-top:22px;border-top:var(--hairline);display:grid;gap:14px;max-width:var(--column)}
+section.block h3{font-size:26px;line-height:1.2}
+textarea,input.guess{width:100%;font:inherit;font-size:16px;line-height:1.55;border:var(--hairline);background:var(--sheet);border-radius:4px;padding:12px;color:var(--ink)}
+textarea{resize:vertical;min-height:110px}
+.field{display:grid;gap:6px}
+.stars{display:flex;gap:6px;flex-wrap:wrap}
+.stars button{width:44px;height:44px;border-radius:50%;border:var(--hairline);background:var(--sheet);font-family:var(--mono);font-size:14px;cursor:pointer;color:var(--ink-2)}
+.stars button[aria-pressed="true"]{background:var(--violet);color:var(--on-violet);border-color:var(--violet)}
+.primary{justify-self:start;font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;background:var(--wax);color:#fff;border:none;border-radius:4px;padding:13px 18px;cursor:pointer}
+.primary:disabled{opacity:.45;cursor:not-allowed}
+.linkbtn{background:none;border:none;padding:0;font:inherit;font-size:15px;color:var(--violet);text-decoration:underline;cursor:pointer;justify-self:start}
+
+/* seal */
+.sealrow{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:var(--sheet);border-radius:6px;padding:20px 22px}
+.sealrow.sm{align-items:start;margin-top:22px}
+.stamp{width:58px;height:58px;border-radius:6px;transform:rotate(var(--tilt-stamp));display:grid;place-items:center;font-family:var(--display);font-size:26px;background:var(--wax);color:var(--on-wax);box-shadow:4px 4px 0 var(--wax-deep);margin:4px}
+.stamp.open{background:var(--gold);color:var(--on-gold);box-shadow:4px 4px 0 var(--gold-deep)}
+.stamp.sm{width:48px;height:48px;font-size:22px}
+.reveal{display:grid;gap:10px}
+.reveal h3.thread{font-size:38px;line-height:1.02}
+.reveal ul{margin:0;padding-left:1.1em;display:grid;gap:6px}
+.mine p{white-space:pre-wrap}
+@media (prefers-reduced-motion:no-preference){.reveal.fresh{animation:rise .5s ease-out both}@keyframes rise{from{transform:translateY(6px);opacity:.4}to{transform:none;opacity:1}}}
+
+/* archive calendar */
+.cal{display:grid;gap:44px;margin-top:34px}
+.month{display:grid;gap:14px}
+.monthhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:12px;border-bottom:var(--hairline)}
+.monthhead h3{font-size:26px;line-height:1.2}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.dow{padding:0 10px 6px}
+.day{min-height:120px;padding:10px;border-radius:6px;font-family:var(--mono);font-size:12px;color:var(--ink-3);border-top:var(--hairline)}
+.day.blank{border-top:none}
+.day.future{color:var(--line)}
+.day.today{color:var(--ink);border-top-color:var(--ink)}
+.day.drop{all:unset;box-sizing:border-box;cursor:pointer;min-height:120px;padding:10px;border-radius:6px;background:var(--sheet);color:var(--ink);display:grid;gap:4px;align-content:start;min-width:0}
+.day.drop:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.day.drop:hover{background:var(--violet-soft)}
+.day.drop.current,.day.drop.current:hover{background:var(--wax-light);transform:rotate(var(--tilt-current))}
+.day.drop.current.done,.day.drop.current.done:hover{background:var(--gold-light)}
+.day .row{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.dnum{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.day.drop.current .dnum{color:var(--ink)}
+.stampx{width:22px;height:22px;border-radius:4px;transform:rotate(var(--tilt-stamp));display:grid;place-items:center;font-family:var(--display);font-size:12px;background:var(--wax);color:var(--on-wax);box-shadow:2px 2px 0 var(--wax-deep);flex:0 0 auto}
+.stampx.open{background:var(--gold);color:var(--on-gold);box-shadow:2px 2px 0 var(--gold-deep)}
+.day .num{font-family:var(--display);font-size:34px;line-height:1;margin-top:4px}
+.day .thread{font-family:var(--display);font-size:15px;line-height:1.25;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.sealed{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--wax)}
+.day.drop.current .sealed{color:var(--ink)}
+.rating{font-family:var(--mono);font-size:13px;color:var(--violet)}
+.day.drop.current .rating{color:var(--ink)}
+@media (max-width:720px){.grid{gap:3px}.dow{padding:0 4px 4px}.day,.day.drop{min-height:66px;padding:6px}.day .num{font-size:20px;margin-top:2px}.day .thread,.day .rating,.day .sealed{display:none}.stampx{width:18px;height:18px;font-size:10px}}
+
+/* progress */
+.progress{display:flex;align-items:flex-end;gap:2px;overflow-x:auto;min-height:20px;padding-bottom:2px}
+.progress i{flex:0 0 4px;border-radius:2px;background:var(--ink-3)}
+.progress i.in{background:var(--gold)}
+
+/* about */
+.about{display:grid;gap:22px;margin-top:28px;max-width:var(--column)}
+.savebar{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.empty{margin-top:28px;border:var(--hairline-dashed);border-radius:6px;padding:24px;display:grid;gap:8px;max-width:var(--column)}
+footer{margin-top:48px;padding-top:14px;border-top:var(--hairline);display:grid;gap:10px}
+footer .counts{display:flex;flex-wrap:wrap;gap:6px 18px}
+@media (max-width:520px){.sealrow{padding:18px 16px;gap:14px}.band{padding:16px 18px 18px}}
+
+/* join + readers desk */
+.joinlist{margin:0;padding-left:1.1em;display:grid;gap:6px;max-width:62ch}
+.rdesk-meta{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:28px;max-width:var(--column)}
+.howto{margin-top:18px;border:var(--hairline-dashed);border-radius:6px;padding:18px 20px;display:grid;gap:6px;max-width:var(--column)}
+.rtable-wrap{overflow-x:auto;margin-top:22px}
+table.rtable{width:100%;border-collapse:collapse;min-width:680px}
+.rtable th{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);font-weight:400;text-align:left;padding:0 14px 10px 0;border-bottom:var(--hairline);white-space:nowrap}
+.rtable td{padding:14px 14px 14px 0;border-bottom:var(--hairline);vertical-align:top;font-size:15px;line-height:1.45;font-variant-numeric:tabular-nums}
+.rtable tr.rrow{cursor:pointer}
+.rtable tr.rrow:hover td{background:var(--violet-soft)}
+.rname{all:unset;cursor:pointer;font-family:var(--display);font-size:20px;line-height:1.2;color:var(--ink)}
+.rname:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.mono-cell{font-family:var(--mono);font-size:13px;white-space:nowrap}
+.youtag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);margin-left:8px}
+.rhead{display:grid;gap:8px;margin-top:28px;max-width:var(--column)}
+.rhead h2{font-size:clamp(32px,4vw,48px);line-height:1.02;letter-spacing:-.015em}
+.kv{display:grid;grid-template-columns:minmax(140px,190px) minmax(0,1fr);gap:10px 18px;max-width:var(--column)}
+.kv dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);padding-top:3px}
+.kv dd{margin:0;white-space:pre-wrap;min-width:0}
+.ddrop{display:grid;gap:10px;padding:20px 0;border-bottom:var(--hairline);max-width:var(--column)}
+.ddrop .head{display:flex;gap:8px 16px;flex-wrap:wrap;align-items:baseline}
+.ddrop h4{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.1;margin:0}
+.ddrop ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.tag-sealed{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--wax)}
+.tag-open{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep)}
+.quote{font-style:italic;white-space:pre-wrap;max-width:62ch}
+@media (max-width:600px){.kv{grid-template-columns:1fr;gap:2px 0}.kv dd{margin-bottom:10px}}
+
+/* programme v2: compact, sticky, state colours */
+.stage{align-items:flex-start}
+.programme{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--hdr,64px) + 16px);align-self:flex-start;flex:0 1 330px;max-width:330px;padding:16px 12px 14px;gap:4px}
+.programme .backnum{font-size:150px;right:-14px;bottom:-34px}
+.programme > .label{padding:0 6px 4px}
+.pitem{grid-template-columns:30px minmax(0,1fr) auto;gap:10px;padding:10px 12px;align-items:center}
+.pitem .num{font-size:24px}
+.ptitle{font-size:18px;line-height:1.2}
+.pauthor{font-size:13.5px}
+.pstatus{margin-top:2px;color:var(--ink-2)}
+.pitem.on .pstatus{color:var(--ink-2)}
+.pitem.read{background:var(--violet-soft)}
+.pitem.read .pstatus{color:var(--violet)}
+.pitem.noted,.pitem.noted:hover{background:var(--gold-light)}
+.pitem.noted .pstatus{color:var(--ink)}
+.pitem.on,.pitem.on:hover{background:var(--sheet);transform:rotate(var(--tilt-current));padding:10px 12px;box-shadow:3px 3px 0 var(--violet)}
+.pitem.on.noted,.pitem.on.noted:hover{background:var(--gold-light)}
+.pitem .pmark{width:22px;height:22px;border-radius:4px;transform:rotate(var(--tilt-stamp));display:grid;place-items:center;font-family:var(--display);font-size:12px;background:var(--gold);color:var(--on-gold);box-shadow:2px 2px 0 var(--gold-deep)}
+.pitem .pmark.empty{visibility:hidden}
+.pitem .preact{text-transform:none;letter-spacing:0;font-family:var(--body);font-size:13px}
+.focus{flex:1 1 480px}
+.reader{scroll-margin-top:calc(var(--hdr,64px) + var(--strip,0px) + 20px)}
+.focus{scroll-margin-top:calc(var(--hdr,64px) + var(--strip,0px) + 12px)}
+.rend{margin-top:6px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep)}
+#readbar{position:absolute;left:0;right:0;bottom:-3px;height:3px;background:transparent;pointer-events:none}
+#readbar i{display:block;height:100%;width:0;background:var(--violet);border-radius:0 2px 2px 0;transition:width .12s linear}
+#readbar.done i{background:var(--gold)}
+#readbar span{position:absolute;right:0;top:6px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--paper);padding:2px 8px;border-radius:999px;box-shadow:0 0 0 1px var(--line)}
+@media (prefers-reduced-motion:reduce){#readbar i{transition:none}}
+@media (max-width:720px){
+  .stage{gap:16px;margin-top:24px}
+  .programme{top:calc(env(safe-area-inset-top,0px) + var(--hdr,64px));z-index:4;flex:1 1 100%;max-width:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:6px;border-radius:0 0 6px 6px;margin-inline:-6px}
+  .programme .backnum,.programme > .label,.pitem .ptitle,.pitem .pauthor,.pitem .preact,.pitem .pmark{display:none}
+  .pitem{grid-template-columns:1fr;justify-items:center;text-align:center;gap:2px;padding:8px 4px}
+  .pitem .num{font-size:20px}
+  .pitem .mono{font-size:10px;letter-spacing:.04em}
+  .pstatus{font-size:10px;letter-spacing:.04em;margin-top:0}
+  .pitem.on,.pitem.on:hover{transform:none;padding:8px 4px;box-shadow:inset 0 -3px 0 var(--violet)}
+  .focus h2{margin-top:10px}
+  .fnote{font-size:19px}
+  .reader{font-size:18px}
+  #readbar span{top:calc(var(--strip,0px) + 8px)}
+}
+
+/* pathways */
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px;max-width:var(--column)}
+.pathopt{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:8px;align-content:start;padding:18px 20px;border-radius:6px;background:var(--sheet);color:var(--ink)}
+.pathopt:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.pathopt:hover{background:var(--violet-soft)}
+.pathopt[aria-pressed="true"]{background:var(--lilac);transform:rotate(var(--tilt-current));box-shadow:3px 3px 0 var(--violet)}
+.pathopt .pt{font-family:var(--display);font-size:24px;line-height:1.15}
+.pathopt p{font-size:15.5px;line-height:1.5;color:var(--ink-2)}
+.pathopt[aria-pressed="true"] p{color:var(--ink)}
+.invlinks{display:grid;gap:12px;margin-top:6px}
+.invlink{display:grid;gap:4px}
+.invlink code{font-family:var(--mono);font-size:12.5px;word-break:break-all;background:var(--sheet);padding:8px 10px;border-radius:4px;display:block}
+.invlink .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* done = deep violet (replaces gold fills) */
+:root{--violet-deep:#241a4f}
+.pitem.noted,.pitem.noted:hover{background:var(--violet);color:var(--on-violet)}
+.pitem.noted .mono,.pitem.noted .pauthor,.pitem.noted .pstatus,.pitem.noted .preact{color:var(--violet-soft)}
+.pitem.noted .pmark{background:var(--lilac);color:var(--violet);box-shadow:2px 2px 0 var(--violet-deep)}
+.pitem.on.noted,.pitem.on.noted:hover{background:var(--violet);box-shadow:3px 3px 0 var(--ink)}
+.band.gold{--band:var(--violet)}
+.band.gold .label,.band.gold h1{color:var(--on-violet)}
+.stamp.open{background:var(--violet);color:var(--on-violet);box-shadow:4px 4px 0 var(--violet-deep)}
+.stampx.open{background:var(--violet);color:var(--on-violet);box-shadow:2px 2px 0 var(--violet-deep)}
+.strip i.in{background:var(--violet)}
+.strip i.cur{background:var(--ink)}
+.progress i.in{background:var(--violet)}
+#readbar i{background:var(--ink)}
+#readbar.done i{background:var(--violet)}
+.day.drop.current.done,.day.drop.current.done:hover{background:var(--violet);color:var(--on-violet)}
+.day.drop.current.done .dnum,.day.drop.current.done .rating,.day.drop.current.done .sealed,.day.drop.current.done .thread{color:var(--on-violet)}
+.tag-open,.rend{color:var(--violet)}
+@media (max-width:720px){.pitem.on.noted,.pitem.on.noted:hover{box-shadow:inset 0 -3px 0 var(--ink)}}
+
+/* one tilt language: selected card leans with the band, stamps stay level with their neighbours */
+:root{--tilt-current:-1.5deg}
+.programme{gap:6px}
+.pitem.on,.pitem.on:hover,.pitem.on.noted,.pitem.on.noted:hover{transform:rotate(var(--tilt-current)) translateX(-2px);margin-block:5px 7px;box-shadow:4px 4px 0 var(--violet-deep)}
+.pitem.on:not(.noted){box-shadow:4px 4px 0 var(--violet)}
+.pitem.on .pmark{transform:rotate(calc(var(--tilt-stamp) - var(--tilt-current)))}
+.day.drop.current,.day.drop.current:hover{transform:rotate(var(--tilt-current))}
+@media (max-width:720px){.pitem.on,.pitem.on:hover,.pitem.on.noted,.pitem.on.noted:hover{transform:none;margin-block:0}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="mark"><i aria-hidden="true"><b></b><b></b><b></b><b></b></i>The Quartet</div>
+    <nav class="sections" aria-label="Sections">
+      <button id="nav-today" data-view="today" aria-current="true">Latest</button>
+      <button id="nav-archive" data-view="archive">Archive</button>
+      <button id="nav-about" data-view="about">About me</button>
+      <button id="nav-readers" data-view="readers" hidden>Readers</button>
+    </nav>
+    <div id="readbar" hidden><i></i><span></span></div>
+  </header>
+  <main id="main">
+    <div class="empty">
+      <span class="label">Opening the programme</span>
+      <p>Your drops appear here: an essay, a poem, a short story and a song, every other morning. One hidden thread ties them together, and it stays sealed until you leave your notes.</p>
+    </div>
+  </main>
+  <footer id="foot"><span class="label">An essay · a poem · a short story · a song. One sealed thread.</span></footer>
+</div>
+
+<script>
+(function(){
+  const KINDS = {essay:"Essay", poem:"Poem", story:"Short story", song:"Song"};
+  const ROMAN = ["I","II","III","IV","V","VI","VII","VIII"];
+  const REACTS = [["loved","Loved it"],["fine","It was fine"],["missed","Didn't land"]];
+  const ABOUT = [
+    ["who","Who I am","Role, background, where you come from."],
+    ["making","What I'm making","Current creative projects and what they need from you."],
+    ["moves","What moves me","Writers, forms, themes, music, ideas you keep returning to."],
+    ["grow","Where I want to grow","The writer you want to be in a year."],
+    ["avoid","Keep away from","Things you've had enough of, or don't want in your drops."],
+    ["notes","Notes for the curator","Anything else: mood, time you have, requests for upcoming drops."]
+  ];
+  const S = {view:"today", sel:null, drops:[], fb:{}, reveals:{}, profile:null, db:null, editing:{}, fresh:null, piece:{}, texts:{}, reader:{},
+    uid:null, owner:false, joinPath:null, user:null, joined:undefined, legacy:null, admin:{list:null, names:{}, sel:null, loading:false, error:null, at:null}};
+  const P = p => "readers/"+S.uid+"/"+p;
+  const PAGE_URL = "https://claude.ai/artifact/QXS9uUMAYJyQwj9SPY6qKK";
+  const PATHS = {
+    own: {title:"Your own drops", line:"Four pieces chosen for you every other morning, from your About me and from what your notes show you love."},
+    shared: {title:"Shaf's drops", line:"The same four pieces Shaf reads, on the same mornings. Your notes and your reveal stay your own."}
+  };
+  try { const hsh = (location.hash||"").replace("#",""); if (hsh === "own") S.joinPath = "own"; if (hsh === "with-shaf") S.joinPath = "shared"; } catch(e){}
+  const nowIso = () => new Date().toISOString();
+  const NOWRITE = "You can read this page but can't save to it from this account. Ask Shaf to invite you by email as an editor.";
+  const main = document.getElementById("main");
+
+  function h(tag, attrs, ...kids){
+    const e = document.createElement(tag);
+    if (attrs) for (const k in attrs){
+      const v = attrs[k];
+      if (v == null || v === false) continue;
+      if (k === "class") e.className = v;
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+      else if (k === "text") e.textContent = v;
+      else e.setAttribute(k, v === true ? "" : v);
+    }
+    for (const c of kids.flat()) if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(String(c)));
+    return e;
+  }
+  const fmtDate = d => { try { return new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}); } catch(e){ return d; } };
+  const short = d => { try { return new Date(d+"T12:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}); } catch(e){ return d; } };
+  const pad = n => String(n).padStart(2,"0");
+  const store = {
+    get(k){ try { return JSON.parse(localStorage.getItem(k) || "null"); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+    del(k){ try { localStorage.removeItem(k); } catch(e){} }
+  };
+  const draft = id => store.get("draft:"+id) || {rating:0, comment:"", guess:"", response:"", pieces:{}};
+  function keep(id, d){ if (S.editing[id]) S.editing[id] = d; else store.set("draft:"+id, d); }
+
+  function render(){
+    document.querySelectorAll("nav.sections button").forEach(b => b.setAttribute("aria-current", b.dataset.view === S.view ? "true" : "false"));
+    const keepY = window.scrollY;
+    main.replaceChildren();
+    try { renderInner(); } finally { window.scrollTo(0, keepY); afterRender(); }
+  }
+  function renderInner(){
+    if (S.db && S.uid === null && S.joined === null){ renderSignedOut(); return; }
+    if (S.db && S.joined === undefined){ main.append(h("div",{class:"empty"}, h("span",{class:"label",text:"Opening the programme"}), h("p",{text:"Finding your drops…"}))); return; }
+    if (S.view === "readers"){ renderReaders(); renderFoot(); return; }
+    if (S.db && S.joined === false){ renderJoin(); return; }
+    if (S.view === "about") renderAbout();
+    else if (S.view === "archive") renderArchive();
+    else renderDrop();
+    renderFoot();
+  }
+
+  const isRead = (id, k) => !!store.get("read:"+id+":"+k);
+  function setRead(id, k){ if (!isRead(id,k)) store.set("read:"+id+":"+k, true); }
+  function scrollToEl(sel){
+    requestAnimationFrame(() => { const el = document.querySelector(sel); if (el) el.scrollIntoView({block:"start", behavior:"auto"}); });
+  }
+  function measure(){
+    const hd = document.querySelector("header.top");
+    const root = document.documentElement.style;
+    if (hd) root.setProperty("--hdr", hd.offsetHeight + "px");
+    const pg = document.querySelector(".programme");
+    const narrow = window.matchMedia && window.matchMedia("(max-width:720px)").matches;
+    root.setProperty("--strip", (narrow && pg ? pg.offsetHeight : 0) + "px");
+  }
+  function trackRead(){
+    const bar = document.getElementById("readbar");
+    if (!bar) return;
+    const r = document.querySelector(".reader");
+    if (!r){ bar.hidden = true; return; }
+    const rect = r.getBoundingClientRect(), vh = window.innerHeight;
+    const pct = rect.height ? Math.min(Math.max((vh - rect.top) / rect.height, 0), 1) : 0;
+    const fin = pct >= 0.97;
+    bar.hidden = false;
+    bar.classList.toggle("done", fin);
+    bar.firstChild.style.width = (pct * 100).toFixed(1) + "%";
+    const mins = +r.dataset.min || 0;
+    bar.lastChild.textContent = fin ? "✓ Read to the end" : Math.round(pct * 100) + "% read" + (mins ? " · ~" + Math.max(1, Math.round(mins * (1 - pct))) + " min left" : "");
+    if (fin && !isRead(r.dataset.drop, r.dataset.kind)){
+      setRead(r.dataset.drop, r.dataset.kind);
+      const el = document.querySelector('.pitem[data-kind="' + r.dataset.kind + '"]');
+      if (el && !el.classList.contains("noted")){ el.classList.add("read"); const st = el.querySelector(".pstatus"); if (st) st.textContent = "Read"; }
+      const end = document.querySelector(".rend"); if (end) end.textContent = "✓ You've read this one";
+    }
+  }
+  function afterRender(){ measure(); trackRead(); }
+  let rafId = 0;
+  window.addEventListener("scroll", () => { if (!rafId) rafId = requestAnimationFrame(() => { rafId = 0; trackRead(); }); }, {passive:true});
+  window.addEventListener("resize", () => { measure(); trackRead(); });
+
+  function renderEmpty(){
+    main.append(h("div",{class:"empty"},
+      h("span",{class:"label",text:"Nothing here yet"}),
+      h("p",{text:"Your first drop adds an essay, a poem, a short story and a song to this programme, with a thread between them you'll see once you've left your notes."})));
+  }
+
+  // ---------- latest / single drop
+  function renderDrop(){
+    if (!S.drops.length) return renderEmpty();
+    const drop = S.drops.find(d => d.id === S.sel) || S.drops[0];
+    const id = drop.id, fb = S.fb[id], done = !!fb && !S.editing[id];
+    const d = S.editing[id] || draft(id);
+    const latest = drop.id === S.drops[0].id;
+
+    main.append(h("div",{class:"titleblock"},
+      h("div",{class:"band "+(fb ? "gold" : "wax")},
+        h("span",{class:"label", text: latest ? "Latest drop" : "From the archive"}),
+        h("h1",{text:"Drop "+pad(drop.n)}),
+        h("div",{class:"sub"},
+          h("span",{class:"label", text: fmtDate(drop.date)}),
+          drop.phaseName ? h("span",{class:"chip", text:"Phase "+(drop.phase||"")+" · "+drop.phaseName}) : null)),
+      drop.invitation ? h("p",{class:"invite", text: drop.invitation}) : null));
+
+    const pieces = drop.pieces || [];
+    const last = Math.max(pieces.length - 1, 0);
+    const idx = Math.min(S.piece[id] || 0, last);
+    pieces.forEach(p => loadText(id, p.kind));
+    const pieceOf = k => { const src = done ? (fb.pieces||{}) : (d.pieces||{}); return src[k]||{}; };
+    const reactionOf = k => pieceOf(k).reaction || "";
+    const stateOf = k => { const pf = pieceOf(k); return (pf.reaction || (pf.note||"").trim()) ? "noted" : (isRead(id,k) ? "read" : ""); };
+    const noted = pieces.filter(p => stateOf(p.kind) === "noted").length;
+    const total = pieces.reduce((s,p) => s + (+p.minutes || 0), 0);
+    const goPiece = i => { S.piece[id] = i; S.reader[id] = null; render(); scrollToEl(".focus"); };
+
+    const stage = h("div",{class:"stage"});
+    const panel = h("nav",{class:"programme", "aria-label":"Pieces in this drop"},
+      h("span",{class:"backnum", "aria-hidden":"true", text:pad(drop.n)}),
+      h("span",{class:"label", text:"Programme · "+noted+" of "+pieces.length+" noted"+(total ? " · "+total+" min" : "")}));
+    pieces.forEach((p,i) => {
+      const st = stateOf(p.kind), rl = REACTS.find(x => x[0] === reactionOf(p.kind));
+      panel.append(h("button",{class:"pitem"+(i===idx?" on":"")+(st?" "+st:""), "data-kind":p.kind, type:"button", "aria-current": i===idx ? "true" : "false",
+          "aria-label": (KINDS[p.kind]||p.kind)+": "+p.title+", "+(st==="noted" ? "noted" : st==="read" ? "read" : "not read yet"), onclick:()=>goPiece(i)},
+        h("span",{class:"num", "aria-hidden":"true", text:ROMAN[i] || String(i+1)}),
+        h("span",{class:"pbody"},
+          h("span",{class:"mono", text:KINDS[p.kind]||p.kind}),
+          h("span",{class:"ptitle", text:p.title}),
+          p.author ? h("span",{class:"pauthor", text:p.author}) : null,
+          h("span",{class:"pstatus mono"}, st==="noted" ? "✓ Noted" : st==="read" ? "Read" : "Unread",
+            st==="noted" && rl ? h("span",{class:"preact", text:" · "+rl[1]}) : null)),
+        h("span",{class:"pmark"+(st==="noted"?"":" empty"), "aria-hidden":"true", text:"✓"})));
+    });
+    stage.append(panel);
+
+    const p = pieces[idx];
+    if (p){
+      const focus = h("article",{class:"focus"});
+      focus.append(h("div",{class:"posrow"},
+        h("span",{class:"label", text:(ROMAN[idx]||idx+1)+" of "+(ROMAN[last]||last+1)+" · "+(KINDS[p.kind]||p.kind)}),
+        h("span",{class:"label", text:[p.minutes ? "~"+p.minutes+" min" : null, noted+" of "+pieces.length+" noted"].filter(Boolean).join(" · ")})));
+      const strip = h("div",{class:"strip", "aria-hidden":"true"});
+      pieces.forEach((q,i) => { const st = stateOf(q.kind); strip.append(h("i",{class: i===idx ? "cur" : (st==="noted" ? "in" : ""), style:"flex:"+(+q.minutes || 10)+" 0 0"})); });
+      focus.append(strip);
+      const tx = S.texts[id+"-"+p.kind];
+      const native = tx && typeof tx === "object" && tx.text;
+      const reading = native && S.reader[id] === p.kind;
+      const byline = [p.author, [p.place,p.year].filter(Boolean).join(", ")].filter(Boolean).join(" · ");
+      focus.append(h("h2",{text:p.title}));
+      focus.append(h("div",{class:"byline", text:byline}));
+      if (p.note) focus.append(h("p",{class:"invite fnote", text:p.note}));
+      focus.append(h("div",{class:"links"},
+        native ? h("button",{class:"readbtn", type:"button", "aria-expanded": reading ? "true" : "false", text: reading ? "Close the text" : "Read here",
+          onclick:()=>{ if (reading){ S.reader[id] = null; render(); scrollToEl(".focus"); } else { S.reader[id] = p.kind; render(); scrollToEl(".reader"); } }}) : null,
+        p.link ? h("a",{class: native ? "alt" : "", href:p.link, target:"_blank", rel:"noopener", text:(native ? "Source" : (p.kind==="song"?"Listen":"Read"))+" ↗",
+          onclick:()=>{ if (!native) { setRead(id, p.kind); setTimeout(render, 400); } }}) : null,
+        ...(p.altLinks||[]).map(a => h("a",{class:"alt", href:a.url, target:"_blank", rel:"noopener", text:a.label+" ↗", onclick:()=>{ if (!native){ setRead(id, p.kind); setTimeout(render, 400); } }}))));
+      if (reading){
+        const reader = h("div",{class:"reader", "data-drop":id, "data-kind":p.kind, "data-min": String(+p.minutes || 0)});
+        String(tx.text).split(/\n\s*\n/).forEach(par => { if (par.trim()) reader.append(h("p",{text:par.trim()})); });
+        focus.append(reader);
+        focus.append(h("p",{class:"rend", text: isRead(id,p.kind) ? "✓ You've read this one" : "The end"}));
+        focus.append(h("p",{class:"hint rsource", text:[tx.source ? "Text: "+tx.source : null, tx.licence].filter(Boolean).join(". ")+"."}));
+      }
+
+      const r = reactionOf(p.kind);
+      const isNoted = stateOf(p.kind) === "noted";
+      const pd = (d.pieces && d.pieces[p.kind]) || {};
+      let react;
+      if (done){
+        const pf = (fb.pieces||{})[p.kind] || {};
+        const rl = REACTS.find(x => x[0] === pf.reaction);
+        react = h("div",{class:"react"}, h("span",{class:"ro", text:(rl ? rl[1] : "No reaction") + (pf.note ? " · "+pf.note : "")}));
+      } else {
+        react = h("div",{class:"react"},
+          ...REACTS.map(([k,l]) => h("button",{type:"button","aria-pressed":pd.reaction===k?"true":"false",text:l, onclick:()=>{
+            d.pieces = d.pieces||{}; d.pieces[p.kind] = Object.assign({}, d.pieces[p.kind], {reaction: pd.reaction===k ? "" : k}); keep(id,d); render(); }})),
+          h("input",{id:"note-"+id+"-"+p.kind, type:"text", placeholder:"A line on this one (optional)", value:pd.note||"", "aria-label":"Note on "+p.title,
+            oninput:e=>{ d.pieces = d.pieces||{}; d.pieces[p.kind] = Object.assign({}, d.pieces[p.kind], {note:e.target.value}); keep(id,d); },
+            onchange:()=>render()}));
+      }
+      focus.append(h("div",{class:"sealrow sm"},
+        h("div",{class:"stamp sm"+(isNoted?" open":""), "aria-hidden":"true", text: isNoted ? "✓" : "?"}),
+        h("div",{style:"display:grid;gap:10px;min-width:0"},
+          h("span",{class:"label", text: isNoted || done ? "Your note on this one" : "Your note on this one · turns it gold in the programme"}),
+          react)));
+
+      if (idx < last){
+        const nx = pieces[idx+1];
+        focus.append(h("div",{class:"nextrow"},
+          h("button",{class:"nextbtn", type:"button", text:"Next · "+(ROMAN[idx+1]||idx+2)+" "+nx.title+" →", onclick:()=>goPiece(idx+1)})));
+      } else {
+        focus.append(h("div",{class:"nextrow"}, h("span",{class:"hint", text: done ? "That's the four." : "That's the four. Your notes on the whole drop are below."})));
+      }
+      stage.append(focus);
+    }
+    main.append(stage);
+
+    if (drop.tryThis){
+      const t = drop.tryThis;
+      const sec = h("section",{class:"block"}, h("span",{class:"label", text:"Writing exercise · "+(t.minutes||15)+" min"}), h("h3",{text:t.title||"Your turn"}), h("p",{style:"max-width:62ch", text:t.prompt}));
+      if (done){ if (fb.response) sec.append(h("p",{style:"white-space:pre-wrap;color:var(--ink-2)", text:fb.response})); }
+      else sec.append(h("textarea",{id:"resp-"+id, placeholder:"Write here if you like. It's saved with your notes.", "aria-label":"Your response to the exercise",
+        oninput:e=>{ d.response = e.target.value; keep(id,d); }}, d.response||""));
+      main.append(sec);
+    }
+
+    if (done) renderRevealed(drop, fb); else renderForm(drop, d);
+  }
+
+  function renderForm(drop, d){
+    const id = drop.id;
+    const sec = h("section",{class:"block"}, h("h3",{text:"Your notes on the whole drop"}));
+    sec.append(h("div",{class:"field"}, h("span",{class:"label",text:"How did the four sit together? (1–5)"}),
+      h("div",{class:"stars", role:"group", "aria-label":"Rate the drop from 1 to 5"},
+        ...[1,2,3,4,5].map(n => h("button",{type:"button", "aria-pressed": d.rating===n?"true":"false", text:n, onclick:()=>{ d.rating = d.rating===n?0:n; keep(id,d); render(); }})))));
+    sec.append(h("div",{class:"field"}, h("label",{class:"label", for:"cm-"+id, text:"What did it leave you with?"}),
+      h("textarea",{id:"cm-"+id, placeholder:"What stayed with you, what grated, what you'd steal for your own work.", oninput:e=>{ d.comment=e.target.value; keep(id,d); syncBtn(); }}, d.comment||"")));
+    sec.append(h("div",{class:"field"}, h("label",{class:"label", for:"gs-"+id, text:"Your guess at the thread"}),
+      h("input",{class:"guess", id:"gs-"+id, type:"text", value:d.guess||"", placeholder:"An author, a place, a year, an idea, a symbol…", oninput:e=>{ d.guess=e.target.value; keep(id,d); }})));
+    const msg = h("p",{class:"hint", text:"The thread unseals once your notes are in. Give it a rating and a few words first."});
+    const btn = h("button",{class:"primary", type:"button", text:"Seal my notes, reveal the thread", onclick:()=>submit(drop, d, btn, msg)});
+    function syncBtn(){ btn.disabled = !(d.rating && (d.comment||"").trim().length >= 3) || !S.db; }
+    syncBtn();
+    sec.append(h("div",{class:"sealrow"}, h("div",{class:"stamp", "aria-hidden":"true", text:"?"}), h("div",{style:"display:grid;gap:10px;min-width:0"}, msg, btn)));
+    if (!S.db) sec.append(h("p",{class:"err", text:"Saving isn't available in this view. Open the page from your Claude account to save notes."}));
+    main.append(sec);
+  }
+
+  async function submit(drop, d, btn, msg){
+    if (!S.db) return;
+    btn.disabled = true; msg.textContent = "Saving your notes…"; msg.className = "hint";
+    const body = {dropId: drop.id, n: drop.n, rating: d.rating||0, comment: d.comment||"", guess: d.guess||"", response: d.response||"", pieces: d.pieces||{}, submittedAt: new Date().toISOString()};
+    try {
+      await S.db.doc(P("feedback/"+drop.id)).set(body);
+      S.db.doc("readers/"+S.uid).update({lastActive: nowIso()}).catch(()=>{});
+      store.del("draft:"+drop.id); delete S.editing[drop.id];
+      S.fb[drop.id] = body; S.fresh = drop.id; await loadReveal(drop.id); render(); S.fresh = null;
+    } catch(e){
+      btn.disabled = false; msg.className = "err";
+      msg.textContent = e && e.code === "invalid_argument" ? NOWRITE : "Couldn't save just now. Your notes are kept on this device; try again in a moment.";
+    }
+  }
+
+  function loadText(dropId, kind){
+    const key = dropId+"-"+kind;
+    if (!S.db || S.texts[key] !== undefined) return;
+    S.texts[key] = "loading";
+    S.db.doc(P("texts/"+key)).get().then(s => {
+      S.texts[key] = s.exists ? s.data() : null;
+      const a = document.activeElement, typing = a && (a.tagName === "TEXTAREA" || a.tagName === "INPUT");
+      if (S.view === "today" && s.exists && !typing) render();
+    }).catch(()=>{ S.texts[key] = null; });
+  }
+
+  async function loadReveal(id){
+    if (!S.db || S.reveals[id] !== undefined) return;
+    try { const s = await S.db.doc(P("reveals/"+id)).get(); S.reveals[id] = s.exists ? s.data() : null; } catch(e){ S.reveals[id] = null; }
+  }
+
+  function renderRevealed(drop, fb){
+    const id = drop.id, r = S.reveals[id];
+    if (r === undefined) loadReveal(id).then(render);
+    const sec = h("section",{class:"block"});
+    if (r){
+      sec.append(h("div",{class:"sealrow"}, h("div",{class:"stamp open", "aria-hidden":"true", text:"✓"}),
+        h("div",{class:"reveal"+(S.fresh===id?" fresh":"")},
+          h("span",{class:"label", text:"The thread · "+(r.type||"")}),
+          h("h3",{class:"thread", text:r.thread||""}),
+          fb.guess ? h("p",{class:"hint", text:"Your guess: "+fb.guess}) : null)));
+      if (r.summary) sec.append(h("p",{style:"max-width:62ch", text:r.summary}));
+      if (r.pieces) sec.append(h("ul",{style:"margin:0;padding-left:1.1em;display:grid;gap:8px;max-width:62ch"},
+        ...(drop.pieces||[]).filter(p=>r.pieces[p.kind]).map(p => h("li",{}, h("strong",{text:p.title+": "}), r.pieces[p.kind]))));
+      if (r.forYou) sec.append(h("p",{style:"max-width:62ch;color:var(--ink-2)"}, h("strong",{text:"For your own work: "}), r.forYou));
+    } else if (r === null){
+      sec.append(h("div",{class:"sealrow"}, h("div",{class:"stamp open","aria-hidden":"true",text:"…"}), h("p",{class:"hint",text:"Your notes are in. The thread for this drop hasn't been filed yet; it will appear here."})));
+    }
+    main.append(sec);
+    main.append(h("section",{class:"block mine"},
+      h("span",{class:"label", text:"Your notes"+(fb.rating ? " · "+fb.rating+"/5" : "")}),
+      fb.comment ? h("p",{style:"max-width:62ch", text:fb.comment}) : null,
+      h("button",{class:"linkbtn", type:"button", text:"Edit my notes", onclick:()=>{ S.editing[id] = Object.assign({}, fb, {pieces: JSON.parse(JSON.stringify(fb.pieces||{}))}); render(); }})));
+  }
+
+  // ---------- archive
+  function renderArchive(){
+    const unsealed = Object.keys(S.fb).length;
+    main.append(h("div",{class:"titleblock"},
+      h("div",{class:"band lilac"},
+        h("span",{class:"label", text:"Every drop so far"}),
+        h("h1",{text:"Archive"}),
+        h("div",{class:"sub"}, h("span",{class:"label", text:S.drops.length+" drop"+(S.drops.length===1?"":"s")+" · "+unsealed+" unsealed"})))));
+    if (!S.drops.length) return renderEmpty();
+    const byDate = {}; S.drops.forEach(d => { if (!byDate[d.date]) byDate[d.date] = d; });
+    const months = []; const seen = {};
+    S.drops.forEach(d => { const k = String(d.date||"").slice(0,7); if (k && !seen[k]){ seen[k] = 1; months.push(k); } });
+    const today = new Date(); today.setHours(12,0,0,0);
+    const todayIso = today.getFullYear()+"-"+pad(today.getMonth()+1)+"-"+pad(today.getDate());
+    const cal = h("div",{class:"cal"});
+    months.forEach(k => {
+      const y = +k.slice(0,4), m = +k.slice(5,7);
+      const first = new Date(y, m-1, 1, 12);
+      const days = new Date(y, m, 0).getDate();
+      const lead = (first.getDay() + 6) % 7;
+      const inMonth = S.drops.filter(d => String(d.date||"").slice(0,7) === k);
+      const sec = h("section",{class:"month"},
+        h("div",{class:"monthhead"},
+          h("h3",{text: first.toLocaleDateString("en-GB",{month:"long",year:"numeric"})}),
+          h("span",{class:"label", text: inMonth.length+" drop"+(inMonth.length===1?"":"s")+" · "+inMonth.filter(d=>S.fb[d.id]).length+" unsealed"})));
+      const grid = h("div",{class:"grid", role:"list"});
+      ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(w => grid.append(h("span",{class:"dow label quiet", "aria-hidden":"true", text:w})));
+      for (let i = 0; i < lead; i++) grid.append(h("span",{class:"day blank", "aria-hidden":"true"}));
+      for (let dd = 1; dd <= days; dd++){
+        const iso = k+"-"+pad(dd);
+        const dr = byDate[iso];
+        if (!dr){
+          const future = new Date(y, m-1, dd, 12) > today;
+          grid.append(h("span",{class:"day"+(future?" future":"")+(iso===todayIso?" today":""), "aria-hidden":"true", text: dd}));
+          continue;
+        }
+        const fb = S.fb[dr.id], r = S.reveals[dr.id];
+        if (fb && r === undefined) loadReveal(dr.id).then(()=>{ if (S.view==="archive") render(); });
+        const latest = dr.id === S.drops[0].id;
+        grid.append(h("button",{class:"day drop"+(latest?" current":"")+(fb?" done":""), type:"button", role:"listitem",
+          "aria-label":"Drop "+pad(dr.n)+", "+fmtDate(dr.date)+(fb ? ", unsealed" : ", sealed"),
+          onclick:()=>{ S.sel = dr.id; S.view = "today"; render(); window.scrollTo(0,0); }},
+          h("span",{class:"row"}, h("span",{class:"dnum", text:dd}), h("span",{class:"stampx"+(fb?" open":""), "aria-hidden":"true", text: fb ? "✓" : "?"})),
+          h("span",{class:"num", text:pad(dr.n)}),
+          fb && r ? h("span",{class:"thread", text:r.thread}) : h("span",{class:"sealed", text: fb ? "Thread to come" : "Sealed"}),
+          fb ? h("span",{class:"rating", text:(fb.rating||"–")+"/5"}) : null));
+      }
+      sec.append(grid);
+      cal.append(sec);
+    });
+    main.append(cal);
+  }
+
+  // ---------- about
+  function renderAbout(){
+    const p = (S.profile && S.profile.fields) || {};
+    const vals = {}; ABOUT.forEach(([k]) => vals[k] = p[k] || "");
+    main.append(h("div",{class:"titleblock"},
+      h("div",{class:"band lilac"}, h("span",{class:"label",text:"What the curator works from"}), h("h1",{text:"About me"})),
+      h("p",{class:"invite", text:"Every drop is chosen from this page and from your notes. Change anything here and the next drop takes it into account."+(S.owner ? "" : " Shaf, who curates The Quartet, can read this page and your notes.")})));
+    const status = h("span",{class:"hint", text:S.profile && S.profile.updatedAt ? "Last saved "+new Date(S.profile.updatedAt).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}) : ""});
+    const form = h("div",{class:"about"});
+    ABOUT.forEach(([k,label,ph]) => form.append(h("div",{class:"field"},
+      h("label",{class:"label", for:"ab-"+k, text:label}),
+      h("textarea",{id:"ab-"+k, placeholder:ph, oninput:e=>{ vals[k]=e.target.value; status.textContent=""; status.className="hint"; }}, vals[k]))));
+    const save = h("button",{class:"primary", type:"button", text:"Save", disabled: !S.db, onclick: async ()=>{
+      save.disabled = true; status.textContent = "Saving…"; status.className="hint";
+      try { const t = nowIso(); await S.db.doc("readers/"+S.uid).update({fields: vals, updatedAt: t, lastActive: t}); status.textContent = "Saved"; }
+      catch(e){ status.className="err"; status.textContent = e && e.code === "invalid_argument" ? NOWRITE : "Couldn't save just now. Try again in a moment."; }
+      save.disabled = false; }});
+    form.append(h("div",{class:"savebar"}, save, status));
+    main.append(form);
+    if (!S.owner && S.profile){
+      const cur = S.profile.path === "shared" ? "shared" : "own";
+      const sw = h("section",{class:"block"}, h("h3",{text:"How you read"}));
+      const opts = h("div",{class:"paths", role:"group", "aria-label":"How you read"});
+      const msg = h("p",{class:"hint", text:"A change applies from your next drop."});
+      ["own","shared"].forEach(k => opts.append(h("button",{class:"pathopt", type:"button", "aria-pressed": cur===k ? "true" : "false",
+        onclick: async ()=>{ if (k === cur) return; try { await S.db.doc("readers/"+S.uid).update({path:k, lastActive: nowIso()}); } catch(e){ msg.className = "err"; msg.textContent = e && e.code === "invalid_argument" ? NOWRITE : "Couldn't switch just now. Try again in a moment."; } }},
+        h("span",{class:"pt", text:PATHS[k].title}), h("p",{text:PATHS[k].line}))));
+      sw.append(opts, msg);
+      main.append(sw);
+    }
+  }
+
+  function renderSignedOut(){
+    main.append(h("div",{class:"empty"},
+      h("span",{class:"label",text:"Sign in to read"}),
+      h("p",{text:"The Quartet keeps your drops and notes under your Claude account. Open this page while signed in to Claude to join or carry on reading."})));
+  }
+
+  // ---------- join (first visit)
+  function renderJoin(){
+    const leg = S.owner && S.legacy && S.legacy.fields ? S.legacy.fields : {};
+    const vals = {}; ABOUT.forEach(([k]) => vals[k] = store.get("join:"+k) || leg[k] || "");
+    main.append(h("div",{class:"titleblock"},
+      h("div",{class:"band wax"}, h("span",{class:"label",text:"Join"}), h("h1",{text:"The Quartet"})),
+      h("p",{class:"invite", text:"An essay, a poem, a short story and a song every other morning, chosen for you, with one hidden thread between them that unseals once you've left your notes."})));
+    if (!S.owner){
+      const ch = h("section",{class:"block"}, h("h3",{text:"Choose how you'll read"}));
+      const opts = h("div",{class:"paths", role:"group", "aria-label":"How you'll read"});
+      ["own","shared"].forEach(k => opts.append(h("button",{class:"pathopt", type:"button", "aria-pressed": S.joinPath===k ? "true" : "false",
+        onclick:()=>{ S.joinPath = k; render(); }},
+        h("span",{class:"label", text: k==="own" ? "Pathway one" : "Pathway two"}),
+        h("span",{class:"pt", text:PATHS[k].title}),
+        h("p",{text:PATHS[k].line}))));
+      ch.append(opts, h("p",{class:"hint", text:"You can switch later under About me."}));
+      main.append(ch);
+    }
+    const sec = h("section",{class:"block"}, h("h3",{text:"Before you join"}),
+      h("ul",{class:"joinlist"},
+        h("li",{text: S.owner || S.joinPath !== "shared" ? "Your drops are chosen from what you write below and, over time, from your notes." : "You'll read the same four pieces Shaf reads, on the same mornings."}),
+        S.owner ? h("li",{text:"Your first drop and your About me carry over from the page as it was."})
+                : h("li",{text:"Shaf curates The Quartet. He can read your About me, your ratings and your notes on every drop."}),
+        h("li",{text:"Your first drop arrives with the next morning drop, then every other morning after that."})));
+    main.append(sec);
+    const form = h("div",{class:"about"});
+    ABOUT.forEach(([k,label,ph]) => form.append(h("div",{class:"field"},
+      h("label",{class:"label", for:"jn-"+k, text:label}),
+      h("textarea",{id:"jn-"+k, placeholder:ph, oninput:e=>{ vals[k]=e.target.value; store.set("join:"+k, e.target.value); syncBtn(); }}, vals[k]))));
+    const needAbout = S.owner || S.joinPath === "own";
+    const status = h("p",{class:"hint", text: !S.owner && !S.joinPath ? "Choose a pathway above to join." : needAbout ? "Write a line or two in at least the first box. You can change all of it later under About me." : "About me is optional on Shaf's drops, but it helps Shaf see who's reading."});
+    const btn = h("button",{class:"primary", type:"button", text:"Join The Quartet", onclick: ()=>join(vals, btn, status)});
+    function syncBtn(){ btn.disabled = !S.db || (!S.owner && !S.joinPath) || (needAbout && !(vals.who||"").trim()); }
+    syncBtn();
+    form.append(h("div",{class:"sealrow"}, h("div",{class:"stamp", "aria-hidden":"true", text:"?"}), h("div",{style:"display:grid;gap:10px;min-width:0"}, status, btn)));
+    main.append(form);
+  }
+
+  async function join(vals, btn, status){
+    btn.disabled = true; status.className = "hint"; status.textContent = "Joining…";
+    const t = nowIso();
+    try {
+      await S.db.doc("readers/"+S.uid).set({fields: vals, joinedAt: t, lastActive: t, updatedAt: t, curator: !!S.owner, path: S.owner ? "own" : S.joinPath});
+    } catch(e){
+      btn.disabled = false; status.className = "err";
+      status.textContent = e && e.code === "invalid_argument" ? "You can read this page but can't join it from this account. Ask Shaf to invite you by email as an editor." : "Couldn't join just now. Try again in a moment.";
+      return;
+    }
+    ABOUT.forEach(([k]) => store.del("join:"+k));
+    if (S.owner){
+      status.textContent = "Moving your first drop across…";
+      for (const c of ["drops","reveals","texts","feedback"]){
+        try {
+          const snap = await S.db.collection(c).get();
+          for (const d of snap.docs){ await S.db.doc(P(c+"/"+d.id)).set(Object.assign({}, d.data())); }
+        } catch(e){}
+      }
+    }
+  }
+
+  // ---------- readers desk (curator only)
+  async function loadReaders(){
+    if (!S.db || !S.owner || S.admin.loading) return;
+    S.admin.loading = true; if (S.view === "readers") render();
+    try {
+      const snap = await S.db.collection("readers").get();
+      const list = snap.docs.map(d => Object.assign({id:d.id}, d.data()));
+      await Promise.all(list.map(async r => {
+        const [dr, fb, rv] = await Promise.all(["drops","feedback","reveals"].map(c => S.db.collection("readers/"+r.id+"/"+c).get()));
+        r.drops = dr.docs.map(d => Object.assign({id:d.id}, d.data())).sort((a,b)=>(b.n||0)-(a.n||0));
+        r.fb = {}; fb.docs.forEach(d => r.fb[d.id] = d.data());
+        r.rv = {}; rv.docs.forEach(d => r.rv[d.id] = d.data());
+      }));
+      list.sort((a,b) => String(a.joinedAt||"").localeCompare(String(b.joinedAt||"")));
+      S.admin.list = list; S.admin.error = null; S.admin.at = new Date();
+      if (S.user && list.length){ try { S.admin.names = await S.user.profiles(list.map(r => r.id)); } catch(e){} }
+    } catch(e){ S.admin.error = "Couldn't load readers just now. Try Refresh in a moment."; }
+    S.admin.loading = false;
+    if (S.view === "readers") render();
+  }
+  function selectText(el){ try { const r = document.createRange(); r.selectNodeContents(el); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch(e){} }
+  const nameOf = id => id === S.uid ? "You" : ((S.admin.names[id]||{}).name || "Unnamed reader");
+  const dshort = iso => { try { return new Date(iso).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); } catch(e){ return "–"; } };
+  const ago = iso => {
+    if (!iso) return "–";
+    const days = Math.floor((Date.now() - new Date(iso).getTime()) / 864e5);
+    return days <= 0 ? "Today" : days === 1 ? "Yesterday" : days < 14 ? days+" days ago" : dshort(iso);
+  };
+  function lastActiveOf(r){
+    const t = [r.lastActive, r.joinedAt, ...Object.values(r.fb||{}).map(f => f.submittedAt)].filter(Boolean).sort();
+    return t[t.length-1];
+  }
+
+  function renderReaders(){
+    if (!S.owner){ S.view = "today"; return render(); }
+    const list = S.admin.list;
+    const sent = list ? list.reduce((s,r) => s + r.drops.length, 0) : 0;
+    const unsealed = list ? list.reduce((s,r) => s + Object.keys(r.fb).length, 0) : 0;
+    main.append(h("div",{class:"titleblock"},
+      h("div",{class:"band lilac"},
+        h("span",{class:"label", text:"Curator's desk"}),
+        h("h1",{text:"Readers"}),
+        h("div",{class:"sub"}, h("span",{class:"label", text: list ? list.length+" reader"+(list.length===1?"":"s")+" · "+sent+" drop"+(sent===1?"":"s")+" sent · "+unsealed+" unsealed" : "Loading…"}))),
+      h("p",{class:"invite", text:"Everyone who has joined, the drops they've received and what they made of them. Only you see this page."})));
+
+    main.append(h("div",{class:"rdesk-meta"},
+      h("button",{class:"linkbtn", type:"button", text: S.admin.loading ? "Refreshing…" : "Refresh", disabled: S.admin.loading, onclick: loadReaders}),
+      S.admin.at ? h("span",{class:"label quiet", text:"Updated "+S.admin.at.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}) : null,
+      S.admin.error ? h("span",{class:"err", text:S.admin.error}) : null));
+
+    if (S.admin.sel && list){
+      const r = list.find(x => x.id === S.admin.sel);
+      if (r) return renderReaderDetail(r);
+      S.admin.sel = null;
+    }
+
+    if (!list){ if (!S.admin.loading) loadReaders(); return; }
+    if (!list.length){
+      main.append(h("div",{class:"empty"}, h("span",{class:"label",text:"No readers yet"}),
+        h("p",{text:"When someone you've invited opens the page and joins, they appear here with their drops and notes."})));
+    } else {
+      const tbody = h("tbody");
+      list.forEach(r => {
+        const done = Object.keys(r.fb).length;
+        const ratings = Object.values(r.fb).map(f => +f.rating).filter(Boolean);
+        const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1)+"/5" : "–";
+        const latest = r.drops[0];
+        const open = () => { S.admin.sel = r.id; render(); window.scrollTo(0,0); };
+        tbody.append(h("tr",{class:"rrow", onclick: open},
+          h("td",{}, h("button",{class:"rname", type:"button", text:nameOf(r.id), onclick:e=>{ e.stopPropagation(); open(); }}), r.curator ? h("span",{class:"youtag", text:"Curator"}) : null),
+          h("td",{text: r.curator ? "Curator" : (r.path === "shared" ? "Shaf's drops" : "Own drops")}),
+          h("td",{class:"mono-cell", text:dshort(r.joinedAt)}),
+          h("td",{class:"mono-cell", text:String(r.drops.length)}),
+          h("td",{class:"mono-cell", text:done+" of "+r.drops.length}),
+          h("td",{class:"mono-cell", text:avg}),
+          h("td",{text: latest ? "Drop "+pad(latest.n)+" · "+short(latest.date) : "Waiting for first drop"}),
+          h("td",{class:"mono-cell", text:ago(lastActiveOf(r))})));
+      });
+      main.append(h("div",{class:"rtable-wrap"}, h("table",{class:"rtable"},
+        h("thead",{}, h("tr",{}, ...["Reader","Pathway","Joined","Drops","Unsealed","Avg rating","Latest drop","Last active"].map(t => h("th",{scope:"col", text:t})))),
+        tbody)));
+    }
+    const links = h("div",{class:"invlinks"});
+    [["own","Their own drops","own"],["shared","Your drops","with-shaf"]].forEach(([k,label,tag]) => {
+      const url = PAGE_URL + "#" + tag;
+      const note = h("span",{class:"hint"});
+      const code = h("code",{text:url});
+      links.append(h("div",{class:"invlink"},
+        h("span",{class:"label", text:label}),
+        code,
+        h("div",{class:"row"},
+          h("button",{class:"linkbtn", type:"button", text:"Copy link", onclick:()=>{
+            const ok = () => { note.textContent = "Copied"; };
+            try { navigator.clipboard.writeText(url).then(ok, ()=>{ selectText(code); note.textContent = "Selected: copy it with your keyboard"; }); }
+            catch(e){ selectText(code); note.textContent = "Selected: copy it with your keyboard"; } }}),
+          note)));
+    });
+    main.append(h("div",{class:"howto"},
+      h("span",{class:"label", text:"Inviting a reader"}),
+      h("p",{text:"Open Share and invite their email address as an editor, with the public link off. Then send them one of these links. It opens the join screen with that pathway already chosen, and they can still switch."}),
+      links,
+      h("p",{class:"hint", text:"Readers on their own drops each add a full curation run to every drop morning. Readers on your drops add almost nothing: they get a copy of yours."})));
+  }
+
+  function renderReaderDetail(r){
+    const fields = r.fields || {};
+    const done = Object.keys(r.fb).length;
+    main.append(h("div",{class:"rhead"},
+      h("button",{class:"nextbtn", type:"button", style:"justify-self:start", text:"← All readers", onclick:()=>{ S.admin.sel = null; render(); }}),
+      h("h2",{text:nameOf(r.id)}),
+      h("span",{class:"label", text:(r.curator ? "Curator" : (r.path === "shared" ? "On your drops" : "Own drops"))+" · joined "+dshort(r.joinedAt)+" · "+r.drops.length+" drop"+(r.drops.length===1?"":"s")+" · "+done+" unsealed · last active "+ago(lastActiveOf(r)).toLowerCase()})));
+
+    const about = h("section",{class:"block"}, h("h3",{text:"About them"}));
+    const dl = h("dl",{class:"kv"});
+    ABOUT.forEach(([k,label]) => { if ((fields[k]||"").trim()) dl.append(h("dt",{text:label}), h("dd",{text:fields[k]})); });
+    about.append(dl.children.length ? dl : h("p",{class:"hint", text:"Nothing written yet."}));
+    main.append(about);
+
+    const sec = h("section",{class:"block"}, h("h3",{text:"Drops and notes"}));
+    if (!r.drops.length) sec.append(h("p",{class:"hint", text:"No drops yet. Their first one comes with the next morning drop."}));
+    r.drops.forEach(dr => {
+      const f = r.fb[dr.id], rv = r.rv[dr.id];
+      const box = h("div",{class:"ddrop"},
+        h("div",{class:"head"},
+          h("h4",{text:"Drop "+pad(dr.n)}),
+          h("span",{class:"label", text:fmtDate(dr.date)}),
+          f ? h("span",{class:"tag-open", text:"Unsealed · "+(f.rating||"–")+"/5"}) : h("span",{class:"tag-sealed", text:"Sealed · no notes yet"})),
+        rv && rv.thread ? h("p",{}, h("strong",{text:"Thread: "}), rv.thread+(rv.type ? " ("+String(rv.type).toLowerCase()+")" : "")) : null,
+        h("ul",{}, ...(dr.pieces||[]).map(p => {
+          const pf = f && f.pieces ? (f.pieces[p.kind]||{}) : {};
+          const rl = REACTS.find(x => x[0] === pf.reaction);
+          return h("li",{}, h("strong",{text:(KINDS[p.kind]||p.kind)+": "}), p.title+(p.author ? " · "+p.author : ""),
+            f ? h("span",{style:"color:var(--ink-2)", text:" · "+(rl ? rl[1] : "no reaction")+(pf.note ? ": "+pf.note : "")}) : null);
+        })));
+      if (f){
+        if (f.comment) box.append(h("p",{class:"quote", text:"“"+f.comment+"”"}));
+        if (f.guess) box.append(h("p",{class:"hint", text:"Their guess at the thread: "+f.guess}));
+        if (f.response) box.append(h("div",{style:"display:grid;gap:4px"}, h("span",{class:"label", text:"Their writing"}), h("p",{class:"quote", text:f.response})));
+        box.append(h("span",{class:"label quiet", text:"Notes left "+dshort(f.submittedAt)}));
+      }
+      sec.append(box);
+    });
+    main.append(sec);
+  }
+
+  function renderFoot(){
+    const foot = document.getElementById("foot");
+    foot.replaceChildren();
+    const done = Object.keys(S.fb).length;
+    if (S.drops.length){
+      const asc = S.drops.slice().sort((a,b)=>a.n-b.n);
+      foot.append(h("div",{class:"progress", "aria-hidden":"true"}, ...asc.map(dr => h("i",{class:S.fb[dr.id]?"in":"", style:"height:"+Math.min(6+dr.n, 72)+"px"}))));
+    }
+    const counts = h("div",{class:"counts"}, h("span",{class:"label", text:S.drops.length+" drop"+(S.drops.length===1?"":"s")+" · "+done+" unsealed"}));
+    if (S.drops[0]){
+      const nx = new Date(S.drops[0].date+"T12:00:00"); nx.setDate(nx.getDate()+2);
+      counts.append(h("span",{class:"label", text:"Next drop around "+nx.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})}));
+    }
+    foot.append(counts);
+  }
+
+  document.querySelectorAll("nav.sections button").forEach(b => b.addEventListener("click", ()=>{ S.view = b.dataset.view; if (b.dataset.view==="today") S.sel = null; if (b.dataset.view==="readers"){ S.admin.sel = null; loadReaders(); } render(); window.scrollTo(0,0); trackRead(); }));
+
+  (async function boot(){
+    let db = null;
+    try { db = await claude.use("db"); } catch(e){ db = null; }
+    S.db = db;
+    if (!db){ render(); return; }
+    let user = null;
+    try { user = await claude.use("user"); } catch(e){ user = null; }
+    S.user = user;
+    try { S.uid = user ? await user.id() : null; } catch(e){ S.uid = null; }
+    try { S.owner = user ? await user.isOwner() : false; } catch(e){ S.owner = false; }
+    if (S.owner) document.getElementById("nav-readers").hidden = false;
+    if (!S.uid){ S.joined = null; render(); return; }
+    if (S.owner){ try { const lg = await db.doc("profile/about").get(); S.legacy = lg.exists ? lg.data() : null; } catch(e){} }
+    const typing = () => { const a = document.activeElement; return a && (a.tagName === "TEXTAREA" || a.tagName === "INPUT"); };
+    db.doc("readers/"+S.uid).onSnapshot(s => {
+      const was = S.joined;
+      S.joined = s.exists; S.profile = s.exists ? s.data() : null;
+      if (was !== S.joined || !typing()) render();
+    }, ()=>{});
+    db.collection(P("drops")).orderBy("n","desc").onSnapshot(snap => {
+      S.drops = snap.docs.map(d => Object.assign({id:d.id}, d.data()));
+      if (!typing()) render(); else renderFoot();
+    }, ()=>{});
+    db.collection(P("feedback")).onSnapshot(snap => {
+      const m = {}; snap.docs.forEach(d => m[d.id] = d.data()); S.fb = m;
+      if (!typing()) render(); else renderFoot();
+    }, ()=>{});
+  })();
+})();
+</script>
