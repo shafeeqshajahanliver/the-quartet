@@ -765,42 +765,23 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
 
   // ---------- join (first visit): one question at a time, then choose how to read
   const ONB_Q = [
-    ["who", "Who are you?", "A line or two is plenty: what you do, where you're from, what you make.", true],
-    ["making", "What are you making at the moment?", "A project, a draft, a half-formed idea. Drops will sometimes talk to it.", false],
-    ["moves", "What moves you?", "Writers, songs, forms, places, ideas you keep coming back to.", false],
-    ["grow", "Where do you want to grow?", "As a reader or a writer, a year from now.", false],
-    ["avoid", "Anything to keep away from?", "Subjects, forms or moods you'd rather not get. Leave it blank if nothing.", false],
-    ["notes", "Anything else the curator should know?", "How much time you have, how you like to read, a request.", false]
+    ["who", "Who are you?", "A line or two is plenty: what you do, what you love to read, what you make.", true]
   ];
   function renderJoin(){
     document.body.classList.add("joining");
     const leg = S.owner && S.legacy && S.legacy.fields ? S.legacy.fields : {};
     if (!S.onb){
       const vals = {}; ABOUT.forEach(([k]) => vals[k] = store.get("join:"+k) || leg[k] || "");
-      S.onb = {i: Math.min(+(store.get("join:step")||0), ONB_Q.length + (S.owner ? 0 : 1)), vals, dir: 1};
+      S.onb = {i: Math.max(1, Math.min(+(store.get("join:step")||1), ONB_Q.length + 1)), vals, dir: 1};
     }
     const o = S.onb, vals = o.vals;
     const last = ONB_Q.length + 1;              // 0 = welcome, 1..n = questions, n+1 = final
-    const go = (i, dir) => { o.i = Math.max(0, Math.min(last, i)); o.dir = dir || 1; store.set("join:step", o.i); render(); window.scrollTo(0,0); };
+    const go = (i, dir) => { o.i = Math.max(1, Math.min(last, i)); o.dir = dir || 1; store.set("join:step", o.i); render(); window.scrollTo(0,0); };
     const stage = h("section",{class:"onb"+(o.dir < 0 ? " back" : ""), "aria-live":"polite"});
     const bars = h("div",{class:"onb-bars", "aria-hidden":"true"});
     for (let k = 1; k <= last; k++) bars.append(h("i",{class: k < o.i ? "done" : k === o.i ? "cur" : ""}));
     const top = h("div",{class:"onb-top"}, bars,
-      h("span",{class:"label", text: o.i === 0 ? "Welcome" : o.i <= ONB_Q.length ? "Question "+o.i+" of "+ONB_Q.length : (S.owner ? "Ready" : "Last step")}));
-
-    if (o.i === 0){
-      stage.append(top,
-        h("div",{class:"onb-body"},
-          h("div",{class:"band wax onb-band"}, h("span",{class:"label", text:"Join"}), h("h1",{text:"The Quartet"})),
-          h("p",{class:"onb-lede", text:"An essay, a poem, a short story and a song, every other morning. One hidden thread runs through all four, and it unseals once you've left your notes."}),
-          h("ul",{class:"onb-points"},
-            h("li",{text: ONB_Q.length+" short questions about you, so the drops fit."}),
-            S.owner ? h("li",{text:"Your answers fill your About me, which you can change any time."})
-                    : h("li",{text:"Shaf curates The Quartet and reads your answers, ratings and notes."}),
-            h("li",{text:"About two minutes. You can skip anything except the first."}))),
-        h("div",{class:"onb-actions"}, h("span"), h("button",{class:"primary", type:"button", text:"Begin", onclick:()=>go(1, 1)})));
-      main.append(stage); focusSoon(".onb .primary"); return;
-    }
+      h("span",{class:"label", text: "Step "+o.i+" of "+last}));
 
     if (o.i <= ONB_Q.length){
       const [k, q, hint, required] = ONB_Q[o.i-1];
@@ -810,13 +791,13 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
       const next = h("button",{class:"primary", type:"button", text: o.i === ONB_Q.length ? "Continue" : "Next", disabled: required && !(vals[k]||"").trim(), onclick:()=>go(o.i+1, 1)});
       stage.append(top,
         h("div",{class:"onb-body"},
-          h("div",{class:"onb-num", "aria-hidden":"true"}, h("span",{class:"stamp", text: ROMAN[o.i-1] || String(o.i)})),
+          o.i === 1 ? h("p",{class:"onb-lede", text:"An essay, a poem, a short story and a song every other morning, with one hidden idea running through all four."}) : null,
           h("h2",{class:"onb-q", text:q}),
-          h("p",{class:"onb-hint", text:hint + (required ? "" : " Optional.")}),
+          h("p",{class:"onb-hint", text:hint + (required ? "" : " Optional.") + (S.owner ? "" : " Shaf, who curates The Quartet, reads your answers and notes.")}),
           ta,
           h("p",{class:"hint onb-keys", text:"Ctrl or ⌘ + Enter to go on."})),
         h("div",{class:"onb-actions"},
-          h("button",{class:"linkbtn", type:"button", text:"← Back", onclick:()=>go(o.i-1, -1)}),
+          o.i > 1 ? h("button",{class:"linkbtn", type:"button", text:"← Back", onclick:()=>go(o.i-1, -1)}) : h("span"),
           h("div",{class:"onb-right"},
             required ? null : h("button",{class:"skipbtn", type:"button", text:"Skip", onclick:()=>go(o.i+1, 1)}),
             next)));
