@@ -29,9 +29,14 @@
     listeners.get(key).add(fn);
     return () => listeners.get(key).delete(fn);
   }
+  // After a write, re-read the document, its collection, and anything stored under it
+  // (joining changes which drops a reader can see, so their drops and notes must reload too).
   function refresh(path) {
     const parent = path.split("/").slice(0, -1).join("/");
-    for (const key of ["doc:" + path, "col:" + parent]) (listeners.get(key) || []).forEach(fn => fn());
+    for (const [key, fns] of listeners) {
+      const target = key.slice(key.indexOf(":") + 1);
+      if (key === "doc:" + path || key === "col:" + parent || target.startsWith(path + "/")) fns.forEach(fn => fn());
+    }
   }
   const docSnap = (id, res) => ({ id, exists: !!res.exists, data: () => res.data, metadata: { fromCache: false, hasPendingWrites: false } });
   const qSnap = docs => ({ docs, size: docs.length, empty: !docs.length, docChanges: () => [], metadata: { fromCache: false, hasPendingWrites: false } });
