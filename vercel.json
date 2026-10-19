@@ -1,0 +1,7 @@
+{
+  "buildCommand": "node build.mjs",
+  "outputDirectory": "public",
+  "functions": {
+    "api/*.js": { "includeFiles": "content/**" }
+  }
+}

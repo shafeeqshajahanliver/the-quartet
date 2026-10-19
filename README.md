@@ -9,8 +9,21 @@ This repo is the master copy of how it works.
 
 | Path | What it is |
 | --- | --- |
-| `page/index.html` | The page itself, exactly as published. Edit here first, then publish. |
+| `page/index.html` | The page itself. The same file runs on claude.ai and on the Vercel site. |
+| `shim/claude-shim.js` | Lets the page run on Vercel: gives it the same storage calls it has on claude.ai, backed by `/api`. |
+| `api/` | The site's server: sign-in, About me, notes and the Readers desk. Notes live in Postgres. |
+| `content/curator/` | Every drop, its thread (`reveals/`) and any public-domain texts. The curator commits here; Vercel redeploys. |
+| `build.mjs` | Wraps the page for Vercel. |
 | `curator/how-drops-are-made.md` | What the scheduled curator does every other morning. |
+
+## Vercel settings
+
+| Setting | What it's for |
+| --- | --- |
+| `OWNER_PASSWORD` | The curator's sign-in password. |
+| `SESSION_SECRET` | Signs sign-in cookies. Any long random string. |
+| `DATABASE_URL` | Added automatically when a Postgres database is connected (Storage tab). Without it, drops show but notes can't be saved. |
+| `SEED_CURATOR` | Optional, one-off: carries the curator's About me and notes over from claude.ai. |
 
 ## How it fits together
 
@@ -23,4 +36,4 @@ This repo is the master copy of how it works.
 
 ## Privacy
 
-This repo is public. Readers' notes, About me pages, the year plan and the threads are deliberately not stored here. If the repo is made private, a weekly backup of the database can be added under `backup/`.
+Threads are stored in the repo on an honour system: the page hides each one until notes are in, but the files are readable. Readers' notes and About me pages live in the database, never in the repo.

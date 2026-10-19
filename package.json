@@ -1,0 +1,14 @@
+{
+  "name": "the-quartet",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "0.10.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,61 @@
+{
+ "n": 2,
+ "date": "2026-10-19",
+ "phase": 1,
+ "phaseName": "Noticing",
+ "invitation": "One from the 8th century, two from the 19th, one from 1964. Start with the poem: it takes a minute, and it's worth carrying into the other three.",
+ "pieces": [
+  {
+   "kind": "essay",
+   "title": "Night Walks",
+   "author": "Charles Dickens",
+   "place": "London",
+   "year": "1860",
+   "minutes": 22,
+   "link": "https://www.gutenberg.org/ebooks/914",
+   "note": "Chapter 13 of The Uncommercial Traveller. Dickens built it from his own walks through the London you live in. Notice how he names real bridges, theatres and prisons and lets each one carry a feeling, and how he coins a single word early on and keeps returning to it until the joke turns serious."
+  },
+  {
+   "kind": "poem",
+   "title": "Quiet Night Thought",
+   "author": "Li Bai",
+   "place": "Tang China",
+   "year": "c. 726",
+   "minutes": 2,
+   "link": "https://www.poetry-chaikhana.com/Poets/L/LiBai/InQuietNight/index.html",
+   "altLinks": [
+    {
+     "label": "Another translation",
+     "url": "https://poetry-chaikhana.com/Poets/L/LiBai/QuietThought/index.html"
+    }
+   ],
+   "note": "Four lines, twenty characters in the Chinese, and one of the most memorised poems in the world. Read both translations: the gap between them shows how much a single verb carries. The whole poem turns on one moment of mistaking one thing for another; find it."
+  },
+  {
+   "kind": "story",
+   "title": "The Hungry Stones",
+   "author": "Rabindranath Tagore",
+   "place": "Bengal",
+   "year": "1895",
+   "minutes": 30,
+   "link": "https://www.gutenberg.org/ebooks/2518",
+   "note": "The title story of the 1916 English collection. A cotton-tax collector takes rooms in an abandoned Mughal palace. Tagore frames it as a tale told by a stranger at a railway station, so you never know how far to trust it. Watch how the uncanny builds through repetition and sensual detail rather than shocks."
+  },
+  {
+   "kind": "song",
+   "title": "The Sound of Silence",
+   "author": "Simon & Garfunkel",
+   "place": "New York",
+   "year": "1964",
+   "minutes": 3,
+   "link": "https://www.youtube.com/results?search_query=Simon+and+Garfunkel+The+Sound+of+Silence+1964+acoustic",
+   "altLinks": [
+    {
+     "label": "Spotify",
+     "url": "https://open.spotify.com/search/The%20Sound%20of%20Silence%20Simon%20%26%20Garfunkel"
+    }
+   ],
+   "note": "Paul Simon wrote it at 21. Listen as a lyricist: each verse widens the camera, from one person to a street to a crowd to a sign, while the melody barely moves. The escalation is all in the words."
+  }
+ ]
+}

@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-19",
+  "invitation": "A moth, a grasshopper, a fox fur, a sunset. Take them in any order, not all at once, and notice what keeps catching your eye.",
+  "n": 1,
+  "phase": 1,
+  "phaseName": "Noticing",
+  "pieces": [
+    {
+      "author": "Virginia Woolf",
+      "kind": "essay",
+      "link": "https://gutenberg.net.au/ebooks12/1203811h.html",
+      "minutes": 8,
+      "note": "A moth at a window on a September morning. Almost nothing happens, and the tension still builds. Watch how a tiny event is scaled up to the size of the world without the voice ever rising.",
+      "place": "Rodmell, Sussex",
+      "title": "The Death of the Moth",
+      "year": "1942"
+    },
+    {
+      "author": "Mary Oliver",
+      "kind": "poem",
+      "link": "https://poets.org/poem/summer-day",
+      "minutes": 3,
+      "note": "Nineteen lines. Notice how long she stays on one small, physical description before she lets herself ask a big question. The last line is famous; read everything before it slowly.",
+      "place": "Provincetown, Massachusetts",
+      "title": "The Summer Day",
+      "year": "1990"
+    },
+    {
+      "author": "Katherine Mansfield",
+      "kind": "story",
+      "link": "https://www.gutenberg.org/ebooks/1429",
+      "minutes": 12,
+      "note": "A woman goes to the park on a Sunday. Told almost entirely from inside her head, and the turn near the end is one of the cleanest gut-punches in the short story.",
+      "place": "a public garden in France, published in London",
+      "title": "Miss Brill",
+      "year": "1920"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Waterloo%20Sunset%20The%20Kinks"
+        }
+      ],
+      "author": "The Kinks (Ray Davies)",
+      "kind": "song",
+      "link": "https://www.youtube.com/results?search_query=The+Kinks+Waterloo+Sunset+official",
+      "minutes": 4,
+      "note": "You'll know it. Listen as a lyricist this time: count the concrete nouns, and notice who the singer is and where he is standing.",
+      "place": "London",
+      "title": "Waterloo Sunset",
+      "year": "1967"
+    }
+  ]
+}

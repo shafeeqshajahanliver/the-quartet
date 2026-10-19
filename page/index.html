@@ -287,6 +287,12 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
 .pitem.on .pmark{transform:rotate(calc(var(--tilt-stamp) - var(--tilt-current)))}
 .day.drop.current,.day.drop.current:hover{transform:rotate(var(--tilt-current))}
 @media (max-width:720px){.pitem.on,.pitem.on:hover,.pitem.on.noted,.pitem.on.noted:hover{transform:none;margin-block:0}}
+
+.daystack{display:grid;gap:4px;align-content:start;min-width:0;padding-top:6px;border-top:var(--hairline)}
+.daystack > .dnum{padding:0 4px}
+.day.drop.small{min-height:0;padding:6px 8px}
+.day.drop.small .num{font-size:22px;margin-top:0}
+@media (max-width:720px){.day.drop.small{min-height:0;padding:4px}.day.drop.small .num{font-size:16px}}
 </style>
 
 <div class="wrap">
@@ -625,7 +631,7 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
         h("h1",{text:"Archive"}),
         h("div",{class:"sub"}, h("span",{class:"label", text:S.drops.length+" drop"+(S.drops.length===1?"":"s")+" · "+unsealed+" unsealed"})))));
     if (!S.drops.length) return renderEmpty();
-    const byDate = {}; S.drops.forEach(d => { if (!byDate[d.date]) byDate[d.date] = d; });
+    const byDate = {}; S.drops.forEach(d => { (byDate[d.date] = byDate[d.date] || []).push(d); });
     const months = []; const seen = {};
     S.drops.forEach(d => { const k = String(d.date||"").slice(0,7); if (k && !seen[k]){ seen[k] = 1; months.push(k); } });
     const today = new Date(); today.setHours(12,0,0,0);
@@ -646,22 +652,26 @@ table.rtable{width:100%;border-collapse:collapse;min-width:680px}
       for (let i = 0; i < lead; i++) grid.append(h("span",{class:"day blank", "aria-hidden":"true"}));
       for (let dd = 1; dd <= days; dd++){
         const iso = k+"-"+pad(dd);
-        const dr = byDate[iso];
-        if (!dr){
+        const list = byDate[iso];
+        if (!list){
           const future = new Date(y, m-1, dd, 12) > today;
           grid.append(h("span",{class:"day"+(future?" future":"")+(iso===todayIso?" today":""), "aria-hidden":"true", text: dd}));
           continue;
         }
-        const fb = S.fb[dr.id], r = S.reveals[dr.id];
-        if (fb && r === undefined) loadReveal(dr.id).then(()=>{ if (S.view==="archive") render(); });
-        const latest = dr.id === S.drops[0].id;
-        grid.append(h("button",{class:"day drop"+(latest?" current":"")+(fb?" done":""), type:"button", role:"listitem",
-          "aria-label":"Drop "+pad(dr.n)+", "+fmtDate(dr.date)+(fb ? ", unsealed" : ", sealed"),
-          onclick:()=>{ S.sel = dr.id; S.view = "today"; render(); window.scrollTo(0,0); }},
-          h("span",{class:"row"}, h("span",{class:"dnum", text:dd}), h("span",{class:"stampx"+(fb?" open":""), "aria-hidden":"true", text: fb ? "✓" : "?"})),
-          h("span",{class:"num", text:pad(dr.n)}),
-          fb && r ? h("span",{class:"thread", text:r.thread}) : h("span",{class:"sealed", text: fb ? "Thread to come" : "Sealed"}),
-          fb ? h("span",{class:"rating", text:(fb.rating||"–")+"/5"}) : null));
+        const cell = (dr, small) => {
+          const fb = S.fb[dr.id], r = S.reveals[dr.id];
+          if (fb && r === undefined) loadReveal(dr.id).then(()=>{ if (S.view==="archive") render(); });
+          const latest = dr.id === S.drops[0].id;
+          return h("button",{class:"day drop"+(latest?" current":"")+(fb?" done":"")+(small?" small":""), type:"button", role:"listitem",
+            "aria-label":"Drop "+pad(dr.n)+", "+fmtDate(dr.date)+(fb ? ", unsealed" : ", sealed"),
+            onclick:()=>{ S.sel = dr.id; S.view = "today"; render(); window.scrollTo(0,0); }},
+            h("span",{class:"row"}, h("span",{class:"dnum", text: small ? "" : dd}), h("span",{class:"stampx"+(fb?" open":""), "aria-hidden":"true", text: fb ? "✓" : "?"})),
+            h("span",{class:"num", text:pad(dr.n)}),
+            small ? null : (fb && r ? h("span",{class:"thread", text:r.thread}) : h("span",{class:"sealed", text: fb ? "Thread to come" : "Sealed"})),
+            fb && !small ? h("span",{class:"rating", text:(fb.rating||"–")+"/5"}) : null);
+        };
+        if (list.length === 1) grid.append(cell(list[0], false));
+        else grid.append(h("div",{class:"daystack"}, h("span",{class:"dnum", text:dd}), ...list.map(dr => cell(dr, true))));
       }
       sec.append(grid);
       cal.append(sec);
