@@ -13,4 +13,5 @@ const head = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 fs.mkdirSync("public", { recursive: true });
 fs.writeFileSync("public/index.html", head + page + "\n</body></html>\n");
 fs.copyFileSync("shim/claude-shim.js", "public/claude-shim.js");
+fs.copyFileSync("site/privacy.html", "public/privacy.html");
 console.log("Built public/index.html");

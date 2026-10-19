@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Privacy · The Quartet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+:root{--paper:#f4ecdc;--ink:#151a2c;--ink-2:#4a5068;--line:#d7dbe3;--violet:#3d2c7c;
+  --display:"Gloock","Iowan Old Style",Georgia,serif;--body:"Source Serif 4","Iowan Old Style",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:48px 64px}
+main{max-width:640px;margin:0 auto;display:grid;gap:18px}
+h1,h2{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance}
+h1{font-size:44px;line-height:1}
+h2{font-size:24px;margin-top:14px}
+p,ul{margin:0}
+ul{padding-left:1.1em;display:grid;gap:6px}
+.label{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+a{color:var(--violet)}
+footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<main>
+  <span class="label">The Quartet</span>
+  <h1>Privacy</h1>
+  <p>The Quartet is a small, personal reading project run by Shaf (Shafeeq Shajahan) in London. Every other morning it gives each reader an essay, a poem, a short story and a song, and asks for their notes. This page says what it keeps about you and why.</p>
+
+  <h2>What it keeps</h2>
+  <ul>
+    <li><strong>From Google, when you sign in:</strong> your name, your email address and Google's ID for your account. Nothing else from your Google account is requested or read.</li>
+    <li><strong>What you write:</strong> your About me, your ratings and reactions, your notes and guesses, and anything you write for a writing exercise.</li>
+    <li><strong>Dates:</strong> when you joined and when you were last active.</li>
+    <li><strong>One cookie</strong> that keeps you signed in. There are no advertising or tracking cookies and no analytics.</li>
+  </ul>
+
+  <h2>Who can see it</h2>
+  <p>You, and Shaf as the curator. Shaf reads readers' About me pages and notes to choose future drops. Nobody else is given access, and nothing is sold, shared with advertisers or used for anything other than running The Quartet.</p>
+
+  <h2>Where it's stored</h2>
+  <p>On Vercel, which hosts the site, and in a Postgres database run by Neon through Vercel. Drops themselves, and the hidden connection between each drop's pieces, are stored in a public GitHub repository; nothing you write is stored there.</p>
+
+  <h2>Google user data</h2>
+  <p>Information received from Google is used only to sign you in and to show your name to the curator. Its use follows the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+  <h2>Keeping and deleting</h2>
+  <p>Your data is kept while you use The Quartet. To have it deleted, or to get a copy, email Shaf at <strong>shafeeqshajahan@gmail.com</strong> and it will be removed within 30 days. You can also stop using the site at any time and revoke its access from your Google account settings.</p>
+
+  <footer><span class="label">Last updated 19 October 2026 · <a href="/">Back to The Quartet</a></span></footer>
+</main>
+</body>
+</html>
