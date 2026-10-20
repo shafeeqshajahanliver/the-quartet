@@ -327,6 +327,10 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
   @keyframes onbBack{from{opacity:.25;transform:translateX(-18px)}to{opacity:1;transform:none}}
 }
 @media (max-width:600px){.onb{min-height:calc(100vh - 120px);padding-block:20px 16px}.onb-input{font-size:18px}.onb-keys{display:none}}
+
+/* in-page song player (Vercel site only) */
+.player{position:relative;width:100%;max-width:640px;aspect-ratio:16/9;border-radius:6px;overflow:hidden;background:var(--ink);margin-top:6px}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 </style>
 
 <div class="wrap">
@@ -541,6 +545,12 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
         p.link ? h("a",{class: native ? "alt" : "", href:p.link, target:"_blank", rel:"noopener", text:(native ? "Source" : (p.kind==="song"?"Listen":"Read"))+" ↗",
           onclick:()=>{ if (!native) { setRead(id, p.kind); setTimeout(render, 400); } }}) : null,
         ...(p.altLinks||[]).map(a => h("a",{class:"alt", href:a.url, target:"_blank", rel:"noopener", text:a.label+" ↗", onclick:()=>{ if (!native){ setRead(id, p.kind); setTimeout(render, 400); } }}))));
+      if (SITE && p.youtube && /^[A-Za-z0-9_-]{11}$/.test(p.youtube)){
+        // On the Vercel site songs play in the page (claude.ai doesn't allow embedded players).
+        focus.append(h("div",{class:"player"},
+          h("iframe",{src:"https://www.youtube-nocookie.com/embed/"+p.youtube+"?rel=0", title:"Play "+p.title,
+            allow:"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen:true, loading:"lazy", referrerpolicy:"strict-origin-when-cross-origin"})));
+      }
       if (reading){
         const reader = h("div",{class:"reader", "data-drop":id, "data-kind":p.kind, "data-min": String(+p.minutes || 0)});
         String(tx.text).split(/\n\s*\n/).forEach(par => { if (par.trim()) reader.append(h("p",{text:par.trim()})); });
