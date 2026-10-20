@@ -1,0 +1,67 @@
+{
+  "n": 2,
+  "date": "2026-10-20",
+  "phase": 1,
+  "phaseName": "Noticing",
+  "invitation": "From Moulmein, Lahore, Louisiana and Kingston. Read the story in one sitting: it's about a thousand words and turns on its last line.",
+  "pieces": [
+    {
+      "kind": "essay",
+      "title": "Shooting an Elephant",
+      "author": "George Orwell",
+      "place": "Moulmein, Burma",
+      "year": "1936",
+      "minutes": 18,
+      "link": "https://www.online-literature.com/orwell/887/",
+      "altLinks": [
+        {
+          "label": "Ebook",
+          "url": "https://epubbooks.com/book/1168-shooting-an-elephant"
+        }
+      ],
+      "note": "Orwell builds the whole essay toward one decision made in front of a crowd. Watch how slowly he narrates the act itself, almost frame by frame, and how the confession in the opening paragraph quietly sets up the argument that arrives at the end as a story, not a thesis."
+    },
+    {
+      "kind": "poem",
+      "title": "Subh-e-Azadi",
+      "author": "Faiz Ahmed Faiz",
+      "place": "Lahore",
+      "year": "1947",
+      "minutes": 4,
+      "link": "https://www.outlookindia.com/books/freedoms-dawn-august-1947-news-212904",
+      "altLinks": [
+        {
+          "label": "About the poem",
+          "url": "https://en.wikipedia.org/wiki/Subh-e-Azadi"
+        }
+      ],
+      "note": "Faiz wrote in the classical Urdu tradition, where the language of a lover's longing is the default register. Notice how he borrows that vocabulary of desire and disappointment for something public, and how the poem keeps travelling even as it says it has arrived. The Outlook page has V. G. Kiernan's translation and a literal one; read both."
+    },
+    {
+      "kind": "story",
+      "title": "The Story of an Hour",
+      "author": "Kate Chopin",
+      "place": "Louisiana",
+      "year": "1894",
+      "minutes": 6,
+      "link": "https://www.katechopin.org/pdfs/Kate%20Chopin%2C%20The%20Story%20of%20an%20Hour.pdf",
+      "note": "Barely a thousand words. Almost everything happens in one room, by one open window, through what she sees and hears outside. Notice how Chopin lets the weather and the street do the emotional work, and how much the final sentence asks you to reread."
+    },
+    {
+      "kind": "song",
+      "title": "Redemption Song",
+      "author": "Bob Marley & The Wailers",
+      "place": "Kingston, Jamaica",
+      "year": "1980",
+      "minutes": 4,
+      "link": "https://www.youtube.com/results?search_query=Bob+Marley+Redemption+Song+official",
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Redemption%20Song%20Bob%20Marley"
+        }
+      ],
+      "note": "Just a voice and an acoustic guitar, unusual for Marley, recorded when he knew he was ill. Listen to how the hook is a line borrowed from a speech, and how plain the structure stays so the words can carry the weight."
+    }
+  ]
+}
