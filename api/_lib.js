@@ -71,6 +71,9 @@ export async function db() {
       reader_id text not null, drop_id text not null, body jsonb not null,
       submitted_at timestamptz, primary key (reader_id, drop_id))`;
     await q`alter table readers add column if not exists name text`;
+    await q`create table if not exists published (
+      kind text not null, id text not null, data jsonb not null, updated_at timestamptz,
+      primary key (kind, id))`;
     await seedCurator(q);
   })().catch(e => { _ready = null; throw e; });
   await _ready;
@@ -126,22 +129,41 @@ const pad = n => String(n).padStart(3, "0");
 // Which drops a reader sees. The curator and readers on the curator's pathway ("shared") read
 // content/curator: every drop, with the curator's numbering, so the archive is complete.
 // Readers on their own pathway read content/readers/<id>.
-export function contentFor(reader) {
+export async function contentFor(reader, q) {
   if (!reader) return { drops: [], reveal: () => null, text: () => null };
   const shared = reader.curator || reader.path === "shared";
   const dir = shared ? path.join(CONTENT, "curator") : path.join(CONTENT, "readers", SAFE.test(reader.id) ? reader.id : "_none");
+  // Curator drops published through /api/publish (the backup route when a scheduled run can't push to
+  // GitHub). The repo copy wins whenever both exist.
+  const extra = { drops: {}, reveals: {}, texts: {} };
+  if (shared && q) {
+    try { for (const r of await q`select kind, id, data from published`) if (extra[r.kind]) extra[r.kind][r.id] = r.data; } catch { /* table not ready */ }
+  }
+  const drops = readDir(path.join(dir, "drops"));
+  const have = new Set(drops.map(d => d.id));
+  for (const [id, data] of Object.entries(extra.drops)) if (!have.has(id)) drops.push({ id, data });
+  drops.sort((a, b) => (a.id > b.id ? 1 : -1));
   return {
-    drops: readDir(path.join(dir, "drops")),
+    drops,
     reveal: id => {
-      const r = readOne(path.join(dir, "reveals"), id);
+      const r = readOne(path.join(dir, "reveals"), id) || (SAFE.test(id) ? extra.reveals[id] : null) || null;
       // A reader on the curator's drops doesn't see the curator's personal "for your own work" line.
       return r && !reader.curator ? Object.assign({}, r, { forYou: undefined }) : r;
     },
-    text: key => readOne(path.join(dir, "texts"), key),
+    text: key => readOne(path.join(dir, "texts"), key) || (SAFE.test(key) ? extra.texts[key] : null) || null,
   };
 }
 
+// The key a scheduled run uses for /api/publish, derived from SESSION_SECRET so no new setting is needed.
+export function publishKey() {
+  const s = process.env.SESSION_SECRET || "";
+  return s ? crypto.createHmac("sha256", s).update("quartet-publish").digest("hex") : "";
+}
+
 // For /api/health: how many drops the deployment can see (no private data).
-export function contentStats() {
-  return { curatorDrops: readDir(path.join(CONTENT, "curator", "drops")).length, contentDir: fs.existsSync(CONTENT) };
+export async function contentStats(q) {
+  const repo = readDir(path.join(CONTENT, "curator", "drops")).map(d => d.id);
+  let pub = [];
+  if (q) { try { pub = (await q`select id from published where kind = 'drops'`).map(r => r.id); } catch { /* none */ } }
+  return { curatorDrops: new Set([...repo, ...pub]).size, inRepo: repo.length, contentDir: fs.existsSync(CONTENT) };
 }

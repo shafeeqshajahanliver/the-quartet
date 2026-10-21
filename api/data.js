@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       }
       if (seg[0] !== "readers" || seg.length !== 3 || !allowed) return json(res, 200, { docs: [] });
       const reader = await loadReader(q, target);
-      const c = contentFor(reader);
+      const c = await contentFor(reader, q);
       if (seg[2] === "drops") return json(res, 200, { docs: c.drops });
       if (seg[2] === "reveals") return json(res, 200, { docs: c.drops.map(d => ({ id: d.id, data: c.reveal(d.id) })).filter(d => d.data) });
       if (seg[2] === "feedback") {
@@ -70,7 +70,7 @@ export default async function handler(req, res) {
       return json(res, 200, { exists: true, data: readerData(reader.row) });
     }
     if (seg.length === 4) {
-      const c = contentFor(reader);
+      const c = await contentFor(reader, q);
       let d = null;
       if (seg[2] === "reveals") d = c.reveal(seg[3]);
       else if (seg[2] === "texts") d = c.text(seg[3]);
