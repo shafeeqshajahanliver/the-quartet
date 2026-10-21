@@ -24,6 +24,9 @@ This repo is the master copy of how it works.
 | `CURATOR_EMAIL` | Extra Google accounts that sign in as the curator. shafeeqshajahan@gmail.com always does. |
 | `SESSION_SECRET` | Signs sign-in cookies. Any long random string. |
 | `DATABASE_URL` | Added automatically when a Postgres database is connected (Storage tab). Without it, drops show but notes can't be saved. |
+| `RESEND_API_KEY`, `EMAIL_FROM` | Drop emails. A Resend API key and a verified sender such as `The Quartet <drops@yourdomain>`. Without them no email is sent. |
+| `CRON_SECRET` | Any long random string. Vercel sends it with the daily 07:00 UTC cron that calls `/api/notify`. |
+| `SITE_URL` | Optional. Used for links in emails. Defaults to https://the-quartet.vercel.app. |
 | `SEED_CURATOR` | Optional. The curator's claude.ai About me and notes also ship encrypted in `content/private/curator-seed.enc`, unlocked by `SESSION_SECRET`, and are loaded the first time the database is used. |
 
 ## How it fits together

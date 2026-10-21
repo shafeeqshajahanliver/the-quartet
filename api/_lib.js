@@ -71,6 +71,9 @@ export async function db() {
       reader_id text not null, drop_id text not null, body jsonb not null,
       submitted_at timestamptz, primary key (reader_id, drop_id))`;
     await q`alter table readers add column if not exists name text`;
+    await q`alter table readers add column if not exists email_optin boolean not null default true`;
+    await q`create table if not exists notified (
+      drop_id text not null, reader_id text not null, sent_at timestamptz, primary key (drop_id, reader_id))`;
     await q`create table if not exists published (
       kind text not null, id text not null, data jsonb not null, updated_at timestamptz,
       primary key (kind, id))`;
@@ -152,6 +155,11 @@ export async function contentFor(reader, q) {
     },
     text: key => readOne(path.join(dir, "texts"), key) || (SAFE.test(key) ? extra.texts[key] : null) || null,
   };
+}
+
+// Unsubscribe links in emails carry an HMAC of the reader id, so only the recipient can opt out.
+export function unsubToken(id) {
+  return crypto.createHmac("sha256", process.env.SESSION_SECRET || "").update("unsub:" + id).digest("base64url");
 }
 
 // The key a scheduled run uses for /api/publish, derived from SESSION_SECRET so no new setting is needed.
