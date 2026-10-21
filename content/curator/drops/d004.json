@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-21",
+  "invitation": "A tea book written in New York, an ode from Hampstead, a fairy tale from London and a folk song from the English Midlands. Three read in the page; the song you will need to find yourself.",
+  "n": 4,
+  "phase": 1,
+  "phaseName": "Noticing",
+  "pieces": [
+    {
+      "author": "Okakura Kakuzo",
+      "kind": "essay",
+      "link": "https://www.gutenberg.org/ebooks/769",
+      "minutes": 14,
+      "note": "This is one chapter of a book written in English for Western readers, and you can hear him managing that audience: he opens in a spring dawn, then turns quietly sardonic about the West's habits. Notice how he moves between a big claim, a precise practice and a small anecdote, and how the anecdote is allowed to carry the argument in place of a summary.",
+      "place": "New York, by a Japanese author",
+      "title": "The Book of Tea: Flowers",
+      "year": "1906"
+    },
+    {
+      "author": "John Keats",
+      "kind": "poem",
+      "link": "https://www.gutenberg.org/ebooks/23684",
+      "minutes": 3,
+      "note": "Three ten-line stanzas with the same rhyme scheme. The first is all instruction in the negative, the second flips to a gentler instruction, and the third finally describes. Read it aloud and mark where the sentences run past the line ends, and what the sounds do when the grapes burst in the last stanza.",
+      "place": "Hampstead, London",
+      "title": "Ode on Melancholy",
+      "year": "1820"
+    },
+    {
+      "author": "Oscar Wilde",
+      "kind": "story",
+      "link": "https://www.gutenberg.org/ebooks/902",
+      "minutes": 10,
+      "note": "A fairy tale with a plain moral frame, built from short scenes of talk between creatures and a student. Watch how Wilde lets the reader see two things the characters do not, and how the register shifts from comic to lyrical and back again in the last page. Count how much of the story is dialogue.",
+      "place": "London, by an Irish author",
+      "title": "The Nightingale and the Rose",
+      "year": "1888"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Fruit%20Tree%20Nick%20Drake"
+        }
+      ],
+      "author": "Nick Drake",
+      "kind": "song",
+      "link": "https://www.youtube.com/results?search_query=Nick+Drake+Fruit+Tree",
+      "minutes": 4,
+      "note": "A fingerpicked guitar with strings arranged by Robert Kirby, and a lyric written in slow, gnomic images. Listen as a songwriter for where the verses are consoling and where they turn, and for how plain the vocal stays while the harmony does the unsettling.",
+      "place": "London, by an English singer-songwriter born in Burma",
+      "title": "Fruit Tree",
+      "year": "1969"
+    }
+  ]
+}
