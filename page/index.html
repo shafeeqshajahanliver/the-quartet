@@ -173,6 +173,40 @@ footer{margin-top:48px;padding-top:14px;border-top:var(--hairline);display:grid;
 footer .counts{display:flex;flex-wrap:wrap;gap:6px 18px}
 @media (max-width:520px){.sealrow{padding:18px 16px;gap:14px}.band{padding:16px 18px 18px}}
 
+/* together: the shared heat map */
+.tstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:28px;max-width:var(--column)}
+.tstat{border:var(--hairline);border-radius:8px;background:var(--sheet);padding:14px 16px;display:grid;gap:4px}
+.tstat b{font-family:var(--display);font-weight:400;font-size:38px;line-height:1;color:var(--violet)}
+.heat{margin-top:26px;max-width:var(--measure);overflow-x:auto;padding-bottom:6px}
+.heat-row{display:grid;grid-template-columns:132px repeat(var(--cols),minmax(64px,1fr));gap:8px;align-items:center;margin-bottom:10px;min-width:calc(132px + var(--cols) * 72px)}
+.heat-row.head{margin-bottom:6px}
+.heat-name{font-family:var(--display);font-size:22px;line-height:1.1}
+.heat-name small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:3px}
+.heat-col{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);text-align:center}
+.heat-cell{border-radius:8px;padding:8px 4px 7px;display:grid;justify-items:center;gap:6px;background:var(--sheet);border:var(--hairline-dashed);color:var(--ink-3);font-family:var(--mono);font-size:12px}
+.heat-cell b{font-family:var(--display);font-weight:400;font-size:26px;line-height:1}
+.heat-cell.r1{background:#ece8f7;border:0;color:var(--ink)} .heat-cell.r2{background:#d9d0f1;border:0;color:var(--ink)}
+.heat-cell.r3{background:#bdaee8;border:0;color:var(--ink)} .heat-cell.r4{background:#7d63c9;border:0;color:var(--on-violet)} .heat-cell.r5{background:var(--violet);border:0;color:var(--on-violet)}
+.pips{display:flex;gap:4px}
+.pip{width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;opacity:.45}
+.pip.loved{background:var(--gold-light);border-color:var(--gold-deep);opacity:1} .pip.fine{background:var(--lilac);border-color:var(--violet);opacity:1} .pip.missed{background:var(--wax-light);border-color:var(--wax-deep);opacity:1}
+.heat-avg .bar{height:44px;display:flex;align-items:flex-end;justify-content:center}
+.heat-avg .bar i{display:block;width:60%;background:var(--gold-light);border-radius:4px 4px 0 0;min-height:3px}
+.heat-avg small{display:block;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:4px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink-2);align-items:center}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+/* invite card */
+.invite-card{margin-top:28px;max-width:var(--column);border-radius:12px;padding:26px 26px 22px;background:var(--violet);color:var(--on-violet);display:grid;gap:14px;position:relative;overflow:hidden}
+.invite-card::after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:var(--lilac);opacity:.22}
+.invite-card h3{font-family:var(--display);font-weight:400;font-size:clamp(26px,3.4vw,36px);line-height:1.08;margin:0;color:var(--on-violet)}
+.invite-card p{margin:0;color:#e4dff6;max-width:56ch}
+.invite-card .label{color:var(--gold-light)}
+.invite-steps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.invite-steps div{border:1px solid rgba(255,255,255,.28);border-radius:8px;padding:12px 14px;font-size:14.5px;line-height:1.4}
+.invite-steps b{display:block;font-family:var(--display);font-weight:400;font-size:26px;color:var(--gold-light);line-height:1}
+.invite-card code{display:block;background:rgba(0,0,0,.28);border-radius:6px;padding:10px 12px;font-family:var(--mono);font-size:13px;word-break:break-all;color:#fff}
+.invite-card .linkbtn{color:var(--gold-light)}
+.invite-card .hint{color:#cfc7ee}
 /* join + readers desk */
 .joinlist{margin:0;padding-left:1.1em;display:grid;gap:6px;max-width:62ch}
 .rdesk-meta{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:28px;max-width:var(--column)}
@@ -340,6 +374,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
       <button id="nav-today" data-view="today" aria-current="true">Latest</button>
       <button id="nav-archive" data-view="archive">Archive</button>
       <button id="nav-about" data-view="about">About me</button>
+      <button id="nav-together" data-view="together" hidden>Together</button>
       <button id="nav-readers" data-view="readers" hidden>Readers</button>
     </nav>
     <div id="readbar" hidden><i></i><span></span></div>
@@ -367,7 +402,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     ["notes","Notes for the curator","Anything else: mood, time you have, requests for upcoming drops."]
   ];
   const S = {view:"today", sel:null, drops:[], fb:{}, reveals:{}, profile:null, db:null, editing:{}, fresh:null, piece:{}, texts:{}, reader:{},
-    uid:null, owner:false, joinPath:null, user:null, joined:undefined, legacy:null, admin:{list:null, names:{}, sel:null, loading:false, error:null, at:null}};
+    uid:null, owner:false, joinPath:null, user:null, joined:undefined, legacy:null, admin:{list:null, names:{}, sel:null, loading:false, error:null, at:null}, together:{data:null, loading:false, error:null}};
   const P = p => "readers/"+S.uid+"/"+p;
   const PAGE_URL = "https://claude.ai/artifact/QXS9uUMAYJyQwj9SPY6qKK";
   const PATHS = {
@@ -426,6 +461,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     if (S.view === "readers"){ renderReaders(); renderFoot(); return; }
     if (S.db && S.joined === false){ renderJoin(); return; }
     document.body.classList.remove("joining");
+    if (S.view === "together" && SITE){ renderTogether(); renderFoot(); return; }
     if (S.view === "about") renderAbout();
     else if (S.view === "archive") renderArchive();
     else renderDrop();
@@ -898,6 +934,78 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     return t[t.length-1];
   }
 
+  // ---------- together: who is reading and how each drop landed (ratings and reactions only)
+  async function loadTogether(){
+    if (!S.user || !S.user.community || S.together.loading) return;
+    S.together.loading = true; if (S.view === "together") render();
+    try { const d = await S.user.community(); if (d) S.together.data = d; else S.together.error = "Couldn't load this just now. Try Refresh in a moment."; }
+    catch(e){ S.together.error = "Couldn't load this just now. Try Refresh in a moment."; }
+    S.together.loading = false; if (S.view === "together") render();
+  }
+  function renderTogether(){
+    const d = S.together.data;
+    main.append(h("div",{class:"titleblock"},
+      h("div",{class:"band gold"},
+        h("span",{class:"label", text:"Reading together"}),
+        h("h1",{text:"Together"}),
+        h("div",{class:"sub"}, h("span",{class:"label", text: d ? d.readers.length+" reader"+(d.readers.length===1?"":"s")+" · "+d.drops.length+" drop"+(d.drops.length===1?"":"s") : "Loading…"}))),
+      h("p",{class:"invite", text:"Who is reading, and how each drop landed. You see ratings and how each piece felt (loved, fine, missed). Written notes stay with whoever wrote them."})));
+    main.append(h("div",{class:"rdesk-meta"},
+      h("button",{class:"linkbtn", type:"button", text: S.together.loading ? "Refreshing…" : "Refresh", disabled: S.together.loading, onclick: loadTogether}),
+      S.together.error ? h("span",{class:"err", text:S.together.error}) : null));
+    if (!d){ if (!S.together.loading && !S.together.error) loadTogether(); return; }
+    const all = d.readers.flatMap(r => Object.values(r.fb));
+    const rated = all.map(f => f.rating).filter(Boolean);
+    const avg = rated.length ? (rated.reduce((a,b)=>a+b,0)/rated.length).toFixed(1) : "–";
+    const loved = all.reduce((n,f) => n + Object.values(f.pieces||{}).filter(x => x==="loved").length, 0);
+    main.append(h("div",{class:"tstats"},
+      ...[[String(d.readers.length),"Readers"],[String(all.length),"Notes left"],[avg,"Average rating"],[String(loved),"Pieces loved"]]
+        .map(([n,l]) => h("div",{class:"tstat"}, h("b",{text:n}), h("span",{class:"label",text:l})))));
+    if (!d.drops.length) return;
+    const cols = d.drops.length;
+    const heat = h("div",{class:"heat", style:"--cols:"+cols});
+    heat.append(h("div",{class:"heat-row head"}, h("span"), ...d.drops.map(x => h("span",{class:"heat-col", text:"Drop "+pad(x.n)}))));
+    d.readers.forEach(r => {
+      const row = h("div",{class:"heat-row"});
+      const done = Object.keys(r.fb).length;
+      row.append(h("div",{class:"heat-name"}, r.id === d.me ? "You" : r.name, h("small",{text: done+" of "+cols+" unsealed"})));
+      d.drops.forEach(x => {
+        const f = r.fb[x.id];
+        if (!f){ row.append(h("div",{class:"heat-cell", title:"Not unsealed yet"}, h("b",{text:"·"}), h("span",{class:"pips"}, ...["essay","poem","story","song"].map(()=>h("i",{class:"pip"}))))); return; }
+        row.append(h("div",{class:"heat-cell r"+(f.rating||0), title:"Rated "+(f.rating||"–")+"/5"},
+          h("b",{text:String(f.rating||"–")}),
+          h("span",{class:"pips"}, ...["essay","poem","story","song"].map(k => h("i",{class:"pip "+((f.pieces||{})[k]||""), title:k+": "+((f.pieces||{})[k]||"no reaction")})))));
+      });
+      heat.append(row);
+    });
+    const avgRow = h("div",{class:"heat-row heat-avg"}, h("div",{class:"heat-name"}, "Average", h("small",{text:"per drop"})));
+    d.drops.forEach(x => {
+      const rs = d.readers.map(r => (r.fb[x.id]||{}).rating).filter(Boolean);
+      const a = rs.length ? rs.reduce((p,q)=>p+q,0)/rs.length : 0;
+      avgRow.append(h("div",{}, h("div",{class:"bar"}, h("i",{style:"height:"+Math.round(a/5*44)+"px"})), h("small",{text: a ? a.toFixed(1) : "–"})));
+    });
+    heat.append(avgRow);
+    main.append(heat);
+    main.append(h("div",{class:"legend"},
+      h("span",{}, h("i",{class:"pip loved"}), "loved"), h("span",{}, h("i",{class:"pip fine"}), "fine"), h("span",{}, h("i",{class:"pip missed"}), "missed"),
+      h("span",{text:"Dots run essay, poem, story, song. Darker squares are higher ratings."})));
+
+    const tbody = h("tbody");
+    d.readers.forEach(r => {
+      const rs = Object.values(r.fb).map(f => f.rating).filter(Boolean);
+      tbody.append(h("tr",{},
+        h("td",{}, h("span",{class:"rname", text: r.id === d.me ? "You" : r.name}), r.curator ? h("span",{class:"youtag", text:"Curator"}) : null),
+        h("td",{text: r.curator ? "Curator" : (r.path === "shared" ? "Shaf's drops" : "Own drops")}),
+        h("td",{class:"mono-cell", text:dshort(r.joinedAt)}),
+        h("td",{class:"mono-cell", text:Object.keys(r.fb).length+" of "+cols}),
+        h("td",{class:"mono-cell", text: rs.length ? (rs.reduce((a,b)=>a+b,0)/rs.length).toFixed(1)+"/5" : "–"}),
+        h("td",{class:"mono-cell", text:ago(r.lastActive)})));
+    });
+    main.append(h("div",{class:"rtable-wrap"}, h("table",{class:"rtable"},
+      h("thead",{}, h("tr",{}, ...["Reader","Pathway","Joined","Unsealed","Avg rating","Last active"].map(t => h("th",{scope:"col", text:t})))),
+      tbody)));
+  }
+
   function renderReaders(){
     if (!S.owner){ S.view = "today"; return render(); }
     const list = S.admin.list;
@@ -962,9 +1070,14 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
             catch(e){ selectText(code); note.textContent = "Selected: copy it with your keyboard"; } }}),
           note)));
     });
-    main.append(h("div",{class:"howto"},
-      h("span",{class:"label", text:"Inviting a reader"}),
-      h("p",{text: SITE ? "Send them this link. They sign in with their Google account, fill in About me and join. Anyone with the link can join." : "Open Share and invite their email address as an editor, with the public link off. Then send them one of these links. It opens the join screen with that pathway already chosen, and they can still switch."}),
+    main.append(h("div",{class:"invite-card"},
+      h("span",{class:"label", text:"Bring someone in"}),
+      h("h3",{text:"Hand someone the next quartet"}),
+      h("p",{text:"Every other morning they get an essay, a poem, a story and a song, joined by a hidden idea that only unseals once they've written back. They'll read the pieces here, and see how the others got on."}),
+      h("div",{class:"invite-steps"},
+        h("div",{}, h("b",{text:"1"}), "Send them the link below."),
+        h("div",{}, h("b",{text:"2"}), SITE ? "They sign in with Google and write a few lines about themselves." : "You invite their email as an editor; they open the link and join."),
+        h("div",{}, h("b",{text:"3"}), "Their first drop is waiting, and the thread stays sealed until they reply.")),
       links,
       h("p",{class:"hint", text:"Readers on their own drops each add a full curation run to every drop morning. Readers on your drops add almost nothing: they get a copy of yours."})));
   }
@@ -1034,7 +1147,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     foot.append(counts);
   }
 
-  document.querySelectorAll("nav.sections button").forEach(b => b.addEventListener("click", ()=>{ S.view = b.dataset.view; if (b.dataset.view==="today") S.sel = null; if (b.dataset.view==="readers"){ S.admin.sel = null; loadReaders(); } render(); window.scrollTo(0,0); trackRead(); }));
+  document.querySelectorAll("nav.sections button").forEach(b => b.addEventListener("click", ()=>{ S.view = b.dataset.view; if (b.dataset.view==="today") S.sel = null; if (b.dataset.view==="readers"){ S.admin.sel = null; loadReaders(); } if (b.dataset.view==="together"){ S.together.data = null; S.together.error = null; } render(); window.scrollTo(0,0); trackRead(); }));
 
   (async function boot(){
     let db = null;
@@ -1047,6 +1160,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     try { S.uid = user ? await user.id() : null; } catch(e){ S.uid = null; }
     try { S.owner = user ? await user.isOwner() : false; } catch(e){ S.owner = false; }
     if (S.owner) document.getElementById("nav-readers").hidden = false;
+    if (SITE && S.uid && S.user && S.user.community) document.getElementById("nav-together").hidden = false;
     if (!S.uid){ S.joined = null; render(); return; }
     if (S.owner){ try { const lg = await db.doc("profile/about").get(); S.legacy = lg.exists ? lg.data() : null; } catch(e){} }
     const typing = () => { const a = document.activeElement; return a && (a.tagName === "TEXTAREA" || a.tagName === "INPUT"); };

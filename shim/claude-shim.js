@@ -89,6 +89,12 @@
     can: async () => null,
     me: async () => ({ id: session ? session.rid : null, name: "", isOwner: !!(session && session.curator), canEdit: !!session }),
     name: async () => "",
+    community: async () => {
+      try {
+        const r = await fetch("/api/data?community=1", { credentials: "same-origin" });
+        return r.ok ? await r.json() : null;
+      } catch (e) { return null; }
+    },
     profiles: async ids => {
       try {
         const r = await fetch("/api/data?profiles=" + encodeURIComponent(ids.join(",")), { credentials: "same-origin" });

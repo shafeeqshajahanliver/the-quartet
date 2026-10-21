@@ -27,6 +27,27 @@ export default async function handler(req, res) {
   try { q = await db(); } catch (e) { console.error("db", e); return json(res, 503, { error: "storage", message: "Storage isn't reachable just now." }); }
 
   const url = new URL(req.url, "http://local");
+  // The Together view: every signed-in reader sees who is reading and how each drop landed. Ratings and
+  // loved/fine/missed per piece only; written notes, guesses and About me stay private.
+  if (url.searchParams.has("community")) {
+    if (!q) return json(res, 200, { readers: [], drops: [] });
+    const rows = await q`select id, email, name, curator, path, joined_at, last_active from readers order by joined_at`;
+    const fbRows = await q`select reader_id, drop_id, body from feedback`;
+    const c = await contentFor({ id: "curator", curator: true, path: "own" }, q);
+    const drops = c.drops.map(d => ({ id: d.id, n: d.data.n, date: d.data.date, pieces: (d.data.pieces || []).map(p => p.kind) }));
+    const byReader = {};
+    for (const f of fbRows) {
+      const b = f.body || {}, pieces = {};
+      for (const k of ["essay", "poem", "story", "song"]) { const rx = b.pieces && b.pieces[k] && b.pieces[k].reaction; if (rx) pieces[k] = rx; }
+      (byReader[f.reader_id] = byReader[f.reader_id] || {})[f.drop_id] = { rating: +b.rating || 0, pieces };
+    }
+    const first = r => String(r.name || (r.email || "").split("@")[0] || (r.curator ? "Shaf" : "Reader")).trim().split(/\s+/)[0];
+    return json(res, 200, {
+      me: s.rid, drops,
+      readers: rows.map(r => ({ id: r.id, name: first(r), curator: !!r.curator, path: r.path, joinedAt: iso(r.joined_at), lastActive: iso(r.last_active), fb: byReader[r.id] || {} })),
+    });
+  }
+
   // Display names for the Readers desk.
   if (url.searchParams.has("profiles")) {
     if (!owner || !q) return json(res, 200, {});
