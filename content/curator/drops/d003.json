@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-21",
+  "invitation": "From Concord, London, rural Bengal and Sheffield, across two hundred years. Three of the four read right here in the page; start with the story if you only have ten minutes.",
+  "n": 3,
+  "phase": 1,
+  "phaseName": "Noticing",
+  "pieces": [
+    {
+      "author": "Ralph Waldo Emerson",
+      "kind": "essay",
+      "link": "https://www.gutenberg.org/ebooks/2945",
+      "minutes": 8,
+      "note": "Emerson starts somewhere small and practical, what to buy people at Christmas, and within a page is making claims you will want to argue with. Notice how he builds by aphorism: short, quotable sentences that land like verdicts, with almost no transition between them. It is a useful model for an essay voice that is confident without being long-winded.",
+      "place": "Concord, Massachusetts",
+      "title": "Gifts",
+      "year": "1844"
+    },
+    {
+      "author": "William Blake",
+      "kind": "poem",
+      "link": "https://www.gutenberg.org/ebooks/1934",
+      "minutes": 3,
+      "note": "Six quatrains in plain rhyming couplets, nursery-rhyme simple on the surface. Watch how the first stanza is a sly bit of logic, and then the poem abandons argument for a single image that grows and spreads until it fills the rest. Read it aloud and notice how the cheerful metre works against what is being said.",
+      "place": "London",
+      "title": "The Human Abstract",
+      "year": "1794"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "About the story",
+          "url": "https://en.wikipedia.org/wiki/Postmaster_(short_story)"
+        }
+      ],
+      "author": "Rabindranath Tagore",
+      "kind": "story",
+      "link": "https://www.gutenberg.org/ebooks/33525",
+      "minutes": 10,
+      "note": "A young man from Calcutta is posted to a village he finds unbearable, and an orphan girl keeps house for him. Tagore gives the two characters very unequal amounts of interior life; notice who gets the thoughts and who gets only actions and a few lines of speech. The final paragraph steps out of the story into the narrator's own voice, which is worth weighing.",
+      "place": "Ulapur, rural Bengal",
+      "title": "The Postmaster",
+      "year": "1891"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Common%20People%20Pulp"
+        }
+      ],
+      "author": "Pulp (Jarvis Cocker)",
+      "kind": "song",
+      "link": "https://www.youtube.com/results?search_query=Pulp+Common+People+official",
+      "minutes": 6,
+      "note": "A story-song with a named setting, a second character and dialogue, built on what is essentially one chord sequence that keeps accelerating. Listen as a lyricist for the moment the verses stop narrating and start addressing her directly, and for how the arrangement climbs while the melody barely moves.",
+      "place": "Sheffield and London",
+      "title": "Common People",
+      "year": "1995",
+      "youtube": "yuTMWgOduFM"
+    }
+  ]
+}
