@@ -207,6 +207,50 @@ footer .counts{display:flex;flex-wrap:wrap;gap:6px 18px}
 .invite-card code{display:block;background:rgba(0,0,0,.28);border-radius:6px;padding:10px 12px;font-family:var(--mono);font-size:13px;word-break:break-all;color:#fff}
 .invite-card .linkbtn{color:var(--gold-light)}
 .invite-card .hint{color:#cfc7ee}
+/* readers v2 */
+.invite-card code.q-link{background:rgba(0,0,0,.3);color:#fff}
+.invite-card .invlink{display:grid;gap:8px}
+.invite-card .invlink code{background:rgba(0,0,0,.3);color:#fff;border-radius:6px;padding:10px 12px}
+.heat{max-width:var(--column)}
+.heat-row{grid-template-columns:120px repeat(var(--cols),minmax(60px,92px));justify-content:start;min-width:0}
+.heat-name{all:unset;box-sizing:border-box;display:block;font-family:var(--display);font-size:22px;line-height:1.1;cursor:pointer;color:var(--ink)}
+button.heat-name:hover{color:var(--violet)}
+.heat-avg .bar{height:56px}
+.heat-avg .bar i{width:46%;background:var(--gold-light)}
+.rcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:34px;max-width:var(--column)}
+.rcard{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:12px;padding:18px;border:var(--hairline);border-radius:12px;background:var(--sheet);transition:transform .15s,border-color .15s}
+.rcard:hover{transform:translateY(-2px);border-color:var(--violet)}
+.rcard:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.rcard .top{display:flex;gap:12px;align-items:center}
+.avatar{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:24px;color:var(--on-violet);background:var(--violet);flex:none}
+.avatar.shared{background:var(--wax)} .avatar.curator{background:var(--gold-deep)}
+.rcard h3{margin:0;font-family:var(--display);font-weight:400;font-size:24px;line-height:1.05}
+.rcard .meta{display:block;line-height:1.6;margin-top:2px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.rcard .mini{display:flex;gap:5px}
+.rcard .mini i{flex:1;height:26px;border-radius:4px;background:var(--line);display:grid;place-items:center;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.rcard .mini i.r1{background:#ece8f7;color:var(--ink)} .rcard .mini i.r2{background:#d9d0f1;color:var(--ink)} .rcard .mini i.r3{background:#bdaee8;color:var(--ink)} .rcard .mini i.r4{background:#7d63c9;color:#fff} .rcard .mini i.r5{background:var(--violet);color:#fff}
+.rcard .foot{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink-2)}
+.rcard .go{color:var(--violet)}
+.dcard{display:grid;gap:14px;padding:22px;margin-top:16px;border:var(--hairline);border-radius:12px;background:var(--sheet);max-width:var(--column)}
+.dcard.pending{background:transparent;border-style:dashed}
+.dcard .dhead{display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center}
+.dcard h4{font-family:var(--display);font-weight:400;font-size:28px;line-height:1;margin:0}
+.badge{margin-left:auto;font-family:var(--display);font-size:22px;min-width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--violet);color:#fff}
+.badge{flex-direction:column;gap:0;line-height:1;padding-top:2px}.badge small{font-family:var(--mono);font-size:9px;opacity:.7;margin-top:-6px}
+.dcard .thread{margin:0;padding:10px 14px;border-radius:8px;background:var(--violet-soft);color:var(--violet-deep,#241a4f)}
+.pcs{display:grid;gap:8px}
+.pc{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:baseline}
+.pc .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);min-width:64px}
+.chip2{display:inline-block;margin-left:8px;padding:1px 9px;border-radius:99px;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.chip2.loved{background:var(--gold-light);color:var(--gold-deep)} .chip2.fine{background:var(--lilac);color:var(--violet)} .chip2.missed{background:var(--wax-light);color:#fff}
+.pc .pnote{grid-column:2;color:var(--ink-2);font-style:italic;font-size:14.5px}
+.dcard blockquote{margin:0;padding:4px 0 4px 16px;border-left:3px solid var(--lilac);font-style:italic;font-size:17px;line-height:1.5}
+.dcard .gl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:2px}
+.rhero{display:flex;gap:18px;align-items:center;margin-top:28px;max-width:var(--column)}
+.rhero .avatar{width:72px;height:72px;font-size:38px}
+.rhero h2{font-size:clamp(34px,5vw,52px);margin:0;line-height:1}
+.aboutcard{max-width:var(--column);margin-top:22px;padding:20px 22px;border-radius:12px;background:var(--violet-soft)}
+@media (max-width:560px){.heat-row{grid-template-columns:90px repeat(var(--cols),minmax(52px,1fr))}.heat-name{font-size:19px}}
 /* join + readers desk */
 .joinlist{margin:0;padding-left:1.1em;display:grid;gap:6px;max-width:62ch}
 .rdesk-meta{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:28px;max-width:var(--column)}
@@ -1032,69 +1076,66 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
         h("span",{}, h("i",{class:"pip loved"}), "loved"), h("span",{}, h("i",{class:"pip fine"}), "fine"), h("span",{}, h("i",{class:"pip missed"}), "missed"),
         h("span",{text:"Dots run essay, poem, story, song. Darker squares are higher ratings. Click a name to read their notes."})));
     }
-    const tbody = h("tbody");
+    const cards = h("div",{class:"rcards"});
     d.readers.forEach(r => {
       const rs = Object.values(r.fb).map(f => f.rating).filter(Boolean);
       const open = () => { S.together.sel = r.id; render(); window.scrollTo(0,0); };
-      tbody.append(h("tr",{class:"rrow", onclick: open},
-        h("td",{}, h("button",{class:"rname", type:"button", text:whoIs(d,r), onclick:e=>{ e.stopPropagation(); open(); }}), r.curator ? h("span",{class:"youtag", text:"Curator"}) : null),
-        h("td",{text: r.curator ? "Curator" : (r.path === "shared" ? "Shaf's drops" : "Own drops")}),
-        h("td",{class:"mono-cell", text:dshort(r.joinedAt)}),
-        h("td",{class:"mono-cell", text:Object.keys(r.fb).length+" of "+d.drops.length}),
-        h("td",{class:"mono-cell", text: rs.length ? (rs.reduce((a,b)=>a+b,0)/rs.length).toFixed(1)+"/5" : "–"}),
-        h("td",{class:"mono-cell", text:ago(r.lastActive)})));
+      cards.append(h("button",{class:"rcard", type:"button", onclick: open},
+        h("div",{class:"top"},
+          h("span",{class:"avatar "+(r.curator?"curator":(r.path==="shared"?"shared":"")), text:(firstName(r)[0]||"?").toUpperCase()}),
+          h("div",{}, h("h3",{text:whoIs(d,r)}), h("span",{class:"meta", text:(r.curator ? "Curator" : (r.path === "shared" ? "On Shaf's drops" : "Own drops"))+" · joined "+dshort(r.joinedAt)}))),
+        h("div",{class:"mini"}, ...d.drops.map(x => { const f = r.fb[x.id]; return h("i",{class: f ? "r"+(f.rating||0) : "", title:"Drop "+pad(x.n), text: f ? String(f.rating||"–") : "·"}); })),
+        h("div",{class:"foot"}, h("span",{text:(rs.length ? (rs.reduce((a,b)=>a+b,0)/rs.length).toFixed(1)+"/5 · " : "")+Object.keys(r.fb).length+" of "+d.drops.length+" unsealed"}), h("span",{class:"go", text:"Read →"}))));
     });
-    main.append(h("div",{class:"rtable-wrap"}, h("table",{class:"rtable"},
-      h("thead",{}, h("tr",{}, ...["Reader","Pathway","Joined","Unsealed","Avg rating","Last active"].map(t => h("th",{scope:"col", text:t})))),
-      tbody)));
+    main.append(cards);
     if (S.owner) main.append(inviteCard());
   }
 
   function renderReaderDetail(d, r){
     const done = Object.keys(r.fb).length;
     main.append(h("div",{class:"rhead"},
-      h("button",{class:"nextbtn", type:"button", style:"justify-self:start", text:"← All readers", onclick:()=>{ S.together.sel = null; render(); }}),
-      h("h2",{text:whoIs(d,r)}),
-      h("span",{class:"label", text:(r.curator ? "Curator" : (r.path === "shared" ? "On Shaf's drops" : "Own drops"))+" · joined "+dshort(r.joinedAt)+" · "+done+" of "+d.drops.length+" unsealed · last active "+ago(r.lastActive).toLowerCase()})));
+      h("button",{class:"nextbtn", type:"button", style:"justify-self:start", text:"← All readers", onclick:()=>{ S.together.sel = null; render(); }})));
+    main.append(h("div",{class:"rhero"},
+      h("span",{class:"avatar "+(r.curator?"curator":(r.path==="shared"?"shared":"")), text:(firstName(r)[0]||"?").toUpperCase()}),
+      h("div",{}, h("h2",{text:whoIs(d,r)}),
+        h("span",{class:"label", text:(r.curator ? "Curator" : (r.path === "shared" ? "On Shaf's drops" : "Own drops"))+" · joined "+dshort(r.joinedAt)+" · "+done+" of "+d.drops.length+" unsealed · active "+ago(r.lastActive).toLowerCase()}))));
     if (S.owner && !r.curator && r.id !== d.me){
-      const rm = h("button",{class:"nextbtn", type:"button", style:"justify-self:start;margin-top:10px", text:"Remove this reader", onclick: async ()=>{
+      const rm = h("button",{class:"nextbtn", type:"button", style:"justify-self:start;margin-top:12px", text:"Remove this reader", onclick: async ()=>{
         if (!confirm("Remove "+firstName(r)+" and their notes? This can't be undone.")) return;
         try { await S.db.doc("readers/"+r.id).delete(); S.together.sel = null; S.together.data = null; render(); }
         catch(e){ rm.textContent = "Couldn't remove just now. Try again."; }
       }});
       main.append(rm);
     }
-    const about = h("section",{class:"block"}, h("h3",{text:"About them"}));
     const dl = h("dl",{class:"kv"});
     ABOUT.forEach(([k,label]) => { if (((r.fields||{})[k]||"").trim()) dl.append(h("dt",{text:label}), h("dd",{text:r.fields[k]})); });
-    about.append(dl.children.length ? dl : h("p",{class:"hint", text:"Nothing written yet."}));
-    main.append(about);
+    if (dl.children.length) main.append(h("div",{class:"aboutcard"}, h("span",{class:"gl label", text:"About them"}), dl));
 
-    const sec = h("section",{class:"block"}, h("h3",{text:"Drops and notes"}));
     d.drops.slice().sort((a,b)=>b.n-a.n).forEach(dr => {
       const f = r.fb[dr.id];
-      const box = h("div",{class:"ddrop"},
-        h("div",{class:"head"},
-          h("h4",{text:"Drop "+pad(dr.n)}),
-          h("span",{class:"label", text:fmtDate(dr.date)}),
-          f ? h("span",{class:"tag-open", text:"Unsealed · "+(f.rating||"–")+"/5"}) : h("span",{class:"tag-sealed", text:"Sealed · no notes yet"})),
-        dr.thread ? h("p",{}, h("strong",{text:"Thread: "}), dr.thread+(dr.type ? " ("+String(dr.type).toLowerCase()+")" : "")) : null,
-        h("ul",{}, ...(dr.pieces||[]).map(p => {
-          const pf = f && f.pieces ? (f.pieces[p.kind]||{}) : {};
-          const rl = REACTS.find(x => x[0] === pf.reaction);
-          return h("li",{}, h("strong",{text:(KINDS[p.kind]||p.kind)+": "}), p.title+(p.author ? " · "+p.author : ""),
-            f ? h("span",{style:"color:var(--ink-2)", text:" · "+(rl ? rl[1] : "no reaction")+(pf.note ? ": "+pf.note : "")}) : null);
-        })));
+      const card = h("div",{class:"dcard"+(f ? "" : " pending")});
+      card.append(h("div",{class:"dhead"},
+        h("h4",{text:"Drop "+pad(dr.n)}),
+        h("span",{class:"label", text:fmtDate(dr.date)}),
+        f && f.rating ? h("span",{class:"badge", title:"Rated "+f.rating+" out of 5"}, String(f.rating), h("small",{text:"/5"})) : (f ? null : h("span",{class:"tag-sealed", style:"margin-left:auto", text:"Sealed · no notes yet"}))));
+      if (dr.thread) card.append(h("p",{class:"thread"}, h("strong",{text:"Thread: "}), dr.thread+(dr.type ? " ("+String(dr.type).toLowerCase()+")" : "")));
+      card.append(h("div",{class:"pcs"}, ...(dr.pieces||[]).map(p => {
+        const pf = f && f.pieces ? (f.pieces[p.kind]||{}) : {};
+        const rl = REACTS.find(x => x[0] === pf.reaction);
+        return h("div",{class:"pc"},
+          h("span",{class:"k", text:KINDS[p.kind]||p.kind}),
+          h("span",{}, p.title+(p.author ? " · "+p.author : ""), rl ? h("span",{class:"chip2 "+pf.reaction, text:rl[1]}) : null),
+          pf.note ? h("span",{class:"pnote", text:"“"+pf.note+"”"}) : null);
+      })));
       if (f){
-        if (f.comment) box.append(h("p",{class:"quote", text:"“"+f.comment+"”"}));
-        else if (!dr.open) box.append(h("p",{class:"hint", text:"Unseal this drop yourself to read their notes."}));
-        if (f.guess) box.append(h("p",{class:"hint", text:"Their guess at the thread: "+f.guess}));
-        if (f.response) box.append(h("div",{style:"display:grid;gap:4px"}, h("span",{class:"label", text:"Their writing"}), h("p",{class:"quote", text:f.response})));
-        if (f.submittedAt) box.append(h("span",{class:"label quiet", text:"Notes left "+dshort(f.submittedAt)}));
+        if (f.comment) card.append(h("blockquote",{text:f.comment}));
+        else if (!dr.open) card.append(h("p",{class:"hint", text:"Unseal this drop yourself to read their notes."}));
+        if (f.guess) card.append(h("div",{}, h("span",{class:"gl", text:"Their guess at the thread"}), h("span",{text:f.guess})));
+        if (f.response) card.append(h("div",{}, h("span",{class:"gl", text:"Their writing"}), h("blockquote",{text:f.response})));
+        if (f.submittedAt) card.append(h("span",{class:"label quiet", text:"Notes left "+dshort(f.submittedAt)}));
       }
-      sec.append(box);
+      main.append(card);
     });
-    main.append(sec);
   }
 
   function renderFoot(){
