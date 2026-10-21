@@ -374,7 +374,6 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
       <button id="nav-today" data-view="today" aria-current="true">Latest</button>
       <button id="nav-archive" data-view="archive">Archive</button>
       <button id="nav-about" data-view="about">About me</button>
-      <button id="nav-together" data-view="together" hidden>Together</button>
       <button id="nav-readers" data-view="readers" hidden>Readers</button>
     </nav>
     <div id="readbar" hidden><i></i><span></span></div>
@@ -402,7 +401,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     ["notes","Notes for the curator","Anything else: mood, time you have, requests for upcoming drops."]
   ];
   const S = {view:"today", sel:null, drops:[], fb:{}, reveals:{}, profile:null, db:null, editing:{}, fresh:null, piece:{}, texts:{}, reader:{},
-    uid:null, owner:false, joinPath:null, user:null, joined:undefined, legacy:null, admin:{list:null, names:{}, sel:null, loading:false, error:null, at:null}, together:{data:null, loading:false, error:null}};
+    uid:null, owner:false, joinPath:null, user:null, joined:undefined, legacy:null, admin:{list:null, names:{}, sel:null, loading:false, error:null, at:null}, together:{data:null, sel:null, loading:false, error:null}};
   const P = p => "readers/"+S.uid+"/"+p;
   const PAGE_URL = "https://claude.ai/artifact/QXS9uUMAYJyQwj9SPY6qKK";
   const PATHS = {
@@ -461,7 +460,6 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     if (S.view === "readers"){ renderReaders(); renderFoot(); return; }
     if (S.db && S.joined === false){ renderJoin(); return; }
     document.body.classList.remove("joining");
-    if (S.view === "together" && SITE){ renderTogether(); renderFoot(); return; }
     if (S.view === "about") renderAbout();
     else if (S.view === "archive") renderArchive();
     else renderDrop();
@@ -525,8 +523,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
         h("span",{class:"label", text: latest ? "Latest drop" : "From the archive"}),
         h("h1",{text:"Drop "+pad(drop.n)}),
         h("div",{class:"sub"},
-          h("span",{class:"label", text: fmtDate(drop.date)}),
-          drop.phaseName ? h("span",{class:"chip", text:"Phase "+(drop.phase||"")+" · "+drop.phaseName}) : null)),
+          h("span",{class:"label", text: fmtDate(drop.date)}))),
       drop.invitation ? h("p",{class:"invite", text: drop.invitation}) : null));
 
     const pieces = drop.pieces || [];
@@ -650,7 +647,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
       h("textarea",{id:"cm-"+id, placeholder:"What stayed with you, what grated, what you'd steal for your own work.", oninput:e=>{ d.comment=e.target.value; keep(id,d); syncBtn(); }}, d.comment||"")));
     sec.append(h("div",{class:"field"}, h("label",{class:"label", for:"gs-"+id, text:"Your guess at the thread"}),
       h("input",{class:"guess", id:"gs-"+id, type:"text", value:d.guess||"", placeholder:"An author, a place, a year, an idea, a symbol…", oninput:e=>{ d.guess=e.target.value; keep(id,d); }})));
-    const msg = h("p",{class:"hint", text:"The thread unseals once your notes are in. Give it a rating and a few words first."});
+    const msg = h("p",{class:"hint", text:"The thread unseals once your notes are in. Give it a rating and a few words first. Other readers can read your notes on the Readers page once they have unsealed this drop too."});
     const btn = h("button",{class:"primary", type:"button", text:"Seal my notes, reveal the thread", onclick:()=>submit(drop, d, btn, msg)});
     function syncBtn(){ btn.disabled = !(d.rating && (d.comment||"").trim().length >= 3) || !S.db; }
     syncBtn();
@@ -934,127 +931,27 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     return t[t.length-1];
   }
 
-  // ---------- together: who is reading and how each drop landed (ratings and reactions only)
+  // ---------- readers: who is reading, how each drop landed, and what they wrote
   async function loadTogether(){
-    if (!S.user || !S.user.community || S.together.loading) return;
-    S.together.loading = true; if (S.view === "together") render();
-    try { const d = await S.user.community(); if (d) S.together.data = d; else S.together.error = "Couldn't load this just now. Try Refresh in a moment."; }
-    catch(e){ S.together.error = "Couldn't load this just now. Try Refresh in a moment."; }
-    S.together.loading = false; if (S.view === "together") render();
+    if (!S.user || S.together.loading) return;
+    S.together.loading = true; if (S.view === "readers") render();
+    try {
+      let d = null;
+      if (S.user.community) d = await S.user.community();
+      else if (S.owner){
+        // claude.ai page: the curator reads the database directly.
+        S.admin.loading = false; await loadReaders();
+        const list = S.admin.list || [], me = list.find(r => r.id === S.uid) || list[0];
+        if (me) d = { me: S.uid, drops: (me.drops||[]).slice().reverse().map(x => ({ id:x.id, n:x.n, date:x.date, open:true, thread:(me.rv[x.id]||{}).thread||"", type:(me.rv[x.id]||{}).type||"", pieces:(x.pieces||[]).map(p => ({kind:p.kind,title:p.title,author:p.author})) })),
+          readers: list.map(r => ({ id:r.id, name:(nameOf(r.id)==="You"?"You":nameOf(r.id)), curator:!!r.curator, path:r.path, fields:r.fields||{}, joinedAt:r.joinedAt, lastActive:r.lastActive, fb:r.fb })) };
+      }
+      if (d) { S.together.data = d; S.together.error = null; } else S.together.error = "Couldn't load readers just now. Try Refresh in a moment."; }
+    catch(e){ S.together.error = "Couldn't load readers just now. Try Refresh in a moment."; }
+    S.together.loading = false; if (S.view === "readers") render();
   }
-  function renderTogether(){
-    const d = S.together.data;
-    main.append(h("div",{class:"titleblock"},
-      h("div",{class:"band gold"},
-        h("span",{class:"label", text:"Reading together"}),
-        h("h1",{text:"Together"}),
-        h("div",{class:"sub"}, h("span",{class:"label", text: d ? d.readers.length+" reader"+(d.readers.length===1?"":"s")+" · "+d.drops.length+" drop"+(d.drops.length===1?"":"s") : "Loading…"}))),
-      h("p",{class:"invite", text:"Who is reading, and how each drop landed. You see ratings and how each piece felt (loved, fine, missed). Written notes stay with whoever wrote them."})));
-    main.append(h("div",{class:"rdesk-meta"},
-      h("button",{class:"linkbtn", type:"button", text: S.together.loading ? "Refreshing…" : "Refresh", disabled: S.together.loading, onclick: loadTogether}),
-      S.together.error ? h("span",{class:"err", text:S.together.error}) : null));
-    if (!d){ if (!S.together.loading && !S.together.error) loadTogether(); return; }
-    const all = d.readers.flatMap(r => Object.values(r.fb));
-    const rated = all.map(f => f.rating).filter(Boolean);
-    const avg = rated.length ? (rated.reduce((a,b)=>a+b,0)/rated.length).toFixed(1) : "–";
-    const loved = all.reduce((n,f) => n + Object.values(f.pieces||{}).filter(x => x==="loved").length, 0);
-    main.append(h("div",{class:"tstats"},
-      ...[[String(d.readers.length),"Readers"],[String(all.length),"Notes left"],[avg,"Average rating"],[String(loved),"Pieces loved"]]
-        .map(([n,l]) => h("div",{class:"tstat"}, h("b",{text:n}), h("span",{class:"label",text:l})))));
-    if (!d.drops.length) return;
-    const cols = d.drops.length;
-    const heat = h("div",{class:"heat", style:"--cols:"+cols});
-    heat.append(h("div",{class:"heat-row head"}, h("span"), ...d.drops.map(x => h("span",{class:"heat-col", text:"Drop "+pad(x.n)}))));
-    d.readers.forEach(r => {
-      const row = h("div",{class:"heat-row"});
-      const done = Object.keys(r.fb).length;
-      row.append(h("div",{class:"heat-name"}, r.id === d.me ? "You" : r.name, h("small",{text: done+" of "+cols+" unsealed"})));
-      d.drops.forEach(x => {
-        const f = r.fb[x.id];
-        if (!f){ row.append(h("div",{class:"heat-cell", title:"Not unsealed yet"}, h("b",{text:"·"}), h("span",{class:"pips"}, ...["essay","poem","story","song"].map(()=>h("i",{class:"pip"}))))); return; }
-        row.append(h("div",{class:"heat-cell r"+(f.rating||0), title:"Rated "+(f.rating||"–")+"/5"},
-          h("b",{text:String(f.rating||"–")}),
-          h("span",{class:"pips"}, ...["essay","poem","story","song"].map(k => h("i",{class:"pip "+((f.pieces||{})[k]||""), title:k+": "+((f.pieces||{})[k]||"no reaction")})))));
-      });
-      heat.append(row);
-    });
-    const avgRow = h("div",{class:"heat-row heat-avg"}, h("div",{class:"heat-name"}, "Average", h("small",{text:"per drop"})));
-    d.drops.forEach(x => {
-      const rs = d.readers.map(r => (r.fb[x.id]||{}).rating).filter(Boolean);
-      const a = rs.length ? rs.reduce((p,q)=>p+q,0)/rs.length : 0;
-      avgRow.append(h("div",{}, h("div",{class:"bar"}, h("i",{style:"height:"+Math.round(a/5*44)+"px"})), h("small",{text: a ? a.toFixed(1) : "–"})));
-    });
-    heat.append(avgRow);
-    main.append(heat);
-    main.append(h("div",{class:"legend"},
-      h("span",{}, h("i",{class:"pip loved"}), "loved"), h("span",{}, h("i",{class:"pip fine"}), "fine"), h("span",{}, h("i",{class:"pip missed"}), "missed"),
-      h("span",{text:"Dots run essay, poem, story, song. Darker squares are higher ratings."})));
-
-    const tbody = h("tbody");
-    d.readers.forEach(r => {
-      const rs = Object.values(r.fb).map(f => f.rating).filter(Boolean);
-      tbody.append(h("tr",{},
-        h("td",{}, h("span",{class:"rname", text: r.id === d.me ? "You" : r.name}), r.curator ? h("span",{class:"youtag", text:"Curator"}) : null),
-        h("td",{text: r.curator ? "Curator" : (r.path === "shared" ? "Shaf's drops" : "Own drops")}),
-        h("td",{class:"mono-cell", text:dshort(r.joinedAt)}),
-        h("td",{class:"mono-cell", text:Object.keys(r.fb).length+" of "+cols}),
-        h("td",{class:"mono-cell", text: rs.length ? (rs.reduce((a,b)=>a+b,0)/rs.length).toFixed(1)+"/5" : "–"}),
-        h("td",{class:"mono-cell", text:ago(r.lastActive)})));
-    });
-    main.append(h("div",{class:"rtable-wrap"}, h("table",{class:"rtable"},
-      h("thead",{}, h("tr",{}, ...["Reader","Pathway","Joined","Unsealed","Avg rating","Last active"].map(t => h("th",{scope:"col", text:t})))),
-      tbody)));
-  }
-
-  function renderReaders(){
-    if (!S.owner){ S.view = "today"; return render(); }
-    const list = S.admin.list;
-    const sent = list ? list.reduce((s,r) => s + r.drops.length, 0) : 0;
-    const unsealed = list ? list.reduce((s,r) => s + Object.keys(r.fb).length, 0) : 0;
-    main.append(h("div",{class:"titleblock"},
-      h("div",{class:"band lilac"},
-        h("span",{class:"label", text:"Curator's desk"}),
-        h("h1",{text:"Readers"}),
-        h("div",{class:"sub"}, h("span",{class:"label", text: list ? list.length+" reader"+(list.length===1?"":"s")+" · "+sent+" drop"+(sent===1?"":"s")+" sent · "+unsealed+" unsealed" : "Loading…"}))),
-      h("p",{class:"invite", text:"Everyone who has joined, the drops they've received and what they made of them. Only you see this page."})));
-
-    main.append(h("div",{class:"rdesk-meta"},
-      h("button",{class:"linkbtn", type:"button", text: S.admin.loading ? "Refreshing…" : "Refresh", disabled: S.admin.loading, onclick: loadReaders}),
-      S.admin.at ? h("span",{class:"label quiet", text:"Updated "+S.admin.at.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}) : null,
-      S.admin.error ? h("span",{class:"err", text:S.admin.error}) : null));
-
-    if (S.admin.sel && list){
-      const r = list.find(x => x.id === S.admin.sel);
-      if (r) return renderReaderDetail(r);
-      S.admin.sel = null;
-    }
-
-    if (!list){ if (!S.admin.loading) loadReaders(); return; }
-    if (!list.length){
-      main.append(h("div",{class:"empty"}, h("span",{class:"label",text:"No readers yet"}),
-        h("p",{text:"When someone you've invited opens the page and joins, they appear here with their drops and notes."})));
-    } else {
-      const tbody = h("tbody");
-      list.forEach(r => {
-        const done = Object.keys(r.fb).length;
-        const ratings = Object.values(r.fb).map(f => +f.rating).filter(Boolean);
-        const avg = ratings.length ? (ratings.reduce((a,b)=>a+b,0)/ratings.length).toFixed(1)+"/5" : "–";
-        const latest = r.drops[0];
-        const open = () => { S.admin.sel = r.id; render(); window.scrollTo(0,0); };
-        tbody.append(h("tr",{class:"rrow", onclick: open},
-          h("td",{}, h("button",{class:"rname", type:"button", text:nameOf(r.id), onclick:e=>{ e.stopPropagation(); open(); }}), r.curator ? h("span",{class:"youtag", text:"Curator"}) : null),
-          h("td",{text: r.curator ? "Curator" : (r.path === "shared" ? "Shaf's drops" : "Own drops")}),
-          h("td",{class:"mono-cell", text:dshort(r.joinedAt)}),
-          h("td",{class:"mono-cell", text:String(r.drops.length)}),
-          h("td",{class:"mono-cell", text:done+" of "+r.drops.length}),
-          h("td",{class:"mono-cell", text:avg}),
-          h("td",{text: latest ? "Drop "+pad(latest.n)+" · "+short(latest.date) : "Waiting for first drop"}),
-          h("td",{class:"mono-cell", text:ago(lastActiveOf(r))})));
-      });
-      main.append(h("div",{class:"rtable-wrap"}, h("table",{class:"rtable"},
-        h("thead",{}, h("tr",{}, ...["Reader","Pathway","Joined","Drops","Unsealed","Avg rating","Latest drop","Last active"].map(t => h("th",{scope:"col", text:t})))),
-        tbody)));
-    }
+  const firstName = r => r.name || "Reader";
+  const whoIs = (d, r) => r.id === d.me ? "You" : firstName(r);
+  function inviteCard(){
     const links = h("div",{class:"invlinks"});
     [["own","Their own drops","own"],["shared","Your drops","with-shaf"]].filter(([k]) => !(k === "own" && OWN_OFF)).forEach(([k,label,tag]) => {
       const url = INVITE_BASE + "#" + tag;
@@ -1070,7 +967,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
             catch(e){ selectText(code); note.textContent = "Selected: copy it with your keyboard"; } }}),
           note)));
     });
-    main.append(h("div",{class:"invite-card"},
+    return h("div",{class:"invite-card"},
       h("span",{class:"label", text:"Bring someone in"}),
       h("h3",{text:"Hand someone the next quartet"}),
       h("p",{text:"Every other morning they get an essay, a poem, a story and a song, joined by a hidden idea that only unseals once they've written back. They'll read the pieces here, and see how the others got on."}),
@@ -1079,41 +976,109 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
         h("div",{}, h("b",{text:"2"}), SITE ? "They sign in with Google and write a few lines about themselves." : "You invite their email as an editor; they open the link and join."),
         h("div",{}, h("b",{text:"3"}), "Their first drop is waiting, and the thread stays sealed until they reply.")),
       links,
-      h("p",{class:"hint", text:"Readers on their own drops each add a full curation run to every drop morning. Readers on your drops add almost nothing: they get a copy of yours."})));
+      h("p",{class:"hint", text:"Readers on their own drops each add a full curation run to every drop morning. Readers on your drops add almost nothing: they get a copy of yours."}));
   }
 
-  function renderReaderDetail(r){
-    const fields = r.fields || {};
+
+  function renderReaders(){
+    const d = S.together.data;
+    main.append(h("div",{class:"titleblock"},
+      h("div",{class:"band gold"},
+        h("span",{class:"label", text:"Reading together"}),
+        h("h1",{text:"Readers"}),
+        h("div",{class:"sub"}, h("span",{class:"label", text: d ? d.readers.length+" reader"+(d.readers.length===1?"":"s")+" · "+d.drops.length+" drop"+(d.drops.length===1?"":"s") : "Loading…"}))),
+      h("p",{class:"invite", text:"Who is reading, how each drop landed, and what everyone wrote. Notes appear once you have unsealed that drop yourself, so nothing gets spoiled."})));
+    main.append(h("div",{class:"rdesk-meta"},
+      h("button",{class:"linkbtn", type:"button", text: S.together.loading ? "Refreshing…" : "Refresh", disabled: S.together.loading, onclick: loadTogether}),
+      S.together.error ? h("span",{class:"err", text:S.together.error}) : null));
+    if (!d){ if (!S.together.loading && !S.together.error) loadTogether(); return; }
+    if (S.together.sel){
+      const r = d.readers.find(x => x.id === S.together.sel);
+      if (r) return renderReaderDetail(d, r);
+      S.together.sel = null;
+    }
+    const all = d.readers.flatMap(r => Object.values(r.fb));
+    const rated = all.map(f => f.rating).filter(Boolean);
+    const avg = rated.length ? (rated.reduce((a,b)=>a+b,0)/rated.length).toFixed(1) : "–";
+    const loved = all.reduce((n,f) => n + Object.values(f.pieces||{}).filter(x => x.reaction==="loved").length, 0);
+    main.append(h("div",{class:"tstats"},
+      ...[[String(d.readers.length),"Readers"],[String(all.length),"Notes left"],[avg,"Average rating"],[String(loved),"Pieces loved"]]
+        .map(([n,l]) => h("div",{class:"tstat"}, h("b",{text:n}), h("span",{class:"label",text:l})))));
+    if (d.drops.length){
+      const cols = d.drops.length;
+      const heat = h("div",{class:"heat", style:"--cols:"+cols});
+      heat.append(h("div",{class:"heat-row head"}, h("span"), ...d.drops.map(x => h("span",{class:"heat-col", text:"Drop "+pad(x.n)}))));
+      d.readers.forEach(r => {
+        const row = h("div",{class:"heat-row"});
+        row.append(h("button",{class:"heat-name rname", type:"button", onclick:()=>{ S.together.sel = r.id; render(); window.scrollTo(0,0); }}, whoIs(d,r), h("small",{text: Object.keys(r.fb).length+" of "+cols+" unsealed"})));
+        d.drops.forEach(x => {
+          const f = r.fb[x.id];
+          if (!f){ row.append(h("div",{class:"heat-cell", title:"Not unsealed yet"}, h("b",{text:"·"}), h("span",{class:"pips"}, ...["essay","poem","story","song"].map(()=>h("i",{class:"pip"}))))); return; }
+          row.append(h("div",{class:"heat-cell r"+(f.rating||0), title:"Rated "+(f.rating||"–")+"/5"},
+            h("b",{text:String(f.rating||"–")}),
+            h("span",{class:"pips"}, ...["essay","poem","story","song"].map(k => h("i",{class:"pip "+(((f.pieces||{})[k]||{}).reaction||""), title:k+": "+((((f.pieces||{})[k]||{}).reaction)||"no reaction")})))));
+        });
+        heat.append(row);
+      });
+      const avgRow = h("div",{class:"heat-row heat-avg"}, h("div",{class:"heat-name"}, "Average", h("small",{text:"per drop"})));
+      d.drops.forEach(x => {
+        const rs = d.readers.map(r => (r.fb[x.id]||{}).rating).filter(Boolean);
+        const a = rs.length ? rs.reduce((p,q)=>p+q,0)/rs.length : 0;
+        avgRow.append(h("div",{}, h("div",{class:"bar"}, h("i",{style:"height:"+Math.round(a/5*44)+"px"})), h("small",{text: a ? a.toFixed(1) : "–"})));
+      });
+      heat.append(avgRow);
+      main.append(heat);
+      main.append(h("div",{class:"legend"},
+        h("span",{}, h("i",{class:"pip loved"}), "loved"), h("span",{}, h("i",{class:"pip fine"}), "fine"), h("span",{}, h("i",{class:"pip missed"}), "missed"),
+        h("span",{text:"Dots run essay, poem, story, song. Darker squares are higher ratings. Click a name to read their notes."})));
+    }
+    const tbody = h("tbody");
+    d.readers.forEach(r => {
+      const rs = Object.values(r.fb).map(f => f.rating).filter(Boolean);
+      const open = () => { S.together.sel = r.id; render(); window.scrollTo(0,0); };
+      tbody.append(h("tr",{class:"rrow", onclick: open},
+        h("td",{}, h("button",{class:"rname", type:"button", text:whoIs(d,r), onclick:e=>{ e.stopPropagation(); open(); }}), r.curator ? h("span",{class:"youtag", text:"Curator"}) : null),
+        h("td",{text: r.curator ? "Curator" : (r.path === "shared" ? "Shaf's drops" : "Own drops")}),
+        h("td",{class:"mono-cell", text:dshort(r.joinedAt)}),
+        h("td",{class:"mono-cell", text:Object.keys(r.fb).length+" of "+d.drops.length}),
+        h("td",{class:"mono-cell", text: rs.length ? (rs.reduce((a,b)=>a+b,0)/rs.length).toFixed(1)+"/5" : "–"}),
+        h("td",{class:"mono-cell", text:ago(r.lastActive)})));
+    });
+    main.append(h("div",{class:"rtable-wrap"}, h("table",{class:"rtable"},
+      h("thead",{}, h("tr",{}, ...["Reader","Pathway","Joined","Unsealed","Avg rating","Last active"].map(t => h("th",{scope:"col", text:t})))),
+      tbody)));
+    if (S.owner) main.append(inviteCard());
+  }
+
+  function renderReaderDetail(d, r){
     const done = Object.keys(r.fb).length;
     main.append(h("div",{class:"rhead"},
-      h("button",{class:"nextbtn", type:"button", style:"justify-self:start", text:"← All readers", onclick:()=>{ S.admin.sel = null; render(); }}),
-      h("h2",{text:nameOf(r.id)}),
-      h("span",{class:"label", text:(r.curator ? "Curator" : (r.path === "shared" ? "On your drops" : "Own drops"))+" · joined "+dshort(r.joinedAt)+" · "+r.drops.length+" drop"+(r.drops.length===1?"":"s")+" · "+done+" unsealed · last active "+ago(lastActiveOf(r)).toLowerCase()})));
-
-    if (!r.curator && r.id !== S.uid){
-      const rm = h("button",{class:"nextbtn", type:"button", style:"justify-self:start", text:"Remove this reader", onclick: async ()=>{
-        if (!confirm("Remove "+nameOf(r.id)+" and their notes? This can't be undone.")) return;
-        try { await S.db.doc("readers/"+r.id).delete(); S.admin.sel = null; S.admin.list = (S.admin.list||[]).filter(x => x.id !== r.id); render(); }
+      h("button",{class:"nextbtn", type:"button", style:"justify-self:start", text:"← All readers", onclick:()=>{ S.together.sel = null; render(); }}),
+      h("h2",{text:whoIs(d,r)}),
+      h("span",{class:"label", text:(r.curator ? "Curator" : (r.path === "shared" ? "On Shaf's drops" : "Own drops"))+" · joined "+dshort(r.joinedAt)+" · "+done+" of "+d.drops.length+" unsealed · last active "+ago(r.lastActive).toLowerCase()})));
+    if (S.owner && !r.curator && r.id !== d.me){
+      const rm = h("button",{class:"nextbtn", type:"button", style:"justify-self:start;margin-top:10px", text:"Remove this reader", onclick: async ()=>{
+        if (!confirm("Remove "+firstName(r)+" and their notes? This can't be undone.")) return;
+        try { await S.db.doc("readers/"+r.id).delete(); S.together.sel = null; S.together.data = null; render(); }
         catch(e){ rm.textContent = "Couldn't remove just now. Try again."; }
       }});
       main.append(rm);
     }
     const about = h("section",{class:"block"}, h("h3",{text:"About them"}));
     const dl = h("dl",{class:"kv"});
-    ABOUT.forEach(([k,label]) => { if ((fields[k]||"").trim()) dl.append(h("dt",{text:label}), h("dd",{text:fields[k]})); });
+    ABOUT.forEach(([k,label]) => { if (((r.fields||{})[k]||"").trim()) dl.append(h("dt",{text:label}), h("dd",{text:r.fields[k]})); });
     about.append(dl.children.length ? dl : h("p",{class:"hint", text:"Nothing written yet."}));
     main.append(about);
 
     const sec = h("section",{class:"block"}, h("h3",{text:"Drops and notes"}));
-    if (!r.drops.length) sec.append(h("p",{class:"hint", text:"No drops yet. Their first one comes with the next morning drop."}));
-    r.drops.forEach(dr => {
-      const f = r.fb[dr.id], rv = r.rv[dr.id];
+    d.drops.slice().sort((a,b)=>b.n-a.n).forEach(dr => {
+      const f = r.fb[dr.id];
       const box = h("div",{class:"ddrop"},
         h("div",{class:"head"},
           h("h4",{text:"Drop "+pad(dr.n)}),
           h("span",{class:"label", text:fmtDate(dr.date)}),
           f ? h("span",{class:"tag-open", text:"Unsealed · "+(f.rating||"–")+"/5"}) : h("span",{class:"tag-sealed", text:"Sealed · no notes yet"})),
-        rv && rv.thread ? h("p",{}, h("strong",{text:"Thread: "}), rv.thread+(rv.type ? " ("+String(rv.type).toLowerCase()+")" : "")) : null,
+        dr.thread ? h("p",{}, h("strong",{text:"Thread: "}), dr.thread+(dr.type ? " ("+String(dr.type).toLowerCase()+")" : "")) : null,
         h("ul",{}, ...(dr.pieces||[]).map(p => {
           const pf = f && f.pieces ? (f.pieces[p.kind]||{}) : {};
           const rl = REACTS.find(x => x[0] === pf.reaction);
@@ -1122,9 +1087,10 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
         })));
       if (f){
         if (f.comment) box.append(h("p",{class:"quote", text:"“"+f.comment+"”"}));
+        else if (!dr.open) box.append(h("p",{class:"hint", text:"Unseal this drop yourself to read their notes."}));
         if (f.guess) box.append(h("p",{class:"hint", text:"Their guess at the thread: "+f.guess}));
         if (f.response) box.append(h("div",{style:"display:grid;gap:4px"}, h("span",{class:"label", text:"Their writing"}), h("p",{class:"quote", text:f.response})));
-        box.append(h("span",{class:"label quiet", text:"Notes left "+dshort(f.submittedAt)}));
+        if (f.submittedAt) box.append(h("span",{class:"label quiet", text:"Notes left "+dshort(f.submittedAt)}));
       }
       sec.append(box);
     });
@@ -1147,7 +1113,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     foot.append(counts);
   }
 
-  document.querySelectorAll("nav.sections button").forEach(b => b.addEventListener("click", ()=>{ S.view = b.dataset.view; if (b.dataset.view==="today") S.sel = null; if (b.dataset.view==="readers"){ S.admin.sel = null; loadReaders(); } if (b.dataset.view==="together"){ S.together.data = null; S.together.error = null; } render(); window.scrollTo(0,0); trackRead(); }));
+  document.querySelectorAll("nav.sections button").forEach(b => b.addEventListener("click", ()=>{ S.view = b.dataset.view; if (b.dataset.view==="today") S.sel = null; if (b.dataset.view==="readers"){ S.together.sel = null; S.together.data = null; S.together.error = null; } render(); window.scrollTo(0,0); trackRead(); }));
 
   (async function boot(){
     let db = null;
@@ -1159,8 +1125,7 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
     S.user = user;
     try { S.uid = user ? await user.id() : null; } catch(e){ S.uid = null; }
     try { S.owner = user ? await user.isOwner() : false; } catch(e){ S.owner = false; }
-    if (S.owner) document.getElementById("nav-readers").hidden = false;
-    if (SITE && S.uid && S.user && S.user.community) document.getElementById("nav-together").hidden = false;
+    if ((S.owner || SITE) && S.uid && (S.owner || (S.user && S.user.community))) document.getElementById("nav-readers").hidden = false;
     if (!S.uid){ S.joined = null; render(); return; }
     if (S.owner){ try { const lg = await db.doc("profile/about").get(); S.legacy = lg.exists ? lg.data() : null; } catch(e){} }
     const typing = () => { const a = document.activeElement; return a && (a.tagName === "TEXTAREA" || a.tagName === "INPUT"); };

@@ -27,24 +27,39 @@ export default async function handler(req, res) {
   try { q = await db(); } catch (e) { console.error("db", e); return json(res, 503, { error: "storage", message: "Storage isn't reachable just now." }); }
 
   const url = new URL(req.url, "http://local");
-  // The Together view: every signed-in reader sees who is reading and how each drop landed. Ratings and
-  // loved/fine/missed per piece only; written notes, guesses and About me stay private.
+  // The Readers page: every signed-in reader sees who is reading and what they wrote. To keep threads
+  // sealed, another reader's written notes and each drop's thread only come through for drops the viewer
+  // has already unsealed themselves (the curator sees everything). Ratings and reactions are always shown.
+  // About me shares only who / making / moves / grow; "Keep away from" and the curator notes stay private.
   if (url.searchParams.has("community")) {
-    if (!q) return json(res, 200, { readers: [], drops: [] });
-    const rows = await q`select id, email, name, curator, path, joined_at, last_active from readers order by joined_at`;
-    const fbRows = await q`select reader_id, drop_id, body from feedback`;
+    if (!q) return json(res, 200, { readers: [], drops: [], me: s.rid });
+    const rows = await q`select id, email, name, curator, path, fields, joined_at, last_active from readers order by joined_at`;
+    const fbRows = await q`select reader_id, drop_id, body, submitted_at from feedback`;
     const c = await contentFor({ id: "curator", curator: true, path: "own" }, q);
-    const drops = c.drops.map(d => ({ id: d.id, n: d.data.n, date: d.data.date, pieces: (d.data.pieces || []).map(p => p.kind) }));
+    const mine = new Set(fbRows.filter(f => f.reader_id === s.rid).map(f => f.drop_id));
+    const drops = c.drops.map(d => {
+      const open = owner || mine.has(d.id), rv = open ? c.reveal(d.id) : null;
+      return { id: d.id, n: d.data.n, date: d.data.date, open,
+        thread: rv ? rv.thread || "" : "", type: rv ? rv.type || "" : "",
+        pieces: (d.data.pieces || []).map(p => ({ kind: p.kind, title: p.title, author: p.author })) };
+    });
+    const openIds = new Set(drops.filter(d => d.open).map(d => d.id));
     const byReader = {};
     for (const f of fbRows) {
       const b = f.body || {}, pieces = {};
-      for (const k of ["essay", "poem", "story", "song"]) { const rx = b.pieces && b.pieces[k] && b.pieces[k].reaction; if (rx) pieces[k] = rx; }
-      (byReader[f.reader_id] = byReader[f.reader_id] || {})[f.drop_id] = { rating: +b.rating || 0, pieces };
+      for (const k of ["essay", "poem", "story", "song"]) {
+        const pc = b.pieces && b.pieces[k];
+        if (pc && (pc.reaction || pc.note)) pieces[k] = openIds.has(f.drop_id) ? { reaction: pc.reaction || "", note: pc.note || "" } : { reaction: pc.reaction || "" };
+      }
+      const item = { rating: +b.rating || 0, pieces, submittedAt: iso(f.submitted_at) || b.submittedAt || null };
+      if (openIds.has(f.drop_id)) { item.comment = b.comment || ""; item.guess = b.guess || ""; item.response = b.response || ""; }
+      (byReader[f.reader_id] = byReader[f.reader_id] || {})[f.drop_id] = item;
     }
     const first = r => String(r.name || (r.email || "").split("@")[0] || (r.curator ? "Shaf" : "Reader")).trim().split(/\s+/)[0];
+    const about = r => { const f = r.fields || {}, o = {}; for (const k of ["who", "making", "moves", "grow"]) if (f[k]) o[k] = f[k]; return o; };
     return json(res, 200, {
       me: s.rid, drops,
-      readers: rows.map(r => ({ id: r.id, name: first(r), curator: !!r.curator, path: r.path, joinedAt: iso(r.joined_at), lastActive: iso(r.last_active), fb: byReader[r.id] || {} })),
+      readers: rows.map(r => ({ id: r.id, name: first(r), curator: !!r.curator, path: r.path, fields: about(r), joinedAt: iso(r.joined_at), lastActive: iso(r.last_active), fb: byReader[r.id] || {} })),
     });
   }
 
