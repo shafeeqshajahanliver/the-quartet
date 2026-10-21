@@ -977,6 +977,14 @@ body.joining nav.sections button[data-view],body.joining footer{display:none}
       h("h2",{text:nameOf(r.id)}),
       h("span",{class:"label", text:(r.curator ? "Curator" : (r.path === "shared" ? "On your drops" : "Own drops"))+" · joined "+dshort(r.joinedAt)+" · "+r.drops.length+" drop"+(r.drops.length===1?"":"s")+" · "+done+" unsealed · last active "+ago(lastActiveOf(r)).toLowerCase()})));
 
+    if (!r.curator && r.id !== S.uid){
+      const rm = h("button",{class:"nextbtn", type:"button", style:"justify-self:start", text:"Remove this reader", onclick: async ()=>{
+        if (!confirm("Remove "+nameOf(r.id)+" and their notes? This can't be undone.")) return;
+        try { await S.db.doc("readers/"+r.id).delete(); S.admin.sel = null; S.admin.list = (S.admin.list||[]).filter(x => x.id !== r.id); render(); }
+        catch(e){ rm.textContent = "Couldn't remove just now. Try again."; }
+      }});
+      main.append(rm);
+    }
     const about = h("section",{class:"block"}, h("h3",{text:"About them"}));
     const dl = h("dl",{class:"kv"});
     ABOUT.forEach(([k,label]) => { if ((fields[k]||"").trim()) dl.append(h("dt",{text:label}), h("dd",{text:fields[k]})); });

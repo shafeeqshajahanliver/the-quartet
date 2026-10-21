@@ -48,7 +48,7 @@
       id, path, get,
       set: async data => { await call("PUT", "doc=" + encodeURIComponent(path), data); refresh(path); },
       update: async data => { await call("PATCH", "doc=" + encodeURIComponent(path), data); refresh(path); },
-      delete: async () => { throw err("invalid_argument", "Not supported"); },
+      delete: async () => { await call("DELETE", "doc=" + encodeURIComponent(path)); refresh(path); },
       onSnapshot(next, onErr) {
         const run = () => get().then(next, e => onErr && onErr(e));
         run();

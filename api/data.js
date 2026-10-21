@@ -113,5 +113,16 @@ export default async function handler(req, res) {
     }
     return json(res, 403, { error: "forbidden" });
   }
+  if (req.method === "DELETE") {
+    // Curator only: remove another reader and their notes. The curator's own profile can't be removed here.
+    if (!owner || !docPath || seg[0] !== "readers" || seg.length !== 2 || target === s.rid) return json(res, 403, { error: "forbidden" });
+    if (!q) return json(res, 503, { error: "storage", message: "Storage isn't reachable just now." });
+    const cur = await loadReader(q, target);
+    if (!cur) return json(res, 200, { ok: true });
+    if (cur.curator) return json(res, 403, { error: "forbidden" });
+    await q`delete from feedback where reader_id = ${target}`;
+    await q`delete from readers where id = ${target}`;
+    return json(res, 200, { ok: true });
+  }
   return json(res, 405, { error: "method" });
 }
