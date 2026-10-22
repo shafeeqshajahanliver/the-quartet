@@ -1,0 +1,62 @@
+{
+  "n": 4,
+  "date": "2026-10-22",
+  "phase": 1,
+  "phaseName": "Noticing",
+  "invitation": "From Manila, Prague, Lagos and Alabama, across a hundred and fifty years. The essay is long, so read only the first third; the full text is in the page if you want the rest.",
+  "pieces": [
+    {
+      "kind": "essay",
+      "title": "The Indolence of the Filipino",
+      "author": "José Rizal",
+      "place": "Madrid, written for Manila",
+      "year": "1890",
+      "minutes": 20,
+      "link": "https://www.gutenberg.org/ebooks/6885",
+      "note": "Rizal writes as a doctor taking a case history, and the medical frame lets him be blunt without sounding bitter. Notice how he concedes the charge first, then turns to sources: Chinese traders, Pigafetta, early chroniclers. Read as far as the history of the early traders and stop there, around 4,400 words."
+    },
+    {
+      "kind": "poem",
+      "title": "Telephone Conversation",
+      "author": "Wole Soyinka",
+      "place": "London and Ibadan",
+      "year": "1963",
+      "minutes": 3,
+      "link": "https://www.d.umn.edu/~tbacig/cst1010/chs/soyinka.html",
+      "altLinks": [
+        {
+          "label": "Search the poem",
+          "url": "https://www.google.com/search?q=Wole+Soyinka+Telephone+Conversation+poem"
+        }
+      ],
+      "note": "A poem built almost entirely as a phone call with the voice of the other person left in as reported speech. Notice how the comedy of the speaker's replies does the arguing, and how the line breaks make each reply land late, like a delay on the line."
+    },
+    {
+      "kind": "story",
+      "title": "A Report to an Academy",
+      "author": "Franz Kafka",
+      "place": "Prague",
+      "year": "1917",
+      "minutes": 18,
+      "link": "https://americanliterature.com/author/franz-kafka/short-story/a-report-to-an-academy",
+      "note": "A monologue with a single listener, the audience, and a narrator who is chatty, precise and faintly pleased with himself. Notice how much comedy comes from the formal register applied to an absurd history, and where it slips. Ian Johnston's translation is the free one online."
+    },
+    {
+      "kind": "song",
+      "title": "Four Women",
+      "author": "Nina Simone",
+      "place": "New York",
+      "year": "1966",
+      "minutes": 4,
+      "link": "https://www.youtube.com/results?search_query=Nina+Simone+Four+Women+official",
+      "youtube": "V8C5lloBfV8",
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Four%20Women%20Nina%20Simone"
+        }
+      ],
+      "note": "Four verses, four characters, one tune that barely changes, and the arrangement tightens as it goes. Listen as a lyricist to how each verse is built from the same few slots, and what happens to the form when the last verse breaks the pattern."
+    }
+  ]
+}
