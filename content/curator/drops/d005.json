@@ -1,0 +1,74 @@
+{
+  "n": 5,
+  "date": "2026-10-23",
+  "phase": 1,
+  "phaseName": "Noticing",
+  "invitation": "From Kyoto, a Russian army road, a Dorset valley and Montreal, across seven hundred years. Three of the four read here in the page; start with the poem if you only have two minutes.",
+  "pieces": [
+    {
+      "kind": "essay",
+      "title": "The Idle Thoughts of a Recluse, no. 137",
+      "author": "Yoshida Kenkō",
+      "place": "Kyoto",
+      "year": "c. 1330",
+      "minutes": 5,
+      "link": "https://archive.org/details/idlethoughtsofre0000unse",
+      "altLinks": [
+        {
+          "label": "About the book",
+          "url": "https://en.wikipedia.org/wiki/Tsurezuregusa"
+        }
+      ],
+      "note": "One of the loose, numbered sections of a medieval Japanese notebook, here in James Hoyt's 1914 translation, so the English is a little stiff. Notice how Kenkō argues by example and never states his case outright, and how the voice stays calm while it contradicts what most people would say. The page carries the first part of the section."
+    },
+    {
+      "kind": "poem",
+      "title": "The Voice",
+      "author": "Thomas Hardy",
+      "place": "Dorset, England",
+      "year": "1914",
+      "minutes": 2,
+      "link": "https://www.gutenberg.org/ebooks/2863",
+      "altLinks": [
+        {
+          "label": "About the poem",
+          "url": "https://en.wikipedia.org/wiki/The_Voice_(poem)"
+        }
+      ],
+      "note": "Four stanzas, and the last one changes the metre. Read it aloud and listen to how the rhythm stumbles where the speaker does. Notice how the poem asks a question in the second stanza and a rival question in the third, and never picks between them."
+    },
+    {
+      "kind": "story",
+      "title": "The Kiss",
+      "author": "Anton Chekhov",
+      "place": "a Russian village on the army road",
+      "year": "1887",
+      "minutes": 28,
+      "link": "https://www.gutenberg.org/ebooks/13413",
+      "altLinks": [
+        {
+          "label": "About the story",
+          "url": "https://en.wikipedia.org/wiki/The_Kiss_(short_story)"
+        }
+      ],
+      "note": "It is in Constance Garnett's translation in The Party and Other Stories, and it is the longest piece in the drop, so give it a quiet half hour. Watch how long Chekhov spends on the ordinary evening before anything happens, and how he makes the second half of the story out of almost nothing. Pay attention to where he puts the weather in the last scenes."
+    },
+    {
+      "kind": "song",
+      "title": "Suzanne",
+      "author": "Leonard Cohen",
+      "place": "Montreal",
+      "year": "1967",
+      "minutes": 4,
+      "link": "https://www.youtube.com/results?search_query=Leonard+Cohen+Suzanne+official",
+      "youtube": "svitEEpI07E",
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Suzanne%20Leonard%20Cohen"
+        }
+      ],
+      "note": "Listen as a lyricist to the pronouns. Notice who is speaking in each verse, who is being addressed, and when the song switches from describing a scene to giving advice. The tune is simple fingerpicking, so see how much weight the words have to carry."
+    }
+  ]
+}
