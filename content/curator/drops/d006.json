@@ -1,0 +1,74 @@
+{
+  "n": 6,
+  "date": "2026-10-24",
+  "phase": 1,
+  "phaseName": "Noticing",
+  "invitation": "Shanghai, Eton, Salem and New York, across two centuries and a bit. Two of the four read here in the page, and the song is the shortest way in.",
+  "pieces": [
+    {
+      "kind": "essay",
+      "title": "Preface to Call to Arms",
+      "author": "Lu Xun",
+      "place": "Beijing",
+      "year": "1922",
+      "minutes": 14,
+      "link": "https://www.marxists.org/archive/lu-xun/1922/12/03.htm",
+      "altLinks": [
+        {
+          "label": "About Lu Xun",
+          "url": "https://en.wikipedia.org/wiki/Lu_Xun"
+        }
+      ],
+      "note": "A preface that is really a short memoir, here in Yang Xianyi and Gladys Yang's translation. Notice how he gets from a medical student in Japan to a writer through a handful of scenes, and how the central image arrives as a bit of dialogue rather than an argument. Watch how the tone stays dry and unhurried while the content is bleak."
+    },
+    {
+      "kind": "poem",
+      "title": "Ode on a Distant Prospect of Eton College",
+      "author": "Thomas Gray",
+      "place": "Eton and Cambridge, England",
+      "year": "1747",
+      "minutes": 5,
+      "link": "https://www.gutenberg.org/ebooks/30357",
+      "altLinks": [
+        {
+          "label": "About the poem",
+          "url": "https://en.wikipedia.org/wiki/Ode_on_a_Distant_Prospect_of_Eton_College"
+        }
+      ],
+      "note": "Ten stanzas of ten lines, each with a rhyme scheme that shifts the length of the line. Notice how long the poem spends on a view of boys at play, and how a catalogue of personified troubles takes over the middle. Read the last stanza twice and see which of its sentences you would argue with."
+    },
+    {
+      "kind": "story",
+      "title": "Young Goodman Brown",
+      "author": "Nathaniel Hawthorne",
+      "place": "Salem, Massachusetts",
+      "year": "1835",
+      "minutes": 20,
+      "link": "https://www.gutenberg.org/ebooks/512",
+      "altLinks": [
+        {
+          "label": "About the story",
+          "url": "https://en.wikipedia.org/wiki/Young_Goodman_Brown"
+        }
+      ],
+      "note": "A walk into a forest at dusk, from Hawthorne's collection Mosses from an Old Manse. Notice how little the narrator will say for certain, and how often the text offers two explanations for the same event. Look at what the ending refuses to settle and what it settles anyway."
+    },
+    {
+      "kind": "song",
+      "title": "The Sound of Silence",
+      "author": "Simon & Garfunkel",
+      "place": "New York",
+      "year": "1964",
+      "minutes": 3,
+      "link": "https://www.youtube.com/results?search_query=Simon+Garfunkel+The+Sound+of+Silence+official",
+      "youtube": "l0q7MLPo-u8",
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/The%20Sound%20of%20Silence%20Simon%20Garfunkel"
+        }
+      ],
+      "note": "Listen as a lyricist to how the song moves from a private setting to a crowd, and to the way the vowels in the refrain are placed so the title can be sung slowly. Notice who is speaking, who is being spoken to, and how the final verse swaps a scene for a notice on a wall. Hear how the arrangement stays small until the end."
+    }
+  ]
+}
