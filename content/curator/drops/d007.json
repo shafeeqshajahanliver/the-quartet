@@ -1,0 +1,79 @@
+{
+  "n": 7,
+  "date": "2026-10-25",
+  "phase": 1,
+  "phaseName": "Noticing",
+  "invitation": "Warring States China, Hull, a Polish market town and a London studio, across two and a half thousand years. The story reads here in the page, and the song is the quickest way in.",
+  "pieces": [
+    {
+      "kind": "essay",
+      "title": "Discourse on Ritual",
+      "author": "Xunzi",
+      "place": "Zhao and Chu states, China",
+      "year": "c. 250 BCE",
+      "minutes": 15,
+      "link": "https://ctext.org/xunzi/discourse-on-ritual/ens",
+      "altLinks": [
+        {
+          "label": "Homer Dubs's 1928 translation (Book XIX), Internet Archive",
+          "url": "https://archive.org/details/in.ernet.dli.2015.103953"
+        }
+      ],
+      "note": "A philosopher writing in plain, orderly steps, almost like a manual. Notice how he sets out what the practices are for before he says what they mean, and where he stops to say that different kinds of people understand the same act differently. Read the middle sections on mourning and sacrifice for how he handles a claim he could not prove."
+    },
+    {
+      "kind": "poem",
+      "title": "Church Going",
+      "author": "Philip Larkin",
+      "place": "Hull, England",
+      "year": "1954",
+      "minutes": 5,
+      "link": "https://philiplarkin.com/poems/all-poems/church-going/",
+      "altLinks": [
+        {
+          "label": "About the poem",
+          "url": "https://en.wikipedia.org/wiki/Church_Going"
+        }
+      ],
+      "note": "Seven nine-line stanzas in a relaxed, talkative iambic pentameter, with a rhyme scheme you only notice on a second pass. Watch how the speaker's tone shifts from offhand to serious across the poem, and which small physical gestures in the first stanza he comes back to. Look at how the poem ends its sentences against the grain of the line."
+    },
+    {
+      "kind": "story",
+      "title": "If Not Higher",
+      "author": "I. L. Peretz",
+      "place": "Warsaw, Poland",
+      "year": "1900",
+      "minutes": 6,
+      "link": "https://www.gutenberg.org/ebooks/37242",
+      "altLinks": [
+        {
+          "label": "About Peretz",
+          "url": "https://en.wikipedia.org/wiki/Isaac_Leib_Peretz"
+        }
+      ],
+      "note": "A folk tale told by a teller who cannot resist commenting, here in Helena Frank's 1906 translation. Notice how the narrator's asides build the community before the plot starts, and how the sceptic is given the point of view while the Rebbe is seen only from outside. See how much the final three words have to carry."
+    },
+    {
+      "kind": "song",
+      "title": "Into My Arms",
+      "author": "Nick Cave and the Bad Seeds",
+      "place": "London, by an Australian band",
+      "year": "1997",
+      "minutes": 4,
+      "link": "https://www.youtube.com/results?search_query=Nick+Cave+and+the+Bad+Seeds+Into+My+Arms+official",
+      "youtube": "LnHoqHscTKE",
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Into%20My%20Arms%20Nick%20Cave%20and%20the%20Bad%20Seeds"
+        }
+      ],
+      "note": "Piano and voice, with the band arriving late and quietly. Listen to how the opening verse sets out what the singer does not hold and then moves straight past it, and how the refrain is built from plain, repeated phrases. Notice who the song is addressed to and what each verse asks of them."
+    }
+  ],
+  "tryThis": {
+    "title": "Your turn",
+    "minutes": 15,
+    "prompt": "Choose a small routine that someone you know repeats without fail: a way of making tea, laying a table, locking up, visiting a grave. Describe it in about 200 words as an outsider would see it. Give the sounds first, then the smells, then what the hands do. Explain nothing and use no metaphor until the very last line."
+  }
+}
