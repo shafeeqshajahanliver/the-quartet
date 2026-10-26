@@ -1,0 +1,74 @@
+{
+  "n": 8,
+  "date": "2026-10-26",
+  "phase": 1,
+  "phaseName": "Noticing",
+  "invitation": "England, the United States and Canada, across a hundred and fifty years. Two of the four read here in the page, and the poem takes about three minutes.",
+  "pieces": [
+    {
+      "kind": "essay",
+      "title": "The Lamp of Memory",
+      "author": "John Ruskin",
+      "place": "England",
+      "year": "1849",
+      "minutes": 35,
+      "link": "https://www.gutenberg.org/ebooks/35898",
+      "altLinks": [
+        {
+          "label": "Chapter VI in the page, or the short core: sections XVIII and XIX",
+          "url": "https://www.gutenberg.org/cache/epub/35898/pg35898.txt"
+        }
+      ],
+      "note": "A Victorian critic who builds an argument out of stones, and then drops into short, hard sentences when he is angry. Notice how he moves from a quiet opening scene to a rule, and how the numbered sections let him change pace. If you are short of time, read the opening section and then XVIII and XIX, where the temperature rises."
+    },
+    {
+      "kind": "poem",
+      "title": "Ode on a Grecian Urn",
+      "author": "John Keats",
+      "place": "Hampstead, London",
+      "year": "1819",
+      "minutes": 5,
+      "link": "https://www.poetryfoundation.org/poems/44477/ode-on-a-grecian-urn",
+      "altLinks": [
+        {
+          "label": "Poets.org",
+          "url": "https://poets.org/poem/ode-grecian-urn"
+        }
+      ],
+      "note": "Five stanzas that mostly ask questions, then answer them in the last two lines. Notice how many of the verbs are about things that do not happen, and how the speaker's attitude to the object shifts from stanza to stanza. Read it aloud once for the sound of the ten-line stanza."
+    },
+    {
+      "kind": "story",
+      "title": "The Oval Portrait",
+      "author": "Edgar Allan Poe",
+      "place": "Philadelphia, USA",
+      "year": "1842",
+      "minutes": 8,
+      "link": "https://www.gutenberg.org/ebooks/2147",
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/2147/pg2147.txt"
+        }
+      ],
+      "note": "A story inside a story: a wounded traveller reads a book about a painting, and the book tells the painter's tale. Notice how little time the frame takes to set up, how the two voices differ in rhythm, and how the ending is withheld until the last clause."
+    },
+    {
+      "kind": "song",
+      "title": "Both Sides, Now",
+      "author": "Joni Mitchell",
+      "place": "Canada and California",
+      "year": "1969",
+      "minutes": 4,
+      "link": "https://www.youtube.com/results?search_query=Joni+Mitchell+Both+Sides+Now+official",
+      "youtube": "yXr2EFomFkU",
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Both%20Sides%20Now%20Joni%20Mitchell"
+        }
+      ],
+      "note": "Three verses with the same structure, each looking at one subject from a different angle. Listen to how the refrain changes meaning without changing a word, and how the last line of each verse turns the picture before it. Notice what the singer is able to say about herself only at the end."
+    }
+  ]
+}
