@@ -7,19 +7,19 @@
   "pieces": [
     {
       "kind": "essay",
-      "title": "The Lamp of Memory",
+      "title": "The Lamp of Memory (sections XVIII and XIX)",
       "author": "John Ruskin",
       "place": "England",
       "year": "1849",
-      "minutes": 35,
+      "minutes": 5,
       "link": "https://www.gutenberg.org/ebooks/35898",
       "altLinks": [
         {
-          "label": "Chapter VI in the page, or the short core: sections XVIII and XIX",
+          "label": "Full chapter VI, Project Gutenberg plain text",
           "url": "https://www.gutenberg.org/cache/epub/35898/pg35898.txt"
         }
       ],
-      "note": "A Victorian critic who builds an argument out of stones, and then drops into short, hard sentences when he is angry. Notice how he moves from a quiet opening scene to a rule, and how the numbered sections let him change pace. If you are short of time, read the opening section and then XVIII and XIX, where the temperature rises."
+      "note": "A Victorian critic who builds arguments out of stones and drops into short, hard sentences when he is angry. These two sections are a self-contained extract from a longer chapter. Notice how he defines a word by overturning its usual meaning, and where the sentences shorten."
     },
     {
       "kind": "poem",
