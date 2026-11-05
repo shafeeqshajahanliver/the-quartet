@@ -1,0 +1,74 @@
+{
+  "n": 13,
+  "date": "2026-11-05",
+  "phase": 1,
+  "phaseName": "Noticing",
+  "invitation": "Massachusetts, Switzerland, Alabama and Los Angeles, across nearly two centuries. The essay, the poem and the story all read here in the page; the essay and the song are the quickest way in.",
+  "pieces": [
+    {
+      "kind": "essay",
+      "title": "Habit (extract from The Principles of Psychology)",
+      "author": "William James",
+      "place": "Cambridge, Massachusetts",
+      "year": "1890",
+      "minutes": 3,
+      "link": "https://www.gutenberg.org/ebooks/57628",
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/57628/pg57628.txt"
+        }
+      ],
+      "note": "A short passage from the middle of a long chapter, so it begins with a quotation. Notice how James moves from a soldier and a joke to animals and then to society, and how each example is a single concrete image rather than an argument. Listen for the shift into a list of sentences that all begin the same way."
+    },
+    {
+      "kind": "poem",
+      "title": "The Prisoner of Chillon",
+      "author": "Lord Byron",
+      "place": "Lake Geneva, Switzerland",
+      "year": "1816",
+      "minutes": 9,
+      "link": "https://en.wikisource.org/wiki/The_Prisoner_of_Chillon",
+      "altLinks": [
+        {
+          "label": "Project Gutenberg anthology (poem near the end)",
+          "url": "https://www.gutenberg.org/ebooks/48484"
+        }
+      ],
+      "note": "A long monologue in short, quick lines with irregular rhyme, spoken by one man to no one in particular. Notice how the metre stays brisk while the story slows, and how a single small event, a bird, a window, gets more space than the years around it. Read the last stanza twice and compare its tone with the first."
+    },
+    {
+      "kind": "story",
+      "title": "An Occurrence at Owl Creek Bridge",
+      "author": "Ambrose Bierce",
+      "place": "Alabama, written in San Francisco",
+      "year": "1890",
+      "minutes": 14,
+      "link": "https://www.gutenberg.org/ebooks/375",
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/375/pg375.txt"
+        }
+      ],
+      "note": "Three numbered sections, each with its own pace and viewpoint. Notice how Bierce handles time in the second section, what he does with sense detail in the third, and how little the first sentence of the last paragraph differs in style from everything before it. Reread the opening once you have finished."
+    },
+    {
+      "kind": "song",
+      "title": "Hotel California",
+      "author": "Eagles",
+      "place": "Los Angeles, USA",
+      "year": "1976",
+      "minutes": 7,
+      "link": "https://www.youtube.com/results?search_query=Eagles+Hotel+California+official",
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Hotel%20California%20Eagles"
+        }
+      ],
+      "youtube": "dLl4PZtxia8",
+      "note": "Listen as a lyricist to how the song is staged as a journey with a driver, a door, a host and a room, each arriving in order. Notice how the vocabulary stays concrete and slightly off, and how the final lines are given to the music rather than the voice. Count how long the instrumental outro runs."
+    }
+  ]
+}
