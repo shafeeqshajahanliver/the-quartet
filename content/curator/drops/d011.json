@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-01",
+  "invitation": "Rome, Dayton, a house party in England and Berlin, across nineteen centuries. Three of the four read here in the page, and the poem takes about a minute.",
+  "n": 11,
+  "phase": 1,
+  "phaseName": "Noticing",
+  "pieces": [
+    {
+      "altLinks": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Moral_letters_to_Lucilius"
+        }
+      ],
+      "author": "Seneca",
+      "kind": "essay",
+      "link": "https://en.wikisource.org/wiki/Moral_letters_to_Lucilius/Letter_47",
+      "minutes": 8,
+      "note": "A letter to a friend, in Richard Gummere's 1917 translation, so the English is a little formal. Notice how Seneca opens with approval before he complicates it, how a long list of dinner-table jobs builds by accumulation, and where he turns from describing a scene to giving direct orders.",
+      "place": "Rome",
+      "title": "On Master and Slave (Letter 47)",
+      "year": "c. 65 CE"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Wikisource",
+          "url": "https://en.wikisource.org/wiki/Lyrics_of_Lowly_Life/We_wear_the_Mask"
+        }
+      ],
+      "author": "Paul Laurence Dunbar",
+      "kind": "poem",
+      "link": "https://poets.org/poem/we-wear-mask",
+      "minutes": 1,
+      "note": "Three short stanzas on a tight set of rhymes, with a refrain that is shorter than every other line. Notice who 'we' is, who 'they' is, and whether the poem ever says what is behind the face. Read it aloud and listen to what happens when the refrain arrives.",
+      "place": "Dayton, Ohio",
+      "title": "We Wear the Mask",
+      "year": "1896"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/3688/pg3688.txt"
+        }
+      ],
+      "author": "Saki (H. H. Munro)",
+      "kind": "story",
+      "link": "https://www.gutenberg.org/ebooks/3688",
+      "minutes": 11,
+      "note": "A comic story set at a country house tea, with an epigram in almost every paragraph. Notice how the opening paragraph sets the season and the company with a few exact jokes, how the dialogue carries the plot with hardly any stage business, and how the narrator's cool tone holds even when the mood in the room does not.",
+      "place": "England",
+      "title": "Tobermory",
+      "year": "1911"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Pirate%20Jenny%20Lotte%20Lenya"
+        }
+      ],
+      "author": "Kurt Weill and Bertolt Brecht (sung by Lotte Lenya)",
+      "kind": "song",
+      "link": "https://www.youtube.com/results?search_query=Lotte+Lenya+Pirate+Jenny+Threepenny+Opera",
+      "minutes": 4,
+      "note": "A cabaret number from The Threepenny Opera, written for a character who sings alone to a room. Listen as a lyricist to how a few concrete objects and one returning question build a scene, and how the music keeps a plain, almost lullaby-like walk. Notice which parts she reports and which she imagines.",
+      "place": "Berlin",
+      "title": "Pirate Jenny",
+      "year": "1928"
+    }
+  ]
+}

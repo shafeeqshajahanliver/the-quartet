@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-30",
+  "invitation": "Japan, China, Ireland and the United States, from the fifth century to the late twentieth. Three of the four read here in the page, and the poem takes about a minute.",
+  "n": 10,
+  "phase": 1,
+  "phaseName": "Noticing",
+  "pieces": [
+    {
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/769/pg769.txt"
+        }
+      ],
+      "author": "Okakura Kakuzō",
+      "kind": "essay",
+      "link": "https://www.gutenberg.org/ebooks/769",
+      "minutes": 6,
+      "note": "This is the first part of a chapter, cut at a paragraph break. Okakura opens with a fable instead of a claim and lets it carry the argument. Notice how he moves from the story to the principle, and how often he turns to the reader as a partner in the work.",
+      "place": "Boston, by a Japanese writer",
+      "title": "Art Appreciation (from The Book of Tea)",
+      "year": "1906"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Wikisource author page",
+          "url": "https://en.wikisource.org/wiki/Author:Tao_Yuanming"
+        }
+      ],
+      "author": "Tao Yuanming (translated by Arthur Waley)",
+      "kind": "poem",
+      "link": "https://en.wikisource.org/wiki/A_Hundred_and_Seventy_Chinese_Poems/Poems_by_T%27ao_Ch%27ien",
+      "minutes": 2,
+      "note": "Ten lines, plain words, almost no ornament. Notice what the first six lines do with ordinary objects and where the register changes. Read it twice and watch what the last line does to the lines before it.",
+      "place": "Jiangxi, China",
+      "title": "I built my hut in a zone of human habitation",
+      "year": "c. 410 (Waley translation 1919)"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/2814/pg2814.txt"
+        }
+      ],
+      "author": "James Joyce",
+      "kind": "story",
+      "link": "https://www.gutenberg.org/ebooks/2814",
+      "minutes": 9,
+      "note": "A woman sits at a window and the whole story is her mind going back and forth. Notice how Joyce uses the objects in the room and the repeated phrases to carry her thoughts, and how much he withholds from the dialogue she remembers. Look at how the final paragraph is staged.",
+      "place": "Dublin, Ireland",
+      "title": "Eveline",
+      "year": "1914"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Baby%20Can%20I%20Hold%20You%20Tracy%20Chapman"
+        }
+      ],
+      "author": "Tracy Chapman",
+      "kind": "song",
+      "link": "https://www.youtube.com/results?search_query=Tracy+Chapman+Baby+Can+I+Hold+You+official",
+      "minutes": 3,
+      "note": "A very small vocabulary and a plain melody, built from a short repeated question. Listen to how the verses change the situation while the question stays put, and where the arrangement lets the voice stand alone.",
+      "place": "Cleveland and Boston, USA",
+      "title": "Baby Can I Hold You",
+      "year": "1988",
+      "youtube": "DqoLMGSBGYc"
+    }
+  ]
+}

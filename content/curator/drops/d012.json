@@ -1,0 +1,74 @@
+{
+  "date": "2026-11-03",
+  "invitation": "China, the United States, Japan and England, across two thousand years. Three of the four read here in the page, and the poem takes about a minute.",
+  "n": 12,
+  "phase": 1,
+  "phaseName": "Noticing",
+  "pieces": [
+    {
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/59709/pg59709.txt"
+        }
+      ],
+      "author": "Zhuangzi (translated by Herbert A. Giles)",
+      "kind": "essay",
+      "link": "https://www.gutenberg.org/ebooks/59709",
+      "minutes": 3,
+      "note": "Two short scenes, each built as an argument between a man who holds the conventional view and one who will not. Notice who speaks last in each, and how the answer arrives as a story about a thing the speaker did or dreamed rather than as a claim. The prose is plain on purpose, so see what it leaves out.",
+      "place": "China",
+      "title": "Chuang Tzu and the Bowl (extract)",
+      "year": "c. 300 BCE (Giles translation 1889)"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Poetry Foundation",
+          "url": "https://www.poetryfoundation.org/poems/44084/the-bustle-in-a-house-1108"
+        }
+      ],
+      "author": "Emily Dickinson",
+      "kind": "poem",
+      "link": "https://www.poetryfoundation.org/poems/44084/the-bustle-in-a-house-1108",
+      "minutes": 2,
+      "note": "Eight lines in the common metre of a hymn, with an unexpected adjective in the second line and a domestic verb doing the heavy work in the fifth. Notice how the poem stays at the level of chores and what that does to the tone, and where it finally lifts its eyes.",
+      "place": "Amherst, USA",
+      "title": "The bustle in a house (1108)",
+      "year": "c. 1866 (published 1890)"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Internet Archive, A Japanese Miscellany",
+          "url": "https://archive.org/details/japanesemisc00hearrich"
+        }
+      ],
+      "author": "Lafcadio Hearn",
+      "kind": "story",
+      "link": "https://archive.org/details/japanesemisc00hearrich",
+      "minutes": 9,
+      "note": "A retold folk legend in three short sections, with a bracketed exchange tacked on at the end. Notice how the dread is built from repeated sounds and the same hour of the night, how the story withholds the cruellest detail until the third section, and what the final bracket does to your reading of everything before it.",
+      "place": "Izumo, Japan",
+      "title": "Of a Promise Broken",
+      "year": "1901"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Dido%27s%20Lament%20Purcell"
+        }
+      ],
+      "author": "Henry Purcell (libretto by Nahum Tate), sung here by Anna Dennis",
+      "kind": "song",
+      "link": "https://www.youtube.com/results?search_query=Purcell+Dido%27s+Lament+When+I+am+laid+in+earth+official",
+      "minutes": 4,
+      "note": "A short aria over a bass line that repeats and never resolves. Listen to how the vocal line is allowed to slip against that loop, what happens on the long falling phrase near the end, and how few words the text needs. A songwriter's lesson in letting the accompaniment do the arguing.",
+      "place": "London, England",
+      "title": "Dido's Lament (When I am laid in earth)",
+      "year": "1689",
+      "youtube": "-H--Z9UzQYE"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-28",
+  "invitation": "China, England, Russia and the United States, across two and a half thousand years. Two of the four read here in the page, and the story is the longest at about seventeen minutes.",
+  "n": 9,
+  "phase": 1,
+  "phaseName": "Noticing",
+  "pieces": [
+    {
+      "altLinks": [
+        {
+          "label": "Chinese Text Project, Legge translation",
+          "url": "https://ctext.org/mengzi/liang-hui-wang-i/en"
+        }
+      ],
+      "author": "Mencius",
+      "kind": "essay",
+      "link": "https://en.wikisource.org/wiki/The_Chinese_Classics/Volume_2/The_Works_of_Mencius/chapter01",
+      "minutes": 5,
+      "note": "A conversation, not an essay in the modern sense: a teacher persuades a king by agreeing with him first. Notice how one small anecdote carries the whole case, and how the later analogy tests it from a different angle. Notice too where the king speaks in his own defence and where he stops.",
+      "place": "The state of Qi, China",
+      "title": "King Xuan and the Ox (Mencius, Book I, Part A, section 7, extract)",
+      "year": "c. 300 BCE"
+    },
+    {
+      "author": "W. H. Auden",
+      "kind": "poem",
+      "link": "https://www.poetryfoundation.org/poems/159364/musee-des-beaux-arts-63a1efde036cd",
+      "minutes": 3,
+      "note": "A poem about looking at paintings, in loose rhymed lines that sound like someone talking quietly in a gallery. Notice how it moves from a general claim to one particular picture, and how much the last image owes to small details of weather, clothing and light. Read it aloud once and listen for where the rhyme tightens.",
+      "place": "Brussels, Belgium",
+      "title": "Musée des Beaux Arts",
+      "year": "1938"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/243/pg243.txt"
+        }
+      ],
+      "author": "Leo Tolstoy",
+      "kind": "story",
+      "link": "https://www.gutenberg.org/ebooks/243",
+      "minutes": 17,
+      "note": "An old man tells a story at a gathering to answer an argument, and the story is built as two scenes about the same people. Notice how the narrator gives the first scene in colour and movement and the second through sound before sight, and how little he says about what he himself did next. Notice how the frame returns at the end.",
+      "place": "Russia",
+      "title": "After the Dance",
+      "year": "1903 (published 1911)"
+    },
+    {
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Luka%20Suzanne%20Vega"
+        }
+      ],
+      "author": "Suzanne Vega",
+      "kind": "song",
+      "link": "https://www.youtube.com/results?search_query=Suzanne+Vega+Luka+official",
+      "minutes": 4,
+      "note": "A first-person song for a speaker who answers questions nobody has asked. Notice how the tune barely moves while the lines get plainer, and how the speaker's politeness is the strangest thing in it. Listen for what is told to us directly and what is only suggested by the room.",
+      "place": "New York, USA",
+      "title": "Luka",
+      "year": "1987",
+      "youtube": "VZt7J0iaUD0"
+    }
+  ]
+}
