@@ -1,0 +1,73 @@
+{
+  "n": 14,
+  "date": "2026-11-07",
+  "phase": 1,
+  "phaseName": "Noticing",
+  "invitation": "Kyoto, Camelot, a Beijing monastery and a bedroom in 1990s California, across a thousand years. The essay, the poem and the story all read here in the page, and the story is the shortest thing you will read this week.",
+  "pieces": [
+    {
+      "kind": "essay",
+      "title": "Pretty Things, Toothache, Illness (extracts from The Pillow-Book)",
+      "author": "Sei Shōnagon (translated by Arthur Waley)",
+      "place": "Kyoto, Japan",
+      "year": "c. 1002 (Waley, 1928)",
+      "minutes": 4,
+      "link": "https://www.gutenberg.org/ebooks/76016",
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/76016/pg76016.txt"
+        }
+      ],
+      "note": "Short entries that are really single glances, each held to one or two details. Notice what Shōnagon leaves out, how often the detail is a body doing something it does not know is being watched, and where her sentence turns from description to a small judgement. Count how few adjectives carry the whole entry."
+    },
+    {
+      "kind": "poem",
+      "title": "The Lady of Shalott",
+      "author": "Alfred, Lord Tennyson",
+      "place": "England",
+      "year": "1832 (revised 1842)",
+      "minutes": 8,
+      "link": "https://en.wikisource.org/wiki/Poems_(Tennyson,_1843)/Volume_1/The_Lady_of_Shalott",
+      "note": "Nineteen nine-line stanzas, each ending on the same refrain word that returns the poem to its title. Notice how the stanza's rhyme scheme loops back on itself, how the four parts change tense and distance, and how much of the first half is built from what is heard and reported rather than seen. Read the stanza where the music changes aloud."
+    },
+    {
+      "kind": "story",
+      "title": "The Painted Wall",
+      "author": "Pu Songling (translated by Herbert A. Giles)",
+      "place": "Zibo, Shandong, China",
+      "year": "c. 1740 (Giles, 1880)",
+      "minutes": 4,
+      "link": "https://www.gutenberg.org/ebooks/43629",
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/43629/pg43629.txt"
+        }
+      ],
+      "note": "A complete story in under a thousand words, with a clear set-up, a doorway into the fantastic, a reversal and a closing line spoken by someone else. Notice how Pu Songling plants a small physical detail early and pays it off after the supernatural part is over, and how the final speech declines to explain anything. Ask what a reader is left holding."
+    },
+    {
+      "kind": "song",
+      "title": "Fade Into You",
+      "author": "Mazzy Star",
+      "place": "California, USA",
+      "year": "1993",
+      "minutes": 5,
+      "link": "https://www.youtube.com/results?search_query=Mazzy+Star+Fade+Into+You+official",
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Fade%20Into%20You%20Mazzy%20Star"
+        }
+      ],
+      "youtube": "ImKY6TZEyrI",
+      "note": "Listen as a lyricist to how little the song asks of its words: short plain phrases, long gaps, and a second voice, the slide guitar, that answers when the singer stops. Notice the pronouns and who is doing what to whom, and whether the verbs ever commit. Compare how the song ends with how it began."
+    }
+  ],
+  "tryThis": {
+    "title": "Your turn",
+    "minutes": 15,
+    "prompt": "Pick someone you can watch for ten minutes without being noticed: a stranger on a train, a person across a café, a relative reading. Write a list of five entries in the manner of Sei Shōnagon's Pretty Things. Each entry is one specific moment in a single sentence or two, with no explanation and no metaphor. Then write a sixth line that is allowed one metaphor, and decide whether it earns its place."
+  }
+}
