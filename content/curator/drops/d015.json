@@ -1,0 +1,74 @@
+{
+  "n": 15,
+  "date": "2026-11-09",
+  "phase": 1,
+  "phaseName": "Noticing",
+  "invitation": "A seventeenth-century Paris notebook, a Bengali temple, a Russian riverbank at Easter and a Australian songwriter at a piano, across three and a half centuries. Three of the four read here in the page, and none of them takes long.",
+  "pieces": [
+    {
+      "kind": "essay",
+      "title": "Of the Necessity of the Wager (Pensées, 233)",
+      "author": "Blaise Pascal (translated by W. F. Trotter)",
+      "place": "Paris, France",
+      "year": "c. 1658-62 (published 1670)",
+      "minutes": 7,
+      "link": "https://www.gutenberg.org/ebooks/18269",
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/18269/pg18269.txt"
+        }
+      ],
+      "note": "A fragment written as an argument with an imagined opponent who keeps interrupting. Notice how Pascal lets the objector speak in quotation marks, how each reply is shorter than the objection, and where the tone drops from arithmetic to something nearly tender. Look at the last paragraph and who is suddenly speaking in it."
+    },
+    {
+      "kind": "poem",
+      "title": "Gitanjali, 11 (Leave this chanting)",
+      "author": "Rabindranath Tagore",
+      "place": "Bengal, India",
+      "year": "1910 (English text 1912)",
+      "minutes": 1,
+      "link": "https://www.gutenberg.org/ebooks/7164",
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/7164/pg7164.txt"
+        }
+      ],
+      "note": "Four short paragraphs in plain English prose, written by the poet himself from his own Bengali. Notice the run of imperatives, how every one is a physical instruction rather than an idea, and how the single question in the middle is answered by the verbs around it. Read it aloud once and hear where the voice stops commanding."
+    },
+    {
+      "kind": "story",
+      "title": "The Student",
+      "author": "Anton Chekhov (translated by Constance Garnett)",
+      "place": "Russia",
+      "year": "1894",
+      "minutes": 7,
+      "link": "https://www.gutenberg.org/ebooks/1944",
+      "altLinks": [
+        {
+          "label": "Project Gutenberg plain text",
+          "url": "https://www.gutenberg.org/cache/epub/1944/pg1944.txt"
+        }
+      ],
+      "note": "Chekhov said it was one of his favourites. Notice how the opening weather does the work of a character's mood, how little the two widows say, and the exact point where the student's own state changes. Compare how much of the story is dialogue with how much is the walk home."
+    },
+    {
+      "kind": "song",
+      "title": "Into My Arms",
+      "author": "Nick Cave and the Bad Seeds",
+      "place": "London, England (Cave is Australian)",
+      "year": "1997",
+      "minutes": 4,
+      "link": "https://www.youtube.com/results?search_query=Nick+Cave+Bad+Seeds+Into+My+Arms+official",
+      "altLinks": [
+        {
+          "label": "Spotify",
+          "url": "https://open.spotify.com/search/Into%20My%20Arms%20Nick%20Cave"
+        }
+      ],
+      "youtube": "LnHoqHscTKE",
+      "note": "Listen as a songwriter to how the first verse sets out a position in a flat, almost legal register and the later verses abandon it for tenderness. Notice the piano figure that barely changes, the repeated request in the refrain, and whose voice the song seems to be borrowing at its warmest."
+    }
+  ]
+}
