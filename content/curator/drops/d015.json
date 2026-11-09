@@ -3,72 +3,72 @@
   "date": "2026-11-09",
   "phase": 1,
   "phaseName": "Noticing",
-  "invitation": "A seventeenth-century Paris notebook, a Bengali temple, a Russian riverbank at Easter and a Australian songwriter at a piano, across three and a half centuries. Three of the four read here in the page, and none of them takes long.",
+  "invitation": "A prophet on a mountain, a soldier in a pub, a bishop at breakfast and a child in a schoolyard, across a little under a century. Three read here in the page and the whole drop is quick.",
   "pieces": [
     {
       "kind": "essay",
-      "title": "Of the Necessity of the Wager (Pensées, 233)",
-      "author": "Blaise Pascal (translated by W. F. Trotter)",
-      "place": "Paris, France",
-      "year": "c. 1658-62 (published 1670)",
-      "minutes": 7,
-      "link": "https://www.gutenberg.org/ebooks/18269",
+      "title": "On the Pitiful (from Thus Spoke Zarathustra)",
+      "author": "Friedrich Nietzsche (translated by Thomas Common)",
+      "place": "Germany",
+      "year": "1883",
+      "minutes": 4,
+      "link": "https://www.gutenberg.org/ebooks/1998",
       "altLinks": [
         {
           "label": "Project Gutenberg plain text",
-          "url": "https://www.gutenberg.org/cache/epub/18269/pg18269.txt"
+          "url": "https://www.gutenberg.org/cache/epub/1998/pg1998.txt"
         }
       ],
-      "note": "A fragment written as an argument with an imagined opponent who keeps interrupting. Notice how Pascal lets the objector speak in quotation marks, how each reply is shorter than the objection, and where the tone drops from arithmetic to something nearly tender. Look at the last paragraph and who is suddenly speaking in it."
+      "note": "A page of aphorisms in a prophet's voice. Notice how short each sentence is, how the speaker keeps swinging between 'I' and 'you', and how often a bold claim is followed at once by a small concrete instruction. Look for the places where he answers an objection before the reader has raised it."
     },
     {
       "kind": "poem",
-      "title": "Gitanjali, 11 (Leave this chanting)",
-      "author": "Rabindranath Tagore",
-      "place": "Bengal, India",
-      "year": "1910 (English text 1912)",
-      "minutes": 1,
-      "link": "https://www.gutenberg.org/ebooks/7164",
+      "title": "Gunga Din",
+      "author": "Rudyard Kipling",
+      "place": "England and India",
+      "year": "1890",
+      "minutes": 3,
+      "link": "https://www.gutenberg.org/ebooks/7846",
       "altLinks": [
         {
           "label": "Project Gutenberg plain text",
-          "url": "https://www.gutenberg.org/cache/epub/7164/pg7164.txt"
+          "url": "https://www.gutenberg.org/cache/epub/7846/pg7846.txt"
         }
       ],
-      "note": "Four short paragraphs in plain English prose, written by the poet himself from his own Bengali. Notice the run of imperatives, how every one is a physical instruction rather than an idea, and how the single question in the middle is answered by the verbs around it. Read it aloud once and hear where the voice stops commanding."
+      "note": "A ballad in a Victorian soldier's dialect, built to be spoken aloud. Notice how the shouted refrain changes meaning each time it returns, how the spelling does the work of characterisation, and what the speaker is only able to say in the last line. Be warned that the voice and vocabulary are those of a colonial soldier, and ask whose speech the poem lets you hear and whose it does not."
     },
     {
       "kind": "story",
-      "title": "The Student",
-      "author": "Anton Chekhov (translated by Constance Garnett)",
-      "place": "Russia",
-      "year": "1894",
-      "minutes": 7,
-      "link": "https://www.gutenberg.org/ebooks/1944",
+      "title": "The Bishop's Candlesticks (extract from Les Misérables)",
+      "author": "Victor Hugo (translated by Isabel F. Hapgood)",
+      "place": "France",
+      "year": "1862",
+      "minutes": 5,
+      "link": "https://www.gutenberg.org/ebooks/135",
       "altLinks": [
         {
           "label": "Project Gutenberg plain text",
-          "url": "https://www.gutenberg.org/cache/epub/1944/pg1944.txt"
+          "url": "https://www.gutenberg.org/cache/epub/135/pg135.txt"
         }
       ],
-      "note": "Chekhov said it was one of his favourites. Notice how the opening weather does the work of a character's mood, how little the two widows say, and the exact point where the student's own state changes. Compare how much of the story is dialogue with how much is the walk home."
+      "note": "A self-contained scene from the novel, readable on its own. Notice how casual the Bishop's speech is, how brisk and procedural the gendarmes are by contrast, and how little he explains to the man he is speaking to. Look at the final paragraph and what the narrator admits he cannot tell you."
     },
     {
       "kind": "song",
-      "title": "Into My Arms",
-      "author": "Nick Cave and the Bad Seeds",
-      "place": "London, England (Cave is Australian)",
-      "year": "1997",
-      "minutes": 4,
-      "link": "https://www.youtube.com/results?search_query=Nick+Cave+Bad+Seeds+Into+My+Arms+official",
+      "title": "Coat of Many Colors",
+      "author": "Dolly Parton",
+      "place": "Tennessee, USA",
+      "year": "1971",
+      "minutes": 3,
+      "link": "https://www.youtube.com/results?search_query=Dolly+Parton+Coat+of+Many+Colors+official",
       "altLinks": [
         {
           "label": "Spotify",
-          "url": "https://open.spotify.com/search/Into%20My%20Arms%20Nick%20Cave"
+          "url": "https://open.spotify.com/search/Coat%20of%20Many%20Colors%20Dolly%20Parton"
         }
       ],
-      "youtube": "LnHoqHscTKE",
-      "note": "Listen as a songwriter to how the first verse sets out a position in a flat, almost legal register and the later verses abandon it for tenderness. Notice the piano figure that barely changes, the repeated request in the refrain, and whose voice the song seems to be borrowing at its warmest."
+      "youtube": "KFbYFHaigSk",
+      "note": "A lyric that tells a single childhood incident in plain chronological order. Notice how specific the details of the sewing are, how the schoolyard scene is given in very few words, and how the last verse changes what the earlier ones were for. Listen to how modest the tune is, and how the story is left to carry the song."
     }
   ]
 }
